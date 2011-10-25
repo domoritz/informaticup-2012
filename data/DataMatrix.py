@@ -1,27 +1,18 @@
 class DataMatrix:
-
-	columnNames = None
-	rowNames = None
+	"""A 2-dimensional matrix."""
+	
+	# 2-dimensional list which contains the actual data
+	# e.g. data = [ ['r', 'o', 'w', '1'], ['r', 'o', 'w', '2'] ]
 	data = None
 
 	def getColumn(self, index):
-		pass
+		"""Returns a value copy of a specific column in the matrix."""
+		return [row[index] for row in self.data]
 
 	def getRow(self, index):
-		pass
-
-	def getRowIndexByName(self, name):
-		pass
-
-	def getColumnIndexByName(self, name):
-		pass
-
-	def getRowNameByIndex(self, index):
-		pass
-
-	def getColumnNameByIndex(self, index):
-		pass
+		"""Returns a value copy of a specific row in the matrix."""
+		return self.data[index][:]
 
 	def getValue(self, i1, i2):
-		pass
-
+		"""Returns a specific value in the matrix. i1 is the row index and i2 is the column index."""
+		return data[i1][i2]
