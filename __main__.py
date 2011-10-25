@@ -1,3 +1,5 @@
 from main import executeApplication
+import sys
 
-executeApplication()
+exitCode = executeApplication()
+sys.exit(exitCode)

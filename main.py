@@ -10,7 +10,7 @@ def executeApplication():
 	ui = Ui_MainWindow()
 	ui.setupUi(MainWindow)
 	MainWindow.show()
-	sys.exit(app.exec_())
+	return app.exec_()
 
 if __name__ == "__main__":
-	executeApplication()
+	sys.exit(executeApplication())
