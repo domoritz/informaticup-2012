@@ -38,7 +38,7 @@ def executeApplication():
 	if args.input:
 		parser = DataParser()
 		print(parser.readDistancesFile(args.input[1]).data)
-		#print(parser.readPricesFile(args.input[0]).data)
+		print(parser.readPricesFile(args.input[0]).data)
 
 	if not args.nogui:
 		if debug: print("initializing and running gui")
@@ -52,3 +52,4 @@ def executeApplication():
 
 if __name__ == "__main__":
 	sys.exit(executeApplication())
+
