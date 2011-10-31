@@ -1,7 +1,8 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 from PyQt4 import QtCore, QtGui
-from gen.mainwindow import Ui_MainWindow 
+from gui.mainwindow import MainWindow 
 import sys
 
 import argparse
@@ -44,11 +45,9 @@ def executeApplication():
 		if debug: print("initializing and running gui")
 		#initialize and show ui
 		app = QtGui.QApplication(sys.argv)
-		MainWindow = QtGui.QMainWindow()
-		ui = Ui_MainWindow()
-		ui.setupUi(MainWindow)
-		MainWindow.show()
-		return app.exec_()
+		window = MainWindow()
+		window.show()
+		return app.exec_()		
 
 if __name__ == "__main__":
 	sys.exit(executeApplication())

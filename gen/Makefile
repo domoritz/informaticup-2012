@@ -9,3 +9,9 @@ pys: ${UIPY}
 
 ${UIPY}:  %.py : ${GUI}/%.ui
 	${PYUIC} -o $@ $<
+
+clean:
+	rm -f *.py
+	rm -f *.pyc
+	touch __init__.py
+	
