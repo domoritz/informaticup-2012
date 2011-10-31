@@ -26,6 +26,8 @@ class DataParser:
 		result.data = []
 		# Work to do..
 		
+	def readInstance(self, pricesFile, distancesFile):
+		pass
 		
 	def parserTest(self):
 		print(self.readDistancesFile('sample_data/distances1.txt').data)
