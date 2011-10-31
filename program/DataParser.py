@@ -2,8 +2,6 @@ from data.DataDistances import DataDistances
 from data.DataPrices import DataPrices
 import csv
 
-print("loaded dataparser")
-
 class DataParser:
 	
 	def readDistancesFile(self, distancesFile):
