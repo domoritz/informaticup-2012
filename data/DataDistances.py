@@ -8,5 +8,6 @@ class DataDistances(DataMatrix):
 		return self.getValue(i1, i2)
 
 	def prepare(self):
+		"""Prepares the data structure for the next steps (algorithms, ...) and makes optimizations."""
 		return self
 		

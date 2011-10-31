@@ -30,17 +30,21 @@ class DataPrices(DataMatrix):
 				return i
 
 	def removeQuantities(self):
+		"""Sets all quantities to 1 and adds that information to item prices."""
 		for i in range(0, len(self.itemQuantity)):
 			for j in range(0, len(self.data[i])):
 				if self.isNumeric(self.data[i][j]) and self.isNumeric(self.itemQuantity[i]):
 					self.data[i][j] = self.data[i][j] * float(self.itemQuantity[i])
+			self.itemQuantity[i] = 1
 		return self
 	
 	def prepare(self):
+		"""Prepares the data structure for the next steps (algorithms, ...) and makes optimizations."""
 		self.removeQuantities()
 		return self
 		
 	def isNumeric(self, value):
+		"""Evaluates whether a value is numeric."""
 		try:
 			number = float(value)
 			return True

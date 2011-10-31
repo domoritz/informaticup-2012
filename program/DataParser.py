@@ -6,8 +6,10 @@ import csv
 print("loaded dataparser")
 
 class DataParser:
+	"""Parser for reading problem sets (instances)."""
 	
 	def readDistancesFile(self, distancesFile):
+		"""Parses a distances file into a DataDistances data structure."""
 		r = csv.reader(distancesFile, delimiter=',')
 		result = DataDistances()
 		result.data = []
@@ -22,6 +24,7 @@ class DataParser:
 		return result
 
 	def readPricesFile(self, pricesFile):
+		"""Parses a prices file into a DataPrices data structure."""
 		r = csv.reader(pricesFile, delimiter=',')
 		result = DataPrices()
 		result.data = []
@@ -37,6 +40,7 @@ class DataParser:
 		return result
 		
 	def readInstance(self, pricesFile, distancesFile):
+		"""Parses a prices file and a distances file into a DataInstance data structure."""
 		result = DataInstance()
 		result.prices = self.readPricesFile(pricesFile).prepare()
 		result.originalPrices = self.readPricesFile(pricesFile)
@@ -44,9 +48,11 @@ class DataParser:
 		result.originalDistances = self.readDistancesFile(distancesFile)
 		
 	def parserTest(self):
+		"""Method for testing and debugging the parser."""
 		print(self.readPricesFile(open('sample_data/prices1.txt', 'rb')).data)
 		
 	def getNumeric(self, value):
+		"""Casts a value to a float value and returns None if impossible."""
 		try:
 			number = float(value)
 			return number
