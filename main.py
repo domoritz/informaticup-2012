@@ -2,9 +2,9 @@
 
 from PyQt4 import QtCore, QtGui
 from gen.mainwindow import Ui_MainWindow 
+import sys
 
 def executeApplication():
-	import sys
 	app = QtGui.QApplication(sys.argv)
 	MainWindow = QtGui.QMainWindow()
 	ui = Ui_MainWindow()
