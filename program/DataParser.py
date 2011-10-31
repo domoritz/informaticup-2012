@@ -3,8 +3,6 @@ from data.DataPrices import DataPrices
 from data.DataInstance import DataInstance
 import csv
 
-print("loaded dataparser")
-
 class DataParser:
 	"""Parser for reading problem sets (instances)."""
 	
