@@ -1,23 +1,24 @@
-class DataPrices:
+from data.DataMatrix import DataMatrix
+
+class DataPrices(DataMatrix):
 	"""Data structure containing prices of items."""
 	
 	# Instance of DataMatrix
 	# 1st dimension (rows): store
 	# 2nd dimension (columns): item
 	# If item is not available: None
-	prices = None
 
 	def getPrice(self, store, item):
 		"""Returns the price of an item in a specific store."""
-		return self.prices.getValue(store, item)
+		return self.getValue(store, item)
 
 	def getCheapestStore(self, item):
 		"""Returns the store which sells 'item' cheapest."""
-		return self.argmin(self.prices.getColumn(item))
+		return self.argmin(self.getColumn(item))
 
 	def getCheapestItem(self, store):
 		"""Returns a store's cheapest item."""
-		return self.argmin(self.prices.getRow(store))
+		return self.argmin(self.getRow(store))
 
 	def argmin(list):
 		"""Returns the index with minimum value inside a list."""
