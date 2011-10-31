@@ -2,15 +2,17 @@ from data.DataMatrix import DataMatrix
 
 class DataPrices(DataMatrix):
 	"""Data structure containing prices of items."""
-	
 	# Instance of DataMatrix
-	# 1st dimension (rows): store
-	# 2nd dimension (columns): item
+	# 1st dimension (rows): item
+	# 2nd dimension (columns): store
 	# If item is not available: None
 
+	# This list usually contains only ones.
+	itemQuantity = None
+	
 	def getPrice(self, store, item):
 		"""Returns the price of an item in a specific store."""
-		return self.getValue(store, item)
+		return self.getValue(item, store)
 
 	def getCheapestStore(self, item):
 		"""Returns the store which sells 'item' cheapest."""
@@ -26,3 +28,22 @@ class DataPrices(DataMatrix):
 		for i in range(0, len(list)):
 			if list[i] == listmin:
 				return i
+
+	def removeQuantities(self):
+		for i in range(0, len(self.itemQuantity)):
+			for j in range(0, len(self.data[i])):
+				if self.isNumeric(self.data[i][j]) and self.isNumeric(self.itemQuantity[i]):
+					self.data[i][j] = self.data[i][j] * float(self.itemQuantity[i])
+		return self
+	
+	def prepare(self):
+		self.removeQuantities()
+		return self
+		
+	def isNumeric(self, value):
+		try:
+			number = float(value)
+			return True
+		except Exception:
+			return False
+			
