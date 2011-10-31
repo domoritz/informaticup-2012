@@ -6,12 +6,12 @@ print("loaded dataparser")
 
 class DataParser:
 	
-	def readDistancesFile(self, filename):
-		r = csv.reader(open(filename, 'rb'), delimiter=',')
+	def readDistancesFile(self, distancesFile):
+		r = csv.reader(distancesFile, delimiter=',')
 		result = DataDistances()
 		result.data = []
 		firstRow = True
-		
+
 		for row in r:
 			if not firstRow:
 				result.data.append([self.getNumeric(num) for num in row[1:]])
@@ -20,8 +20,8 @@ class DataParser:
 				
 		return result
 
-	def readPricesFile(self, filename):
-		r = csv.reader(open(filename, 'rb'), delimiter=',')
+	def readPricesFile(self, pricesFile):
+		r = csv.reader(pricesFile, delimiter=',')
 		result = DataPrices()
 		result.data = []
 		# Work to do..
@@ -30,7 +30,7 @@ class DataParser:
 		pass
 		
 	def parserTest(self):
-		print(self.readDistancesFile('sample_data/distances1.txt').data)
+		print(self.readDistancesFile(open('sample_data/distances1.txt', 'rb')).data)
 		
 	def getNumeric(self, value):
 		try:
