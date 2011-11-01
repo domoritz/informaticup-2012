@@ -1,4 +1,4 @@
-from program.DataInstance import DataInstance
+from data.DataInstance import DataInstance
 
 class Algorithm(DataInstance):
 	""" Abstract class for algorithms """

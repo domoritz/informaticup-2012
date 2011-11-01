@@ -18,7 +18,7 @@ class DataParser:
 				result.data.append([self.getNumeric(num) for num in row[1:]])
 			else:
 				firstRow = False
-				
+		
 		return result
 
 	def readPricesFile(self, pricesFile):
@@ -45,9 +45,17 @@ class DataParser:
 		result.distances = self.readDistancesFile(distancesFile).prepare()
 		result.originalDistances = self.readDistancesFile(distancesFile)
 		
+		return result
+		
 	def parserTest(self):
 		"""Method for testing and debugging the parser."""
-		print(self.readPricesFile(open('sample_data/prices1.txt', 'rb')).data)
+		testInstance = self.readInstance(open('sample_data/prices1.txt', 'rb'), open('sample_data/distances1.txt', 'rb'))
+		
+		print("original distances:")
+		print(testInstance.originalDistances.data)
+		
+		print("prepared distances:")
+		print(testInstance.distances.data)
 		
 	def getNumeric(self, value):
 		"""Casts a value to a float value and returns None if impossible."""
