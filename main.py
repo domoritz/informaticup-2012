@@ -8,6 +8,7 @@ import sys
 import argparse
 
 from program.DataParser import DataParser
+from program.genetic import Genetic
 
 debug = False
 
@@ -29,7 +30,7 @@ def executeApplication():
 
 	global debug
 	debug = args.debug
-	
+
 	if debug:
 		print("=== DEBUG MODE ===")
 		print("command line arguments:")
@@ -38,8 +39,12 @@ def executeApplication():
 
 	if args.input:
 		parser = DataParser()
-		print(parser.readDistancesFile(args.input[1]).data)
-		print(parser.readPricesFile(args.input[0]).data)
+		dataInstance = parser.readInstance(args.input[0],args.input[1])
+
+		algo = Genetic(dataInstance)
+		for i in algo.generate():
+			print i
+		
 
 	if not args.nogui:
 		if debug: print("initializing and running gui")

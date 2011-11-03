@@ -1,23 +1,30 @@
-class DataInstance:
+import copy
+
+class DataInstance(object):
 	"""Data structure containing a problem set (instance)."""
 	
-	# Instance of DataPrices
-	prices = None
-	
-	# Instance of DataDistances
-	distances = None
-	
-	# Instance of DataPrices, containing orininal values (as read from the input file)
-	originalPrices = None
-	
-	# Instance of DataDistances, containing original values (as read from the input file)
-	originalDistances = None
-	
-	# Mapping Store index -> Store name (GUI only)
-	storeIndexToName = None
-	
-	# Mapping Item index -> Item name (GUI only)
-	itemIndexToName = None
+	def __init__(self, instance = None):
+		# Instance of DataPrices
+		self.prices = None
+		
+		# Instance of DataDistances
+		self.distances = None
+		
+		# Instance of DataPrices, containing orininal values (as read from the input file)
+		self.originalPrices = None
+		
+		# Instance of DataDistances, containing original values (as read from the input file)
+		self.originalDistances = None
+		
+		# Mapping Store index -> Store name (GUI only)
+		self.storeIndexToName = None
+		
+		# Mapping Item index -> Item name (GUI only)
+		self.itemIndexToName = None
+
+		if instance:
+			for attr in instance.__dict__.keys():
+				setattr(self, attr, copy.deepcopy(getattr(instance, attr)))
 	
 	def getStoreNameByIndex(self, index):
 		"""Returns a store's name (GUI only)."""

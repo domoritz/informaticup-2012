@@ -2,10 +2,7 @@ from data.DataMatrix import DataMatrix
 
 class DataDistances(DataMatrix):
 	"""Data structure containing distances between stores."""
-	
-	shortestDistances = None
-	shortestPaths = None
-	
+		
 	def getDistance(self, i1, i2):
 		"""Returns the minimum distance between i1 and i2."""
 		return self.getValue(i1, i2)
@@ -13,8 +10,9 @@ class DataDistances(DataMatrix):
 	def prepare(self):
 		"""Prepares the data structure for the next steps (algorithms, ...) and makes optimizations."""
 		return self.generateFullGraph()
-		
+	
 	def generateFullGraph(self):
+		"""Floyd-Worshall alorithm used for finding the shortest paths"""
 		self.shortestDistances = []
 		self.shortestPaths = []
 		addNumbersNone = lambda x, y: x + y if x != None and y != None else None

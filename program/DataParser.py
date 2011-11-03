@@ -1,7 +1,7 @@
 from data.DataDistances import DataDistances
 from data.DataPrices import DataPrices
 from data.DataInstance import DataInstance
-import csv
+import csv, copy
 
 class DataParser:
 	"""Parser for reading problem sets (instances)."""
@@ -18,7 +18,6 @@ class DataParser:
 				result.data.append([self.getNumeric(num) for num in row[1:]])
 			else:
 				firstRow = False
-		
 		return result
 
 	def readPricesFile(self, pricesFile):
@@ -40,10 +39,10 @@ class DataParser:
 	def readInstance(self, pricesFile, distancesFile):
 		"""Parses a prices file and a distances file into a DataInstance data structure."""
 		result = DataInstance()
-		result.prices = self.readPricesFile(pricesFile).prepare()
-		result.originalPrices = self.readPricesFile(pricesFile)
-		result.distances = self.readDistancesFile(distancesFile).prepare()
+		result.originalPrices =self.readPricesFile(pricesFile)
+		result.prices = copy.deepcopy(result.originalPrices).prepare()
 		result.originalDistances = self.readDistancesFile(distancesFile)
+		result.distances = copy.deepcopy(result.originalDistances).prepare()
 		
 		return result
 		
