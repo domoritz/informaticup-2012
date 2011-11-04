@@ -32,7 +32,17 @@ class DataInstance(object):
 
 	def calculateCost(self, solution):
 		"""docstring for calculateCost"""
-		return 1
+		#TODO Matthias bitte validieren, dass ich richtig rechne (von dominik)
+		numStores = self.getNumberStores()
+		a = [ self.distances.data[solution[x]][solution[x+1]] for x in range(numStores-1) ]
+		return sum(a)
+			
+
+
+	def validate(self, solution):
+		"""returns a validated version of the solution (adds shops if necessary)"""
+		#TODO
+		pass
 	
 	def getStoreNameByIndex(self, index):
 		"""Returns a store's name (GUI only)."""

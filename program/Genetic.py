@@ -11,11 +11,11 @@ class Genetic(Algorithm):
 
         if options is None:
             self.options = {
-                "popsize":1,
+                "popsize":10,
                 "childrenGroup": 2,
                 "mutation": 3,
                 "maxGenerations": 100,
-                "seed": 1
+                "seed": 42
             }
         else:
             self.options = options
@@ -34,8 +34,15 @@ class Genetic(Algorithm):
         this means, solve is a generator
         """
         self.brew()
+        self.sort()
+
+        if True:
+            print("\nGenetic Algorithm\n===============")
+            print("First population: ")
+            pprint.pprint(self.population)
+
         if False:
-            yield None   
+            yield None 
 
     def brew(self):
         """generate a population"""
@@ -43,7 +50,6 @@ class Genetic(Algorithm):
         self.population = [[[random.randint(1,numberCities-y) for y in range(numberCities)], 0] for x in range(self.options["popsize"])]
         for individuum in self.population:
             individuum[1] = self.evaluate(individuum[0])
-            pprint.pprint(self.population)
 
 
     def evaluate(self, array):
@@ -54,4 +60,11 @@ class Genetic(Algorithm):
             solution.append(shops.pop(position-1))
         return self.problem.calculateCost(solution)
 
+    def sort(self):
+        """sorts the population by cost"""
+        self.population.sort(cmp = lambda a,b: cmp(a[1],b[1]))
 
+    def crossover(self, arr1, arr2, cut):
+        """does the crossover at the position cut (right before it)
+        ie: [1,2,3,4] cut 2 menas between the 2 and 3"""
+        return arr1[:cut]+arr2[cut:]
