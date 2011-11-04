@@ -40,6 +40,7 @@ def executeApplication():
 	if args.input:
 		parser = DataParser()
 		dataInstance = parser.readInstance(args.input[0],args.input[1])
+		dataInstance.distances.prepare()
 
 		algo = Genetic(dataInstance)
 		for i in algo.generate():

@@ -26,6 +26,14 @@ class DataInstance(object):
 			for attr in instance.__dict__.keys():
 				setattr(self, attr, copy.deepcopy(getattr(instance, attr)))
 	
+	def getNumberStores(self):
+		"""returns the number of stores"""
+		return len(self.distances)
+
+	def calculateCost(self, solution):
+		"""docstring for calculateCost"""
+		return 1
+	
 	def getStoreNameByIndex(self, index):
 		"""Returns a store's name (GUI only)."""
 		return self.storeIndexToName(index)

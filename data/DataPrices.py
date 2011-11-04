@@ -24,6 +24,7 @@ class DataPrices(DataMatrix):
 
 	def argmin(list):
 		"""Returns the index with minimum value inside a list."""
+		#TODO rewrite!!!!
 		listmin = min(list)
 		for i in range(0, len(list)):
 			if list[i] == listmin:

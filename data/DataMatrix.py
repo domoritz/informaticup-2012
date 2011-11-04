@@ -1,9 +1,11 @@
 class DataMatrix:
 	"""A 2-dimensional matrix."""
-	
-	# 2-dimensional list which contains the actual data
-	# e.g. data = [ ['r', 'o', 'w', '1'], ['r', 'o', 'w', '2'] ]
-	data = None
+
+	def __init__(self):
+		"""docstring for __init__"""
+		# 2-dimensional list which contains the actual data
+		# e.g. data = [ ['r', 'o', 'w', '1'], ['r', 'o', 'w', '2'] ]
+		self.data = None
 
 	def getColumn(self, index):
 		"""Returns a value copy of a specific column in the matrix."""

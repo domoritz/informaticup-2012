@@ -6,12 +6,12 @@ import pprint
 class Genetic(Algorithm):
     """ Genetic algorithm """
 
-    def __init__(self, data, options = None):
-        super(Genetic, self).__init__(data)
+    def __init__(self, problem, options = None):
+        super(Genetic, self).__init__(problem)
 
         if options is None:
             self.options = {
-                "popsize":20,
+                "popsize":1,
                 "childrenGroup": 2,
                 "mutation": 3,
                 "maxGenerations": 100,
@@ -20,6 +20,10 @@ class Genetic(Algorithm):
         else:
             self.options = options
 
+        pprint.pprint(problem.prices.data)
+        pprint.pprint(problem.distances.data)
+
+        self.problem = problem
         self.population = []
         random.seed(self.options["seed"])
 
@@ -35,13 +39,19 @@ class Genetic(Algorithm):
 
     def brew(self):
         """generate a population"""
-        numberCities = 10
-        self.population = [[random.randint(0,numberCities-y) for y in range(numberCities)] for x in range(self.options["popsize"])]
-        pprint.pprint(self.population)
+        numberCities = self.problem.getNumberStores()
+        self.population = [[[random.randint(1,numberCities-y) for y in range(numberCities)], 0] for x in range(self.options["popsize"])]
+        for individuum in self.population:
+            individuum[1] = self.evaluate(individuum[0])
+            pprint.pprint(self.population)
 
 
-    def evaluate(self):
+    def evaluate(self, array):
         """docstring for evaluate"""
-        pass
+        solution = []
+        shops = range(self.problem.getNumberStores())
+        for position in array:
+            solution.append(shops.pop(position-1))
+        return self.problem.calculateCost(solution)
 
 
