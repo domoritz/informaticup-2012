@@ -7,7 +7,7 @@ import sys
 
 import argparse
 
-from program.DataParser import DataParser
+from program.dataParser import DataParser
 from program.genetic import Genetic
 
 debug = False
