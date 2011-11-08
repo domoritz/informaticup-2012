@@ -27,10 +27,10 @@ class Genetic(Algorithm):
 		if options is None:
 			self.options = {
 				"popsize":20,
-				"childrenGroup": 10,
+				"childrenGroup": 3,
 				"mutation": 3,
 				"maxGenerations": 10,
-				"seed": 46453
+				"seed": 42
 			}
 		else:
 			self.options = options
@@ -84,7 +84,7 @@ class Genetic(Algorithm):
 			#sort by cost/performance
 			self.sort()
 
-			#print(self)
+			print(self)
 			
 			# yield the best solution so far
 			yield self.helperTransform(self.population[0][0]),self.population[0][1]
