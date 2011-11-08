@@ -33,7 +33,7 @@ class DataInstance(object):
 	def calculateCost(self, solution):
 		"""docstring for calculateCost"""
 		#TODO Matthias bitte validieren, dass ich richtig rechne (von dominik)
-		#TODO hier müssen auc noch die preise hin
+		#TODO hier muessen auc noch die preise hin
 		numStores = len(solution)
 		#print numStores, solution, len(self.distances.data), len(self.distances.data[0])
 		a = [ self.distances.data[solution[x]][solution[x+1]] for x in range(numStores-1) ]
