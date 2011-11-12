@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from PyQt4 import QtCore, QtGui
-from gui.mainwindow import MainWindow 
 import sys
 
 import argparse
@@ -47,6 +45,9 @@ def executeApplication():
 		
 
 	if not args.nogui:
+		from PyQt4 import QtCore, QtGui
+		from gui.mainwindow import MainWindow 
+		
 		if debug: print("initializing and running gui")
 		#initialize and show ui
 		app = QtGui.QApplication(sys.argv)
