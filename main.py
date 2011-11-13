@@ -7,7 +7,7 @@ import argparse
 
 from program.dataParser import DataParser
 from program.genetic import Genetic
-from gui.positionCities import PositionCities
+
 
 debug = False
 
@@ -43,20 +43,22 @@ def executeApplication():
 		algo = Genetic(dataInstance)
 		for i in algo.generate():
 			print i
-		
-		ps = PositionCities(dataInstance.distances)
-		ps.optimize()
-		ps.debugPrint()
-		
 
 	if not args.nogui:
 		from PyQt4 import QtCore, QtGui
 		from gui.mainwindow import MainWindow 
+		from gui.positionCities import PositionCities
 		
+		if debug: print("positioning cities for gui")		
+		positionCities = PositionCities(dataInstance.distances)
+		positionCities.optimize()
+		if debug: positionCities.debugPrint()
+
 		if debug: print("initializing and running gui")
 		#initialize and show ui
 		app = QtGui.QApplication(sys.argv)
 		window = MainWindow()
+		window.drawCities(positionCities.positions, dataInstance)
 		window.show()
 		return app.exec_()		
 
