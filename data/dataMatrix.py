@@ -17,4 +17,4 @@ class DataMatrix:
 
 	def getValue(self, i1, i2):
 		"""Returns a specific value in the matrix. i1 is the row index and i2 is the column index."""
-		return data[i1][i2]
+		return self.data[i1][i2]

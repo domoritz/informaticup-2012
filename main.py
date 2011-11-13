@@ -7,6 +7,7 @@ import argparse
 
 from program.dataParser import DataParser
 from program.genetic import Genetic
+from gui.positionCities import PositionCities
 
 debug = False
 
@@ -42,6 +43,10 @@ def executeApplication():
 		algo = Genetic(dataInstance)
 		for i in algo.generate():
 			print i
+		
+		ps = PositionCities(dataInstance.distances)
+		ps.optimize()
+		ps.debugPrint()
 		
 
 	if not args.nogui:
