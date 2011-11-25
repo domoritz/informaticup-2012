@@ -14,6 +14,10 @@ class DataPrices(DataMatrix):
 		"""Returns the price of an item in a specific store."""
 		return self.getValue(item, store)
 
+	def getNumOfProducts(self):
+		"""Returns number of products"""
+		return len(self.data);
+
 	def getCheapestStore(self, item):
 		"""Returns the store which sells 'item' cheapest."""
 		return self.argmin(self.getColumn(item))

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import copy
+from pprint import pprint
 
 class DataInstance(object):
 	"""Data structure containing a problem set (instance)."""
@@ -38,7 +39,19 @@ class DataInstance(object):
 		numStores = len(solution)
 		#print numStores, solution, len(self.distances.data), len(self.distances.data[0])
 		a = [ self.distances.data[solution[x]][solution[x+1]] for x in range(numStores-1) ]
-		return sum(a) + self.distances.data[solution[0]][solution[-1]]
+		costsForTraveling = sum(a) + self.distances.data[solution[0]][solution[-1]]
+
+		costsForBuying = 0
+		for item in range(self.prices.getNumOfProducts()):
+			#print("data: ", [self.prices.getPrice(store, item) for store in solution])
+			prices = [self.prices.getPrice(store, item) for store in solution if self.prices.getPrice(store, item)]
+			if prices:
+				costsForBuying += min(prices);
+			else:
+				#solution not valid
+				return None;
+
+		return costsForTraveling + costsForBuying
 			
 
 
