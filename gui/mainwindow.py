@@ -25,5 +25,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 					scene.addLine(positions[city1][0]+12, positions[city1][1]+12, positions[city2][0]+12, positions[city2][1]+12)
 
 		self.graphicsView.setScene(scene)
+		self.graphicsView.setRenderHints(QPainter.Antialiasing | QPainter.SmoothPixmapTransform)
 		self.graphicsView.show()
 
