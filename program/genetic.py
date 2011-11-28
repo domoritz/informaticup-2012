@@ -18,9 +18,7 @@ class Genetic(Algorithm):
 			childrenGroup:	number of inidviduals to be choosen for replacement 
 							with new children from 2 the number of parents
 			mutation:		probability of mutuation (higher means faster but less accurate)
-			shortening:		probability of shortening solution in case it has been mutated. 
-							This means that in case of low mutation shortening automatically
-							gets lower.
+			shortening:		probability of shortening solution. 
 			maxGenerations: maximum number of generations to be crated by python 
 							generator (higher better but needs more time).
 			seed:			seed for python random. If this stays the same, the result will 
@@ -32,7 +30,7 @@ class Genetic(Algorithm):
 			self.options = {
 				"popsize":25,
 				"childrenGroup": 3,
-				"mutation": 60,
+				"mutation": 50,
 				"shortening": 20,
 				"maxGenerations": 100,
 				"seed": 42
@@ -84,9 +82,9 @@ class Genetic(Algorithm):
 				#print("mutate", x)
 				if self.options['mutation'] >= random.randint(0,100):
 					self.population[x][0] = self.mutuate(self.population[x][0])
-					if self.options['shortening'] >= random.randint(0,100) and len(self.population[x][0]) > 1:
-						self.population[x][0] = self.shorten(self.population[x][0])
-
+					self.population[x][1] = self.evaluate(self.population[x][0])
+				if self.options['shortening'] >= random.randint(0,100) and len(self.population[x][0]) > 1:
+					self.population[x][0] = self.shorten(self.population[x][0])
 					self.population[x][1] = self.evaluate(self.population[x][0])
 			
 			#sort by cost/performance
