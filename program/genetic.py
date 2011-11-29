@@ -15,7 +15,7 @@ class Genetic(Algorithm):
 		"""
 		options:
 			popsize:		size of the population (higher is better but slower)
-			childrenGroup:	number of inidviduals to be choosen for replacement 
+			childrenGroup:	number of indviduals to be choosen for replacement 
 							with new children from 2 the number of parents
 			mutation:		probability of mutuation (higher means faster but less accurate)
 			shortening:		probability of shortening solution. 
@@ -73,8 +73,10 @@ class Genetic(Algorithm):
 			for p in range(self.options['childrenGroup']):
 				#print(2*p, 2*p+1,-p-1,self.population[2*p][0], self.population[2*p+1][0])
 				#TODO nicht nur direkte nachbar paaren lassen
-																										#not first and not last for cut
-				self.population[-p-1][0] = self.crossover(self.population[2*p][0], self.population[2*p+1][0],random.randint(1,self.length-1))
+				indiv0 = self.population[2*p][0]
+				indiv1 = self.population[2*p+1][0]
+																						#not first and not last for cut
+				self.population[-p-1][0] = self.crossover(indiv0, indiv1,random.randint(1,(len(indiv0)+len(indiv1))/2-1))
 				self.population[-p-1][1] = self.evaluate(self.population[-p-1][0])
 
 			# make mutation
