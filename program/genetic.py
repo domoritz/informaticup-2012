@@ -135,6 +135,7 @@ class Genetic(Algorithm):
 
 	def mutuate(self, solution):
 		"""mutuates an individual"""
+		#TODO sicherstellen, dass nur eine aenderung vorgenommen wird
 		length = len(solution)
 		whichGene = random.randint(0,length - 1)
 		solution[whichGene] = random.randint(0,(length - 1)-whichGene)
