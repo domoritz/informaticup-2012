@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import sys
-
+import logging
 import argparse
 
+from helpers.output import ShoppingTourLogger
 from program.dataParser import DataParser
 from program.genetic import Genetic
 
@@ -30,11 +31,22 @@ def executeApplication():
 	global debug
 	debug = args.debug
 
-	if debug:
-		print("=== DEBUG MODE ===")
-		print("command line arguments:")
+	logging.setLoggerClass(ShoppingTourLogger)
+	logger = logging.getLogger('shoppingtour')
+	if args.debug:
+		logger.setLevel(logging.DEBUG)
+	else:
+		logger.setLevel(logging.WARN)
+	formatter = logging.Formatter("%(asctime)s %(name)s %(levelname)s: %(message)s")
+	stderrHandler = logging.StreamHandler(sys.stderr)
+	stderrHandler.setFormatter(formatter)
+	logger.addHandler(stderrHandler)
+
+	if args.debug:
+		logger.debug("=== DEBUG MODE ===")
+		logger.debug("command line arguments:")
 		for k in vars(args):
-			print(k,vars(args)[k])
+			logger.debug('{0}: {1}'.format(k,vars(args)[k]))
 
 	if args.input:
 		parser = DataParser()
@@ -42,19 +54,19 @@ def executeApplication():
 
 		algo = Genetic(dataInstance)
 		for i in algo.generate():
-			print i
+			logger.info(i)
 
 	if not args.nogui:
 		from PyQt4 import QtCore, QtGui
 		from gui.mainwindow import MainWindow 
 		from gui.positionCities import PositionCities
 		
-		if debug: print("positioning cities for gui")		
+		logger.debug("positioning cities for gui")
 		positionCities = PositionCities(dataInstance.distances)
 		positionCities.optimize()
 		if debug: positionCities.debugPrint()
 
-		if debug: print("initializing and running gui")
+		logger.debug("initializing and running gui")
 		#initialize and show ui
 		app = QtGui.QApplication(sys.argv)
 		window = MainWindow()

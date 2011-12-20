@@ -1,10 +1,12 @@
 import copy
 import random
 import math
+import logging
 
-class PositionCities:
+class PositionCities(object):
 
 	def __init__(self, distances):
+		self.logger = logging.getLogger('suppingtour')
 		self.distances = distances
 		self.borderX = 800
 		self.borderY = 600
@@ -15,7 +17,7 @@ class PositionCities:
 		
 		for i in range(0, len(self.distances)):
 			self.positions.append([random.randint(0, 1000), random.randint(0, 1000)])
-		print self.positions
+		self.logger.debug(self.positions)
 
 		temperature = 50
 		iterations = 5
@@ -78,6 +80,6 @@ class PositionCities:
 		return cost
 
 	def debugPrint(self):
-		print "Position of cities:"
+		self.logger.debug("Position of cities:")
 		for city in self.positions:
-			print city
+			self.logger.debug(city)

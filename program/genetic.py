@@ -1,7 +1,6 @@
 from data.dataInstance import DataInstance
 from program.algorithm import Algorithm
 import random
-from pprint import pprint
 
 class Genetic(Algorithm):
 	""" 
@@ -38,8 +37,8 @@ class Genetic(Algorithm):
 		else:
 			self.options = options
 
-		pprint(problem.prices.data)
-		pprint(problem.distances.data)
+		self.logger.pprint(problem.prices.data)
+		self.logger.pprint(problem.distances.data)
 
 		self.problem = problem
 		self.population = []
@@ -61,17 +60,15 @@ class Genetic(Algorithm):
 		self.brew()
 		self.sort()
 
-		if True:
-			print("\nGenetic Algorithm\n=================")
-			print("First population: ")
-			print(self)
+		self.logger.debug("\nGenetic Algorithm\n=================")
+		self.logger.debug("First population: ")
+		self.logger.debug(self)
 
 		for i in range(self.options['maxGenerations']):
-			print('Generation no: {num}\n================='.format(num = i))
+			self.logger.debug('Generation no: {num}\n================='.format(num = i))
 
 			#how to make children
 			for p in range(self.options['childrenGroup']):
-				#print(2*p, 2*p+1,-p-1,self.population[2*p][0], self.population[2*p+1][0])
 				#TODO nicht nur direkte nachbar paaren lassen
 				indiv0 = self.population[2*p][0]
 				indiv1 = self.population[2*p+1][0]
@@ -81,7 +78,6 @@ class Genetic(Algorithm):
 
 			# make mutation
 			for x in range(self.options['popsize'] - self.options['childrenGroup']+1, self.options['popsize']):
-				#print("mutate", x)
 				if self.options['mutation'] >= random.randint(0,100):
 					self.population[x][0] = self.mutuate(self.population[x][0])
 					self.population[x][1] = self.evaluate(self.population[x][0])
@@ -92,7 +88,7 @@ class Genetic(Algorithm):
 			#sort by cost/performance
 			self.sort()
 
-			print(self)
+			self.logger.debug(self)
 			
 			# yield the best solution so far
 			yield self.helperTransform(self.population[0][0]),self.population[0][1]
@@ -147,14 +143,14 @@ class Genetic(Algorithm):
 		Uses a special algorithm in order to just remove one
 		store and keep the rest untouched.
 		"""
-		print(solution, self.helperTransform(solution))
+		self.logger.debug('{0}, {1}'.format(solution, self.helperTransform(solution)))
 		length = len(solution)
 		whichGene = random.randint(0,length - 1)
 		former = solution.pop(whichGene)
-		print(whichGene, former)
+		self.logger.debug('{0}, {1}'.format(whichGene,former))
 		for i in range(whichGene, length-1):
 			if solution[i]>=former:
 				solution[i]+=1
 			former-=1
-		print(solution, self.helperTransform(solution))
+		self.logger.debug('{0}, {1}'.format(solution, self.helperTransform(solution)))
 		return solution

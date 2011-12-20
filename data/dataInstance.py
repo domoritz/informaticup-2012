@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 import copy
-from pprint import pprint
+import logging
 
 class DataInstance(object):
 	"""Data structure containing a problem set (instance)."""
 	
 	def __init__(self, instance = None):
+		self.logger = logging.getLogger('shoppingtour')
+
 		# Instance of DataPrices
 		self.prices = None
 		
@@ -26,7 +28,8 @@ class DataInstance(object):
 
 		if instance:
 			for attr in instance.__dict__.keys():
-				setattr(self, attr, copy.deepcopy(getattr(instance, attr)))
+				if attr != 'logger':
+					setattr(self, attr, copy.deepcopy(getattr(instance, attr)))
 	
 	def getNumberStores(self):
 		"""returns the number of stores"""
@@ -35,21 +38,18 @@ class DataInstance(object):
 	def calculateCost(self, solution):
 		"""docstring for calculateCost"""
 		#TODO Matthias bitte validieren, dass ich richtig rechne (von dominik)
-		#TODO hier muessen auch noch die preise hin
 		numStores = len(solution)
-		#print numStores, solution, len(self.distances.data), len(self.distances.data[0])
 		a = [ self.distances.data[solution[x]][solution[x+1]] for x in range(numStores-1) ]
 		costsForTraveling = sum(a) + self.distances.data[solution[0]][solution[-1]]
 
 		costsForBuying = 0
 		for item in range(self.prices.getNumOfProducts()):
-			#print("data: ", [self.prices.getPrice(store, item) for store in solution])
 			prices = [self.prices.getPrice(store, item) for store in solution if self.prices.getPrice(store, item)]
 			if prices:
-				costsForBuying += min(prices);
+				costsForBuying += min(prices)
 			else:
 				#solution not valid
-				return None;
+				return None
 
 		return costsForTraveling + costsForBuying
 			

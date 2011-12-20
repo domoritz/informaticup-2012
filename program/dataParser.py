@@ -2,9 +2,13 @@ from data.dataDistances import DataDistances
 from data.dataPrices import DataPrices
 from data.dataInstance import DataInstance
 import csv, copy
+import logging
 
 class DataParser:
 	"""Parser for reading problem sets (instances)."""
+
+	def __init__(self):
+		self.logger = logging.getLogger('shoppingtour')
 	
 	def readDistancesFile(self, distancesFile):
 		"""Parses a distances file into a DataDistances data structure."""
@@ -50,11 +54,11 @@ class DataParser:
 		"""Method for testing and debugging the parser."""
 		testInstance = self.readInstance(open('sample_data/prices1.txt', 'rb'), open('sample_data/distances1.txt', 'rb'))
 		
-		print("original distances:")
-		print(testInstance.originalDistances.data)
+		self.logger.debug("original distances:")
+		self.logger.debug(testInstance.originalDistances.data)
 		
-		print("prepared distances:")
-		print(testInstance.distances.data)
+		self.logger.debug("prepared distances:")
+		self.logger.debug(testInstance.distances.data)
 		
 	def getNumeric(self, value):
 		"""Casts a value to a float value and returns None if impossible."""
