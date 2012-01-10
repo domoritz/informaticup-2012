@@ -32,11 +32,10 @@ class DataParser:
 		result.itemQuantity = []
 		rowCounter = 0
 		
-		for row in r:
+		for rowCounter,row in enumerate(r):
 			if rowCounter > 1:
 				result.data.append([self.getNumeric(num) for num in row[2:]])
 				result.itemQuantity.append(row[1])
-			rowCounter = rowCounter + 1
 		result.removeQuantities()
 		return result
 		

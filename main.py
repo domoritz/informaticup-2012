@@ -16,13 +16,13 @@ def executeApplication():
 	#do non UI stuff
 	parser = argparse.ArgumentParser(prog='Shoppingtour', description='Calculates cheapest shopping tour.', epilog='Let us do the work.')
 	parser.add_argument('-c','--commandline', action='store_true', dest='nogui',
-                   help="don't use a graphical user interface")
+				   help="don't use a graphical user interface")
 	parser.add_argument('-d','--debug', action='store_true',
-                   help="print debug information to stdout")
+				   help="print debug information to stdout")
 	parser.add_argument('-o','--output', nargs=1, type=argparse.FileType('w'),
-                   default=sys.stdout, help='write results to FILE (default is stdout)')
+				   default=sys.stdout, help='write results to FILE (default is stdout)')
 	parser.add_argument('-i','--input', nargs=2, type=argparse.FileType('rb'), metavar=('prices.csv', 'distances.csv'),
-                   help="set input files (csv) - first argument is prices, second is distances")
+				   help="set input files (csv) - first argument is prices, second is distances")
 	parser.add_argument('--version', action='version', version='%(prog)s 1.0')
 
 	#parse arguments
@@ -55,6 +55,11 @@ def executeApplication():
 		algo = Genetic(dataInstance)
 		for i in algo.generate():
 			logger.info(i)
+			solution = i
+		logger.info("Best Solution:")
+		logger.info(i)
+		logger.info(dataInstance.calculateSpendings(i[0]))
+		logger.info(dataInstance.calculateExpenses(i[0]))
 
 	if not args.nogui:
 		from PyQt4 import QtCore, QtGui

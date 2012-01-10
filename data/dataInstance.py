@@ -33,15 +33,21 @@ class DataInstance(object):
 	
 	def getNumberStores(self):
 		"""returns the number of stores"""
-		return len(self.distances)
+		return len(self.distances) - 1
 
-	def calculateCost(self, solution):
-		"""docstring for calculateCost"""
-		#TODO Matthias bitte validieren, dass ich richtig rechne (von dominik)
+	def calculateExpenses(self, solution):
+		"""costs for travelling"""
+
+		if not 0 in solution:
+			return None
+
 		numStores = len(solution)
 		a = [ self.distances.data[solution[x]][solution[x+1]] for x in range(numStores-1) ]
 		costsForTraveling = sum(a) + self.distances.data[solution[0]][solution[-1]]
+		return costsForTraveling
 
+	def calculateSpendings(self, solution):
+		"""costs for buying"""
 		costsForBuying = 0
 		for item in range(self.prices.getNumOfProducts()):
 			prices = [self.prices.getPrice(store, item) for store in solution if self.prices.getPrice(store, item)]
@@ -50,10 +56,23 @@ class DataInstance(object):
 			else:
 				#solution not valid
 				return None
+		return costsForBuying
 
-		return costsForTraveling + costsForBuying
-			
+	def calculateCost(self, solution):
+		"""docstring for calculateCost"""
+		#TODO Matthias bitte validieren, dass ich richtig rechne (von dominik)
+		spendings = self.calculateSpendings(solution)
+		expenses = self.calculateExpenses(solution)
 
+		if not spendings:
+			#solution not valid
+			return None
+
+		if not expenses:
+			#solution not valid
+			return None
+		
+		return expenses + spendings
 
 	def validate(self, solution):
 		"""returns a validated version of the solution (adds shops if necessary)"""

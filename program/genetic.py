@@ -73,7 +73,8 @@ class Genetic(Algorithm):
 				indiv0 = self.population[2*p][0]
 				indiv1 = self.population[2*p+1][0]
 																						#not first and not last for cut
-				self.population[-p-1][0] = self.crossover(indiv0, indiv1,random.randint(1,(len(indiv0)+len(indiv1))/2-1))
+				#self.population[-p-1][0] = self.crossover(indiv0, indiv1,random.randint(1,(len(indiv0)+len(indiv1))/2-1))
+				self.population[-p-1][0] = self.crossover(indiv0, indiv1,random.randint(0,(len(indiv0)+len(indiv1))/2))
 				self.population[-p-1][1] = self.evaluate(self.population[-p-1][0])
 
 			# make mutation

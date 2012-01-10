@@ -11,7 +11,10 @@ class DataPrices(DataMatrix):
 	itemQuantity = None
 	
 	def getPrice(self, store, item):
-		"""Returns the price of an item in a specific store."""
+		"""
+		Returns the price of an item in a specific store.
+		store - 1 since g0 (start node) is not a store
+		"""
 		return self.getValue(item, store)
 
 	def getNumOfProducts(self):
