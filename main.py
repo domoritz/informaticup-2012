@@ -44,8 +44,9 @@ def executeApplication():
 	if args.debug:
 		logger.setLevel(logging.DEBUG)
 	else:
-		logger.setLevel(logging.WARN)
-	formatter = logging.Formatter("%(asctime)s %(name)s %(levelname)s: %(message)s")
+		logger.setLevel(logging.INFO)
+
+	formatter = logging.Formatter("%(relativeCreated)s ms - %(name)s - %(levelname)s: %(message)s")
 	stderrHandler = logging.StreamHandler(sys.stderr)
 	stderrHandler.setFormatter(formatter)
 	logger.addHandler(stderrHandler)
@@ -63,12 +64,16 @@ def executeApplication():
 		algo = algorithms[args.algorithm](dataInstance)
 
 		for i in algo.generate():
-			logger.info(i)
+			logger.debug("Current Solution: "+str(i))
 			solution = i
-		logger.info("Best Solution:")
-		logger.info(i)
-		logger.info(dataInstance.calculateSpendings(i))
-		logger.info(dataInstance.calculateExpenses(i))
+
+		# print best solution
+		expenses = dataInstance.calculateExpenses(i)
+		spendings = dataInstance.calculateSpendings(i)
+		logger.info("Best Solution:"+str(i))
+		logger.info("Total Costs: "+str(spendings+expenses))
+		logger.info("Spendings: "+str(spendings))
+		logger.info("Expenses: "+str(expenses))
 
 	if not args.nogui:
 		from PyQt4 import QtCore, QtGui

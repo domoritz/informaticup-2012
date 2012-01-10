@@ -20,6 +20,7 @@ class Genetic(Algorithm):
 			shortening:		probability of shortening solution. 
 			maxGenerations: maximum number of generations to be crated by python 
 							generator (higher better but needs more time).
+			stopAfter:		How many generations with same solution before algorithm should stop
 			seed:			seed for python random. If this stays the same, the result will 
 							always be the same. Use None in order to get random.
 		"""
@@ -27,11 +28,12 @@ class Genetic(Algorithm):
 
 		if options is None:
 			self.options = {
-				"popsize":25,
+				"popsize":20,
 				"childrenGroup": 3,
-				"mutation": 50,
-				"shortening": 10,
-				"maxGenerations": 100,
+				"mutation": 20,
+				"shortening": 5,
+				"maxGenerations": 500,
+				"stopAfter": 20,
 				"seed": 42
 			}
 		else:
@@ -64,6 +66,10 @@ class Genetic(Algorithm):
 		self.logger.debug("First population: ")
 		self.logger.debug(self)
 
+		# how many generations without change?
+		sameCounter = 0
+		last = None
+
 		for i in range(self.options['maxGenerations']):
 			self.logger.debug('Generation no: {num}\n================='.format(num = i))
 
@@ -90,6 +96,15 @@ class Genetic(Algorithm):
 			self.sort()
 
 			self.logger.debug(self)
+
+			if last == self.population[0][0]:
+				sameCounter += 1
+				if sameCounter >= self.options['stopAfter']:
+					self.logger.info("Stopped after generation number {num} because there was no change for {iter} iterations.".format(num = i, iter = sameCounter))
+					break
+			else:
+				sameCounter = 0
+			last = self.population[0][0]
 			
 			# yield the best solution so far
 			yield self.helperTransform(self.population[0][0])

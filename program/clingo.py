@@ -62,6 +62,9 @@ class Clingo(Algorithm):
 		if re.match('^Optimization: (\d)+',line):
 			return None
 
+		if re.search('UNSATISFIABLE',line):
+			return None
+
 		if re.search('cycle',line):
 			solution = [0]
 			cycles = {}
