@@ -1,6 +1,7 @@
 from PyQt4.QtCore import QString, Qt, SIGNAL, SLOT, QRectF, QPointF
 from PyQt4.QtGui import *
 from gen.ui_mainwindow import Ui_MainWindow
+from gui.opendialog import OpenDialog
 
 class MainWindow(QMainWindow, Ui_MainWindow):
 
@@ -10,6 +11,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.setUnifiedTitleAndToolBarOnMac(True)
 
 		self.setupUi(self)
+		self.connect(self.actionOpen, SIGNAL('triggered(bool)'), self.open)
+
+	def open(self):
+		d = OpenDialog(self)
+		d.exec_()
+		print(d.getFileNames())
+		print(d.getAlgorithmName())
+		print(d.getAlgorithmOptions())
+		
 
 	def drawCities(self, positions, dataInstance):
 		scene = QGraphicsScene()
