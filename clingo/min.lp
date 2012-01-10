@@ -8,4 +8,4 @@
 % Display
 #hide.
 %#show bought/3.
-#show minimum_cost/2.
+%#show minimum_cost/2.
