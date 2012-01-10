@@ -33,12 +33,15 @@ class DataInstance(object):
 	
 	def getNumberStores(self):
 		"""returns the number of stores"""
-		return len(self.distances) - 1
+		return len(self.distances)
 
 	def calculateExpenses(self, solution):
 		"""costs for travelling"""
 
-		if not 0 in solution:
+		#if not 0 in solution:
+		#	return None
+
+		if solution[0]:
 			return None
 
 		numStores = len(solution)
@@ -50,8 +53,9 @@ class DataInstance(object):
 		"""costs for buying"""
 		costsForBuying = 0
 		for item in range(self.prices.getNumOfProducts()):
-			prices = [self.prices.getPrice(store, item) for store in solution if self.prices.getPrice(store, item)]
+			prices = [self.prices.getPrice(store, item) for store in solution if self.prices.getPrice(store, item) and store is not 0]
 			if prices:
+				#print "prices", item, prices
 				costsForBuying += min(prices)
 			else:
 				#solution not valid

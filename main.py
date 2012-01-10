@@ -56,10 +56,15 @@ def executeApplication():
 		for i in algo.generate():
 			logger.info(i)
 			solution = i
-		logger.info("Best Solution:")
+			logger.info("Best Solution:")
 		logger.info(i)
 		logger.info(dataInstance.calculateSpendings(i[0]))
 		logger.info(dataInstance.calculateExpenses(i[0]))
+
+		i = [0,2,3]
+		logger.info(i)
+		logger.info(dataInstance.calculateSpendings(i))
+		logger.info(dataInstance.calculateExpenses(i))
 
 	if not args.nogui:
 		from PyQt4 import QtCore, QtGui

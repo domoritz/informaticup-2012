@@ -15,7 +15,7 @@ class DataPrices(DataMatrix):
 		Returns the price of an item in a specific store.
 		store - 1 since g0 (start node) is not a store
 		"""
-		return self.getValue(item, store)
+		return self.getValue(item, store - 1)
 
 	def getNumOfProducts(self):
 		"""Returns number of products"""

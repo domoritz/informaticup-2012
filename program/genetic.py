@@ -30,7 +30,7 @@ class Genetic(Algorithm):
 				"popsize":25,
 				"childrenGroup": 3,
 				"mutation": 50,
-				"shortening": 20,
+				"shortening": 10,
 				"maxGenerations": 100,
 				"seed": 42
 			}
