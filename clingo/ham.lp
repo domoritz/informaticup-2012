@@ -20,9 +20,11 @@ not_minimum_cost(P,C) :- not_minimum_cost(P,C2), sorted_costs(P,C2,C), not selec
 minimum_cost(P,C) :- first_sorted_cost(P,C), not not_minimum_cost(P,C).
 minimum_cost(P,CC) :- not_minimum_cost(P,C), sorted_costs(P,C,CC), not not_minimum_cost(P,CC).
 
-%minimum_cost(P,C) :- selected_costs(P,C), not selected_costs(P,CC) : CC < C : cost(P,CC). 
 bought(P) :- cost(P,Y,C), selected(Y).
 :- not bought(P), product(P).
+
+%somehow we need this additional option
+:- cycle(X,Y), cycle(Z,Y), Z!=X.
 
 % Display
 #hide.

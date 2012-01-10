@@ -31,6 +31,24 @@ class DataInstance(object):
 				if attr != 'logger':
 					setattr(self, attr, copy.deepcopy(getattr(instance, attr)))
 	
+	def getShoppingList(self, solution):
+		"""get shopping list according to the list of visited nodes"""
+		shoppingList = {}
+		for store in solution[1:]:
+			shoppingList[store] = []
+
+		for item in range(self.prices.getNumOfProducts()):
+			infos = [(self.prices.getPrice(store, item), store) for store in solution if self.prices.getPrice(store, item) and store is not 0]
+			infos.sort(key=lambda x: x[0])
+			store = infos[0][1]
+			price = infos[0][0]
+			originalPrice = self.originalPrices.getPrice(store,item)
+			quantity = int(originalPrice/price)
+
+			shoppingList[store].append((item,quantity,originalPrice))
+		
+		return shoppingList
+
 	def getNumberStores(self):
 		"""returns the number of stores"""
 		return len(self.distances)
@@ -42,10 +60,8 @@ class DataInstance(object):
 	def calculateExpenses(self, solution):
 		"""costs for travelling"""
 
-		#if not 0 in solution:
-		#	return None
-
 		if solution[0]:
+			#solution not valid, first node has to be home 
 			return None
 
 		numStores = len(solution)
@@ -59,7 +75,6 @@ class DataInstance(object):
 		for item in range(self.prices.getNumOfProducts()):
 			prices = [self.prices.getPrice(store, item) for store in solution if self.prices.getPrice(store, item) and store is not 0]
 			if prices:
-				#print "prices", item, prices
 				costsForBuying += min(prices)
 			else:
 				#solution not valid

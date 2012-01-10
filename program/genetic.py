@@ -95,7 +95,7 @@ class Genetic(Algorithm):
 			#sort by cost/performance
 			self.sort()
 
-			self.logger.debug(self)
+			self.logger.debug("\n"+str(self))
 
 			if last == self.population[0][0]:
 				sameCounter += 1

@@ -53,26 +53,6 @@ class Clingo(Algorithm):
 			val = d.get(val, stop)
 			if val == stop: break
 	
-	def get_cycles(self, links, starting_point):
-		"""Get a list of all cycles given a list of links"""
-		links_dict = dict(links)
-		ret = []
-		ret_sets = []
-	
-		cycle = []
-		x = starting_point
-		while x != None:
-			cycle.append(x)
-			x = links_dict.get(x)
-			if x == starting_point:
-				break
-		# make sure the cycle is not a repeat (and was a cycle)
-		if x != None:
-			cycle_set = set(cycle)
-			if cycle_set not in ret_sets:
-				return cycle
-		return None
-
 	def parseSolution(self, line):
 		"""
 		parses the solution that come from clingo
@@ -81,6 +61,9 @@ class Clingo(Algorithm):
 			Optimization: 8002
 			OPTIMUM FOUND
 		"""
+
+		#print line
+
 		if re.match('^Answer: (\d)+',line):
 			return None
 
@@ -102,11 +85,7 @@ class Clingo(Algorithm):
 				if match:
 					cycles.append([int(match.group(1)),int(match.group(2))])
 
-			print cycles
 			solution = list(self.cycle(cycles, 0))
-			#solution = self.get_cycles(cycles, 0)
-
-			print solution
 
 			return solution
 

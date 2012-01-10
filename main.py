@@ -10,6 +10,7 @@ from program.dataParser import DataParser
 from program.algorithm import Algorithm
 from program.genetic import Genetic
 from program.clingo import Clingo
+from pprint import pformat
 
 debug = False
 
@@ -64,16 +65,22 @@ def executeApplication():
 		algo = algorithms[args.algorithm](dataInstance)
 
 		for i in algo.generate():
-			logger.debug("Current Solution: "+str(i))
 			solution = i
+			logger.info("Current solution: "+pformat(i))
 
-		# print best solution
-		expenses = dataInstance.calculateExpenses(i)
-		spendings = dataInstance.calculateSpendings(i)
-		logger.info("Best Solution:"+str(i))
-		logger.info("Total Costs: "+str(spendings+expenses))
-		logger.info("Spendings: "+str(spendings))
-		logger.info("Expenses: "+str(expenses))
+		if i:
+			# print best solution
+			logger.warn("\nBest solution:\n==============")
+			expenses = dataInstance.calculateExpenses(i)
+			spendings = dataInstance.calculateSpendings(i)
+			shoppingList = dataInstance.getShoppingList(i)
+			logger.info("Best Shopping Tour:\n"+pformat(i))
+			logger.info("Shopping List:\n"+pformat(shoppingList))
+			logger.info("Total Costs: "+str(spendings+expenses))
+			logger.info("Spendings: "+str(spendings))
+			logger.info("Expenses: "+str(expenses))
+		else:
+			logger.warn("No solution found")
 
 	if not args.nogui:
 		from PyQt4 import QtCore, QtGui
