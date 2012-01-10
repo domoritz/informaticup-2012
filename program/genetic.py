@@ -92,7 +92,7 @@ class Genetic(Algorithm):
 			self.logger.debug(self)
 			
 			# yield the best solution so far
-			yield self.helperTransform(self.population[0][0]),self.population[0][1]
+			yield self.helperTransform(self.population[0][0])
 
 	def brew(self):
 		"""generate a population"""

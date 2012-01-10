@@ -7,6 +7,9 @@ class DataMatrix:
 		# e.g. data = [ ['r', 'o', 'w', '1'], ['r', 'o', 'w', '2'] ]
 		self.data = None
 
+	def __len__(self):
+		return len(self.data)
+
 	def getColumn(self, index):
 		"""Returns a value copy of a specific column in the matrix."""
 		return [row[index] for row in self.data]

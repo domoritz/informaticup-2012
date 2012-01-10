@@ -10,7 +10,7 @@ class Algorithm(DataInstance):
 			finalSolution = element
 		return finalSolution
 
-	def generate(solution = None):
+	def generate(self, solution = None):
 		"""creates a solution and yields it as a list 
 		of numbers which stand for the shops
 		i.e. [4,6,2,3,1,5]

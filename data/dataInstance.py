@@ -35,6 +35,10 @@ class DataInstance(object):
 		"""returns the number of stores"""
 		return len(self.distances)
 
+	def getNumberProducts(self):
+		"""return number of products"""
+		return len(self.prices)
+
 	def calculateExpenses(self, solution):
 		"""costs for travelling"""
 

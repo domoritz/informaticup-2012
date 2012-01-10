@@ -7,10 +7,16 @@ import argparse
 
 from helpers.output import ShoppingTourLogger
 from program.dataParser import DataParser
+from program.algorithm import Algorithm
 from program.genetic import Genetic
-
+from program.clingo import Clingo
 
 debug = False
+
+algorithms = {
+	'genetic':Genetic, 
+	'clingo':Clingo
+}
 
 def executeApplication():
 	#do non UI stuff
@@ -21,8 +27,10 @@ def executeApplication():
 				   help="print debug information to stdout")
 	parser.add_argument('-o','--output', nargs=1, type=argparse.FileType('w'),
 				   default=sys.stdout, help='write results to FILE (default is stdout)')
-	parser.add_argument('-i','--input', nargs=2, type=argparse.FileType('rb'), metavar=('prices.csv', 'distances.csv'),
+	parser.add_argument('-i','--input', nargs=2, required=True, type=argparse.FileType('rb'), metavar=('prices.csv', 'distances.csv'),
 				   help="set input files (csv) - first argument is prices, second is distances")
+	parser.add_argument('-a','--algorithm', choices=algorithms.keys(), default='clingo', dest='algorithm',
+				   help="select algorithm for coumputation")
 	parser.add_argument('--version', action='version', version='%(prog)s 1.0')
 
 	#parse arguments
@@ -51,17 +59,13 @@ def executeApplication():
 	if args.input:
 		parser = DataParser()
 		dataInstance = parser.readInstance(args.input[0],args.input[1])
+		
+		algo = algorithms[args.algorithm](dataInstance)
 
-		algo = Genetic(dataInstance)
 		for i in algo.generate():
 			logger.info(i)
 			solution = i
-			logger.info("Best Solution:")
-		logger.info(i)
-		logger.info(dataInstance.calculateSpendings(i[0]))
-		logger.info(dataInstance.calculateExpenses(i[0]))
-
-		i = [0,2,3]
+		logger.info("Best Solution:")
 		logger.info(i)
 		logger.info(dataInstance.calculateSpendings(i))
 		logger.info(dataInstance.calculateExpenses(i))
