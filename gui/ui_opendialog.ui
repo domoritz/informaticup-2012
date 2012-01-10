@@ -22,14 +22,18 @@
     </widget>
    </item>
    <item row="1" column="4">
-    <layout class="QHBoxLayout" name="distanceLayout">
+    <layout class="QHBoxLayout" name="distancesLayout">
      <item>
-      <widget class="QLineEdit" name="lineEdit"/>
+      <widget class="QLineEdit" name="distancesFileEdit">
+       <property name="text">
+        <string>sample_data/distances_more.txt</string>
+       </property>
+      </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="distancesFileButton">
        <property name="text">
-        <string>Open</string>
+        <string>Select</string>
        </property>
       </widget>
      </item>
@@ -43,14 +47,18 @@
     </widget>
    </item>
    <item row="2" column="4">
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <layout class="QHBoxLayout" name="pricesLayout">
      <item>
-      <widget class="QLineEdit" name="lineEdit_2"/>
+      <widget class="QLineEdit" name="pricesFileEdit">
+       <property name="text">
+        <string>sample_data/prices_more.txt</string>
+       </property>
+      </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="pricesFileButton">
        <property name="text">
-        <string>Open</string>
+        <string>Select</string>
        </property>
       </widget>
      </item>
@@ -70,6 +78,9 @@
     <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,0">
      <item>
       <widget class="QGroupBox" name="genericOptions">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="title">
         <string>Generic Algorithm Settings</string>
        </property>
@@ -85,7 +96,7 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QSpinBox" name="spinBox_2">
+         <widget class="QSpinBox" name="popSizeEdit">
           <property name="maximum">
            <number>1000000</number>
           </property>
@@ -102,7 +113,7 @@
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QSpinBox" name="spinBox_3">
+         <widget class="QSpinBox" name="childrenGroupEdit">
           <property name="maximum">
            <number>1000000</number>
           </property>
@@ -119,7 +130,7 @@
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QSpinBox" name="spinBox_4">
+         <widget class="QSpinBox" name="mutationEdit">
           <property name="maximum">
            <number>1000000</number>
           </property>
@@ -136,7 +147,7 @@
          </widget>
         </item>
         <item row="3" column="1">
-         <widget class="QSpinBox" name="spinBox_5">
+         <widget class="QSpinBox" name="shorteningEdit">
           <property name="maximum">
            <number>1000000</number>
           </property>
@@ -153,7 +164,7 @@
          </widget>
         </item>
         <item row="4" column="1">
-         <widget class="QSpinBox" name="spinBox">
+         <widget class="QSpinBox" name="maxGenerationsEdit">
           <property name="maximum">
            <number>1000000</number>
           </property>
@@ -162,15 +173,15 @@
           </property>
          </widget>
         </item>
-        <item row="5" column="0">
+        <item row="6" column="0">
          <widget class="QLabel" name="label_10">
           <property name="text">
            <string>Seed:</string>
           </property>
          </widget>
         </item>
-        <item row="5" column="1">
-         <widget class="QSpinBox" name="spinBox_6">
+        <item row="6" column="1">
+         <widget class="QSpinBox" name="seedEdit">
           <property name="maximum">
            <number>1000000</number>
           </property>
@@ -179,11 +190,31 @@
           </property>
          </widget>
         </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="stopAfterLabel">
+          <property name="text">
+           <string>Stop After:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QSpinBox" name="stopAfterEdit">
+          <property name="maximum">
+           <number>1000000</number>
+          </property>
+          <property name="value">
+           <number>20</number>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </item>
      <item>
       <widget class="QGroupBox" name="clingoOptions">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="title">
         <string>Clingo Algorithm Settings</string>
        </property>
@@ -192,24 +223,24 @@
          <enum>QFormLayout::ExpandingFieldsGrow</enum>
         </property>
         <item row="1" column="0">
-         <widget class="QLabel" name="label_4">
+         <widget class="QLabel" name="clingoExecutableLabel">
           <property name="text">
            <string>Executable:</string>
           </property>
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QLineEdit" name="lineEdit_3">
+         <widget class="QLineEdit" name="clingoExecutableEdit">
           <property name="text">
            <string>clingo</string>
           </property>
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QLineEdit" name="lineEdit_4"/>
+         <widget class="QLineEdit" name="clingoArgsEdit"/>
         </item>
         <item row="2" column="0">
-         <widget class="QLabel" name="label_11">
+         <widget class="QLabel" name="clingoArgsLabel">
           <property name="text">
            <string>Extra Arguments:</string>
           </property>
