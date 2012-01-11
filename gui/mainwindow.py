@@ -42,6 +42,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 
 	def run(self):
+		if self.openDialog is None:
+			self.open()
 		algorithmName = self.openDialog.getAlgorithmName()
 		self.logger.debug('run: algorithm={0}'.format(algorithmName))
 		thread = AlgorithmThread(
