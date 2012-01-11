@@ -16,7 +16,8 @@ class Clingo(Algorithm):
 
 		if options is None:
 			self.options = {
-				"clingo": "clingo_prog/clingo"
+				"clingo": "./clingo_prog/clingo",
+                "clingoArgs": ""
 			}
 		else:
 			self.options = options
@@ -32,11 +33,9 @@ class Clingo(Algorithm):
 		clingo = subprocess.Popen([self.options['clingo']], shell=False, stdout=subprocess.PIPE, stdin=subprocess.PIPE)
 		clingo.stdin.write(self.costfile + self.graphfile)
 		for f in self.files:
-			clingo.stdin.write(self.costfile + self.graphfile + open(f).read())
+			clingo.stdin.write(open(f).read())
+		clingo.stdin.write(self.costfile + self.graphfile + self.options['clingoArgs'])
 		clingo.stdin.close()
-		#print(clingo.stdout.read())
-		#stdout, stderr = clingo.communicate()
-		#print stdout
 
 		while clingo.poll() is None or line != '':
 			line = clingo.stdout.readline().strip("\n")

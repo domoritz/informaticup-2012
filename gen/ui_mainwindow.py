@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file '../gui/ui_mainwindow.ui'
 #
-# Created: Fri Nov  4 13:52:30 2011
-#      by: PyQt4 UI code generator 4.8.6
+# Created: Wed Jan 11 10:57:27 2012
+#      by: PyQt4 UI code generator 4.8.5
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -17,22 +17,30 @@ except AttributeError:
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
-        MainWindow.resize(483, 375)
+        MainWindow.resize(614, 464)
         MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "MainWindow", None, QtGui.QApplication.UnicodeUTF8))
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
-        self.verticalLayout = QtGui.QVBoxLayout(self.centralwidget)
-        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.graphicsView = QtGui.QGraphicsView(self.centralwidget)
-        self.graphicsView.setObjectName(_fromUtf8("graphicsView"))
-        self.verticalLayout.addWidget(self.graphicsView)
+        self.gridLayout = QtGui.QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName(_fromUtf8("gridLayout"))
         self.buttonBox = QtGui.QDialogButtonBox(self.centralwidget)
         self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
-        self.verticalLayout.addWidget(self.buttonBox)
+        self.gridLayout.addWidget(self.buttonBox, 3, 1, 1, 2)
+        self.label = QtGui.QLabel(self.centralwidget)
+        self.label.setText(QtGui.QApplication.translate("MainWindow", "Shopping list", None, QtGui.QApplication.UnicodeUTF8))
+        self.label.setObjectName(_fromUtf8("label"))
+        self.gridLayout.addWidget(self.label, 0, 2, 1, 1)
+        self.graphicsView = QtGui.QGraphicsView(self.centralwidget)
+        self.graphicsView.setObjectName(_fromUtf8("graphicsView"))
+        self.gridLayout.addWidget(self.graphicsView, 0, 0, 3, 2)
+        self.shoppingList = QtGui.QListWidget(self.centralwidget)
+        self.shoppingList.setObjectName(_fromUtf8("shoppingList"))
+        self.gridLayout.addWidget(self.shoppingList, 1, 2, 1, 1)
+        self.gridLayout.setColumnStretch(1, 4)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 483, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 614, 21))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuTools = QtGui.QMenu(self.menubar)
         self.menuTools.setTitle(QtGui.QApplication.translate("MainWindow", "Tools", None, QtGui.QApplication.UnicodeUTF8))

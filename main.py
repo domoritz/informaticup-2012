@@ -16,7 +16,8 @@ debug = False
 
 algorithms = {
 	'genetic':Genetic, 
-	'clingo':Clingo
+	'clingo':Clingo,
+	'none':None
 }
 
 def executeApplication():
@@ -30,7 +31,7 @@ def executeApplication():
 				   default=sys.stdout, help='write results to FILE (default is stdout)')
 	parser.add_argument('-i','--input', nargs=2, required=True, type=argparse.FileType('rb'), metavar=('prices.csv', 'distances.csv'),
 				   help="set input files (csv) - first argument is prices, second is distances")
-	parser.add_argument('-a','--algorithm', choices=algorithms.keys(), default='clingo', dest='algorithm',
+	parser.add_argument('-a','--algorithm', choices=algorithms.keys(), default='none', dest='algorithm',
 				   help="select algorithm for coumputation")
 	parser.add_argument('--version', action='version', version='%(prog)s 1.0')
 
@@ -62,25 +63,26 @@ def executeApplication():
 		parser = DataParser()
 		dataInstance = parser.readInstance(args.input[0],args.input[1])
 		
-		algo = algorithms[args.algorithm](dataInstance)
+		if algorithms[args.algorithm]:
+			algo = algorithms[args.algorithm](dataInstance)
 
-		for i in algo.generate():
-			solution = i
-			logger.info("Current solution: "+pformat(i))
+			for i in algo.generate():
+				solution = i
+				logger.info("Current solution: "+pformat(i))
 
-		if i:
-			# print best solution
-			logger.warn("\nBest solution:\n==============")
-			expenses = dataInstance.calculateExpenses(i)
-			spendings = dataInstance.calculateSpendings(i)
-			shoppingList = dataInstance.getShoppingList(i)
-			logger.info("Best Shopping Tour:\n"+pformat(i))
-			logger.info("Shopping List:\n"+pformat(shoppingList))
-			logger.info("Total Costs: "+str(spendings+expenses))
-			logger.info("Spendings: "+str(spendings))
-			logger.info("Expenses: "+str(expenses))
-		else:
-			logger.warn("No solution found")
+			if i:
+				# print best solution
+				logger.warn("\nBest solution:\n==============")
+				expenses = dataInstance.calculateExpenses(i)
+				spendings = dataInstance.calculateSpendings(i)
+				shoppingList = dataInstance.getShoppingList(i)
+				logger.info("Best Shopping Tour:\n"+pformat(i))
+				logger.info("Shopping List:\n"+pformat(shoppingList))
+				logger.info("Total Costs: "+str(spendings+expenses))
+				logger.info("Spendings: "+str(spendings))
+				logger.info("Expenses: "+str(expenses))
+			else:
+				logger.warn("No solution found")
 
 	if not args.nogui:
 		from PyQt4 import QtCore, QtGui
