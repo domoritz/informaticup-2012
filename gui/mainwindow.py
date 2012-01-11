@@ -62,6 +62,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 	def lastSolution(self, solution):
 		self.logger.debug('lastSolution({0})'.format(solution))
 		self.drawCities(self.positionCities.positions, self.dataInstance, solution)
+		self.statusBar().showMessage(self.tr('calculation finished'))
 
 	def drawCities(self, positions, dataInstance, solution=None):
 		scene = QGraphicsScene()
