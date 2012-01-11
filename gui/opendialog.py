@@ -13,7 +13,7 @@ class OpenDialog(QDialog, Ui_OpenDialog):
 
 		self.connect(self.distancesFileButton, SIGNAL('clicked()'), self.selectDistances)
 		self.connect(self.pricesFileButton, SIGNAL('clicked()'), self.selectPrices)
-		self.connect(self.genericButton, SIGNAL('toggled(bool)'), self.genericOptions.setEnabled)
+		self.connect(self.geneticButton, SIGNAL('toggled(bool)'), self.geneticOptions.setEnabled)
 		self.connect(self.clingoButton, SIGNAL('toggled(bool)'), self.clingoOptions.setEnabled)
 		self.clingoButton.setChecked(True)
 
@@ -37,15 +37,15 @@ class OpenDialog(QDialog, Ui_OpenDialog):
 		return (str(self.distancesFileEdit.text()), str(self.pricesFileEdit.text()))
 
 	def getAlgorithmName(self):
-		if self.genericButton.isChecked() is True:
-			return 'generic'
+		if self.geneticButton.isChecked() is True:
+			return 'genetic'
 		if self.clingoButton.isChecked() is True:
 			return 'clingo'
 
 	def getAlgorithmOptions(self, algorithm=None):
 		if algorithm is None:
 			algorithm = self.getAlgorithmName()
-		if algorithm == 'generic':
+		if algorithm == 'genetic':
 			return {
 				'popsize': self.popSizeEdit.value(),
 				'childrenGroup': self.childrenGroupEdit.value(),

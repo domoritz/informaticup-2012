@@ -77,12 +77,12 @@
    <item row="4" column="0" colspan="5">
     <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,0">
      <item>
-      <widget class="QGroupBox" name="genericOptions">
+      <widget class="QGroupBox" name="geneticOptions">
        <property name="enabled">
         <bool>false</bool>
        </property>
        <property name="title">
-        <string>Generic Algorithm Settings</string>
+        <string>Genetic Algorithm Settings</string>
        </property>
        <layout class="QFormLayout" name="formLayout_2">
         <property name="fieldGrowthPolicy">
@@ -261,9 +261,9 @@
    <item row="3" column="4">
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
-      <widget class="QRadioButton" name="genericButton">
+      <widget class="QRadioButton" name="geneticButton">
        <property name="text">
-        <string>Generic</string>
+        <string>Genetic</string>
        </property>
       </widget>
      </item>
