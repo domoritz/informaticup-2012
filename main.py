@@ -96,7 +96,6 @@ def executeApplication():
 		#initialize and show ui
 		app = QtGui.QApplication(sys.argv)
 		window = MainWindow()
-		window.drawCities(positionCities.positions, dataInstance)
 		window.show()
 		return app.exec_()		
 
