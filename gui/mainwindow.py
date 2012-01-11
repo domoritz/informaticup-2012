@@ -58,11 +58,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 	def nextSolution(self, solution):
 		self.logger.debug('nextSolution({0})'.format(solution))
 		self.drawCities(self.positionCities.positions, self.dataInstance, solution)
+		self.showShoppingList(solution)
 
 	def lastSolution(self, solution):
 		self.logger.debug('lastSolution({0})'.format(solution))
 		self.drawCities(self.positionCities.positions, self.dataInstance, solution)
 		self.statusBar().showMessage(self.tr('calculation finished'))
+		self.showShoppingList(solution)
+
+	def showShoppingList(self, solution):
+		self.shoppingList.clear()
+		shoppingList = self.dataInstance.getShoppingList(solution)
+		for store in shoppingList:
+			self.shoppingList.addItem(str(store))
+			for item,quantity,originalPrice in shoppingList[store]:
+				self.shoppingList.addItem('	{0}*{1} ({2})'.format(quantity, item, originalPrice))
 
 	def drawCities(self, positions, dataInstance, solution=None):
 		scene = QGraphicsScene()
