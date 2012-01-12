@@ -51,6 +51,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			algorithmName,
 			self.openDialog.getAlgorithmOptions(),
 			self)
+		self.statusBar().showMessage(self.tr('Calculation running'))
 		self.connect(thread, SIGNAL('nextSolution(QVariantList)'), self.nextSolution)
 		self.connect(thread, SIGNAL('lastSolution(QVariantList)'), self.lastSolution)
 		thread.start()
@@ -63,7 +64,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 	def lastSolution(self, solution):
 		self.logger.debug('lastSolution({0})'.format(solution))
 		self.drawCities(self.positionCities.positions, self.dataInstance, solution)
-		self.statusBar().showMessage(self.tr('calculation finished'))
+		self.statusBar().showMessage(self.tr('Calculation finished'))
 		self.showShoppingList(solution)
 
 	def showShoppingList(self, solution):
