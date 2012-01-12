@@ -36,7 +36,7 @@ class DataParser:
 			if rowCounter == 1:
 				columnCounter = 0
 				for col in row:
-					if columnCounter > 0 and aDataInstance != None:
+					if columnCounter > 1 and aDataInstance != None:
 						aDataInstance.storeIndexToName[columnCounter] = col
 
 					columnCounter += 1
