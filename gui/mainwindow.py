@@ -51,8 +51,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			algorithmName,
 			self.openDialog.getAlgorithmOptions(),
 			self)
-		self.connect(thread, SIGNAL('nextSolution(QList<int>)'), self.nextSolution)
-		self.connect(thread, SIGNAL('lastSolution(QList<int>)'), self.lastSolution)
+		self.connect(thread, SIGNAL('nextSolution(QVariantList)'), self.nextSolution)
+		self.connect(thread, SIGNAL('lastSolution(QVariantList)'), self.lastSolution)
 		thread.start()
 
 	def nextSolution(self, solution):

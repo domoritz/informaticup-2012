@@ -22,7 +22,6 @@ class AlgorithmThread(QThread):
 
 		for i in algo.generate():
 			solution = i
-			self.emit(SIGNAL('nextSolution(QList<int>)'), i)
+			self.emit(SIGNAL('nextSolution(QVariantList)'), i)
 
-		self.emit(SIGNAL('lastSolution(QList<int>)'), i)
-
+		self.emit(SIGNAL('lastSolution(QVariantList)'), i)
