@@ -10,16 +10,20 @@ class DataParser:
 	def __init__(self):
 		self.logger = logging.getLogger('shoppingtour')
 	
-	def readDistancesFile(self, distancesFile):
+	def readDistancesFile(self, distancesFile, aDataInstance):
 		"""Parses a distances file into a DataDistances data structure."""
 		r = csv.reader(distancesFile, delimiter=',')
 		result = DataDistances()
 		result.data = []
 		firstRow = True
+		rowCounter = 0
 
-		for row in r:
+		for rowCounter,row in enumerate(r):
 			if not firstRow:
 				result.data.append([self.getNumeric(num) for num in row[1:]])
+				
+				if aDataInstance != None:
+					aDataInstance.storeIndexToName[rowCounter - 1] = row[0]
 			else:
 				firstRow = False
 		return result
@@ -33,14 +37,7 @@ class DataParser:
 		rowCounter = 0
 		
 		for rowCounter,row in enumerate(r):
-			if rowCounter == 1:
-				columnCounter = 0
-				for col in row:
-					if columnCounter > 1 and aDataInstance != None:
-						aDataInstance.storeIndexToName[columnCounter - 1] = col
-
-					columnCounter += 1
-			elif rowCounter > 1:
+			if rowCounter > 1:
 				if aDataInstance != None:
 					aDataInstance.itemIndexToName[rowCounter - 2] = row[0]
 
@@ -57,7 +54,7 @@ class DataParser:
 
 		result.originalPrices = self.readPricesFile(pricesFile, result)
 		result.prices = copy.deepcopy(result.originalPrices).prepare()
-		result.originalDistances = self.readDistancesFile(distancesFile)
+		result.originalDistances = self.readDistancesFile(distancesFile, result)
 		result.distances = copy.deepcopy(result.originalDistances).prepare()
 		
 		return result
