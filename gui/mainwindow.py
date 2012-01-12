@@ -1,9 +1,10 @@
-from PyQt4.QtCore import QString, Qt, SIGNAL, SLOT, QRectF, QPointF
+from PyQt4.QtCore import QString, Qt, SIGNAL, SLOT, QRectF, QPointF, QStringList, QRectF
 from PyQt4.QtGui import *
 from gen.ui_mainwindow import Ui_MainWindow
 from gui.opendialog import OpenDialog
 from gui.algorithmThread import AlgorithmThread
 from gui.positionCities import PositionCities
+from gui.graphWidget import GraphWidget
 
 from program.dataParser import DataParser
 
@@ -20,6 +21,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.setUnifiedTitleAndToolBarOnMac(True)
 
 		self.setupUi(self)
+
+		#self.graphicsView = QGraphicsView(self.splitter) 
+
 		self.connect(self.actionOpen, SIGNAL('triggered(bool)'), self.open)
 		self.connect(self.actionRun, SIGNAL('triggered(bool)'), self.run)
 		self.openDialog = None
@@ -60,23 +64,37 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.logger.debug('nextSolution({0})'.format(solution))
 		self.drawCities(self.positionCities.positions, self.dataInstance, solution)
 		self.showShoppingList(solution)
+		self.showStats(solution)
 
 	def lastSolution(self, solution):
 		self.logger.debug('lastSolution({0})'.format(solution))
 		self.drawCities(self.positionCities.positions, self.dataInstance, solution)
 		self.statusBar().showMessage(self.tr('Calculation finished'))
 		self.showShoppingList(solution)
+		self.showStats(solution)
 
 	def showShoppingList(self, solution):
-		self.shoppingList.clear()
+		self.shoppingTree.clear()
 		shoppingList = self.dataInstance.getShoppingList(solution)
 		for store in shoppingList:
-			self.shoppingList.addItem(self.dataInstance.storeIndexToName[store])
+			storeName = self.dataInstance.storeIndexToName[store]
+			rootItem = QTreeWidgetItem(self.shoppingTree,QStringList([storeName,"","",""]))
 			for item,quantity,originalPrice in shoppingList[store]:
-				self.shoppingList.addItem('	{0}*{1} ({2})'.format(quantity, self.dataInstance.itemIndexToName[item], originalPrice))
+				subitem = QTreeWidgetItem(rootItem,QStringList([storeName,self.dataInstance.itemIndexToName[item],str(quantity),str(originalPrice)]))
+
+			rootItem.setExpanded(True)
+			self.shoppingTree.addTopLevelItem(rootItem)
+	
+	def showStats(self, solution):
+		expenses = self.dataInstance.calculateExpenses(solution)
+		spendings = self.dataInstance.calculateSpendings(solution)
+		self.expenses.setText(str(expenses))
+		self.spendings.setText(str(spendings))
+		self.total.setText(str(expenses+spendings))
 
 	def drawCities(self, positions, dataInstance, solution=None):
 		scene = QGraphicsScene()
+		self.graphicsView.setScene(scene)
 
 		usedWay = QPen(Qt.red)
 		existingWay = QPen(Qt.black)
@@ -98,8 +116,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			scene.addEllipse(QRectF(positions[cityIndex][0], positions[cityIndex][1], 25, 25), QPen(), QBrush(QColor(255,255,255), Qt.SolidPattern))
 			cityDescription = scene.addText(dataInstance.storeIndexToName[cityIndex])
 			cityDescription.setPos(positions[cityIndex][0], positions[cityIndex][1])
-
-		self.graphicsView.setScene(scene)
-		self.graphicsView.setRenderHints(QPainter.Antialiasing | QPainter.SmoothPixmapTransform)
-		self.graphicsView.show()
-
+		
+		self.graphicsView.fitInView(self.graphicsView.sceneRect(),1)
+		self.graphicsView.scale(0.9,0.9)
