@@ -71,7 +71,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.shoppingList.clear()
 		shoppingList = self.dataInstance.getShoppingList(solution)
 		for store in shoppingList:
-			self.shoppingList.addItem(str(store))
+			self.shoppingList.addItem(self.dataInstance.storeIndexToName[store])
 			for item,quantity,originalPrice in shoppingList[store]:
 				self.shoppingList.addItem('	{0}*{1} ({2})'.format(quantity, item, originalPrice))
 
