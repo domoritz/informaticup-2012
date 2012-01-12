@@ -42,7 +42,7 @@ class DataParser:
 					columnCounter += 1
 			elif rowCounter > 1:
 				if aDataInstance != None:
-					aDataInstance.itemIndexToName[rowCounter - 1] = row[0]
+					aDataInstance.itemIndexToName[rowCounter - 2] = row[0]
 
 				result.data.append([self.getNumeric(num) for num in row[2:]])
 				result.itemQuantity.append(row[1])
