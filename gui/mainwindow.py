@@ -73,7 +73,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		for store in shoppingList:
 			self.shoppingList.addItem(self.dataInstance.storeIndexToName[store])
 			for item,quantity,originalPrice in shoppingList[store]:
-				self.shoppingList.addItem('	{0}*{1} ({2})'.format(quantity, item, originalPrice))
+				self.shoppingList.addItem('	{0}*{1} ({2})'.format(quantity, self.dataInstance.itemIndexToName[item], originalPrice))
 
 	def drawCities(self, positions, dataInstance, solution=None):
 		scene = QGraphicsScene()
