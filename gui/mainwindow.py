@@ -5,11 +5,11 @@ from gui.opendialog import OpenDialog
 from gui.algorithmThread import AlgorithmThread
 from gui.positionCities import PositionCities
 from gui.graphWidget import GraphWidget
+from gui.progressDialog import ProgressDialog
 
 from program.dataParser import DataParser
 
 import logging
-
 
 class MainWindow(QMainWindow, Ui_MainWindow):
 
@@ -29,6 +29,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.openDialog = None
 		self.dataInstance = None
 		self.positionCities = None
+
+		self.progressDialog = ProgressDialog(self)
+		self.progressDialog.setModal(True)
+		#self.progressDialog.exec_()
 
 	def open(self):
 		if self.openDialog is None:
@@ -60,6 +64,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.connect(thread, SIGNAL('lastSolution(QVariantList)'), self.lastSolution)
 		thread.start()
 
+		self.progressDialog.show()
+
 	def nextSolution(self, solution):
 		self.logger.debug('nextSolution({0})'.format(solution))
 		self.drawCities(self.positionCities.positions, self.dataInstance, solution)
@@ -72,6 +78,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.statusBar().showMessage(self.tr('Calculation finished'))
 		self.showShoppingList(solution)
 		self.showStats(solution)
+
+		self.progressDialog.hide()
 
 	def showShoppingList(self, solution):
 		self.shoppingTree.clear()
