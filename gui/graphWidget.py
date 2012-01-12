@@ -68,7 +68,7 @@ class GraphWidget(QGraphicsView):
 
 	def drawBackground(self, painter, rect):
 		# Shadow.
-		sceneRect = self.sceneRect()
+		"""sceneRect = self.sceneRect()
 		
 		border = 20
 		sceneRect.adjust(-border,-border,border,border)
@@ -86,7 +86,7 @@ class GraphWidget(QGraphicsView):
 		gradient.setColorAt(0, Qt.white)
 		gradient.setColorAt(1, Qt.lightGray)
 		painter.setBrush(Qt.NoBrush)
-		painter.drawRect(sceneRect)
+		painter.drawRect(sceneRect)"""
 
 
 	def scaleView(self, scaleFactor):
