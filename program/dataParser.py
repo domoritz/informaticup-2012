@@ -37,12 +37,12 @@ class DataParser:
 				columnCounter = 0
 				for col in row:
 					if columnCounter > 1 and aDataInstance != None:
-						aDataInstance.storeIndexToName[columnCounter] = col
+						aDataInstance.storeIndexToName[columnCounter - 1] = col
 
 					columnCounter += 1
 			elif rowCounter > 1:
 				if aDataInstance != None:
-					aDataInstance.itemIndexToName[rowCounter] = row[0]
+					aDataInstance.itemIndexToName[rowCounter - 1] = row[0]
 
 				result.data.append([self.getNumeric(num) for num in row[2:]])
 				result.itemQuantity.append(row[1])
