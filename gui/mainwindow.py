@@ -30,9 +30,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.dataInstance = None
 		self.positionCities = None
 
-		self.progressDialog = ProgressDialog(self)
-		self.progressDialog.setModal(True)
-		#self.progressDialog.exec_()
+		self.progressGroupBox.setVisible(False)
 
 	def open(self):
 		if self.openDialog is None:
@@ -59,12 +57,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			algorithmName,
 			self.openDialog.getAlgorithmOptions(),
 			self)
+		self.actionRun.setEnabled(False)
+		self.actionCancel.setEnabled(True)
 		self.statusBar().showMessage(self.tr('Calculation running'))
 		self.connect(thread, SIGNAL('nextSolution(QVariantList)'), self.nextSolution)
 		self.connect(thread, SIGNAL('lastSolution(QVariantList)'), self.lastSolution)
+		self.connect(thread, SIGNAL('finished()'), self.calculationFinished)
+		self.progressGroupBox.setVisible(True)
 		thread.start()
 
-		self.progressDialog.show()
 
 	def nextSolution(self, solution):
 		self.logger.debug('nextSolution({0})'.format(solution))
@@ -78,8 +79,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.statusBar().showMessage(self.tr('Calculation finished'))
 		self.showShoppingList(solution)
 		self.showStats(solution)
+		self.progressGroupBox.setVisible(False)
+		self.actionRun.setEnabled(True)
+		self.actionCancel.setEnabled(False)
 
-		self.progressDialog.hide()
+	def calculationFinished(self):
+		if self.actionRun.isEnabled() is True: # lastSolution called
+			return
+		self.actionRun.setEnabled(True)
+		self.actionCancel.setEnabled(False)
+		self.progressGroupBox.setVisible(False)
+		self.statusBar().showMessage(self.tr('Calculation terminated unexpected'))
 
 	def showShoppingList(self, solution):
 		self.shoppingTree.clear()

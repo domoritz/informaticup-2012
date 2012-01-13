@@ -207,6 +207,36 @@
           </layout>
          </widget>
         </item>
+        <item>
+         <widget class="QGroupBox" name="progressGroupBox">
+          <property name="title">
+           <string>Progress</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
+            <widget class="QProgressBar" name="progressBar">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="maximum">
+              <number>0</number>
+             </property>
+             <property name="value">
+              <number>0</number>
+             </property>
+             <property name="textVisible">
+              <bool>true</bool>
+             </property>
+             <property name="invertedAppearance">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+          <zorder>verticalGroupBox_2</zorder>
+          <zorder>progressBar</zorder>
+         </widget>
+        </item>
        </layout>
       </widget>
      </widget>
@@ -219,7 +249,7 @@
      <x>0</x>
      <y>0</y>
      <width>823</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuTools">
@@ -257,6 +287,7 @@
    </attribute>
    <addaction name="actionOpen"/>
    <addaction name="actionRun"/>
+   <addaction name="actionCancel"/>
   </widget>
   <action name="actionPreferences">
    <property name="text">
@@ -291,6 +322,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionCancel">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Cancel</string>
    </property>
   </action>
  </widget>
