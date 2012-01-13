@@ -45,6 +45,9 @@
        <property name="renderHints">
         <set>QPainter::Antialiasing|QPainter::HighQualityAntialiasing|QPainter::SmoothPixmapTransform|QPainter::TextAntialiasing</set>
        </property>
+       <property name="dragMode">
+        <enum>QGraphicsView::ScrollHandDrag</enum>
+       </property>
        <property name="cacheMode">
         <set>QGraphicsView::CacheBackground</set>
        </property>

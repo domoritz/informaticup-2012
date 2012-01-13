@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '../gui/ui_mainwindow.ui'
 #
-# Created: Thu Jan 12 22:49:07 2012
+# Created: Fri Jan 13 12:20:35 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -39,6 +39,7 @@ class Ui_MainWindow(object):
         self.graphicsView.setMinimumSize(QtCore.QSize(480, 480))
         self.graphicsView.setFocusPolicy(QtCore.Qt.WheelFocus)
         self.graphicsView.setRenderHints(QtGui.QPainter.Antialiasing|QtGui.QPainter.HighQualityAntialiasing|QtGui.QPainter.SmoothPixmapTransform|QtGui.QPainter.TextAntialiasing)
+        self.graphicsView.setDragMode(QtGui.QGraphicsView.ScrollHandDrag)
         self.graphicsView.setCacheMode(QtGui.QGraphicsView.CacheBackground)
         self.graphicsView.setResizeAnchor(QtGui.QGraphicsView.AnchorUnderMouse)
         self.graphicsView.setViewportUpdateMode(QtGui.QGraphicsView.SmartViewportUpdate)

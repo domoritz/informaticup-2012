@@ -67,13 +67,12 @@ class GraphWidget(QGraphicsView):
 		self.scaleView(math.pow(2.0, -event.delta() / 240.0))
 
 	def drawBackground(self, painter, rect):
-		# Shadow.
-		"""sceneRect = self.sceneRect()
+		sceneRect = self.sceneRect()
 		
 		border = 20
 		sceneRect.adjust(-border,-border,border,border)
 
-		rightShadow = QRectF(sceneRect.right(), sceneRect.top() + 5, 5, sceneRect.height())
+		"""rightShadow = QRectF(sceneRect.right(), sceneRect.top() + 5, 5, sceneRect.height())
 		bottomShadow = QRectF(sceneRect.left() + 5, sceneRect.bottom(), sceneRect.width(), 5)
 		if rightShadow.intersects(rect) or rightShadow.contains(rect):
 			painter.fillRect(rightShadow, Qt.darkGray)
