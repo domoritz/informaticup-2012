@@ -1,6 +1,6 @@
 from data.dataInstance import DataInstance
 from program.algorithm import Algorithm
-import random
+import random, math
 
 class Genetic(Algorithm):
 	""" 
@@ -21,6 +21,7 @@ class Genetic(Algorithm):
 			maxGenerations: maximum number of generations to be crated by python 
 							generator (higher better but needs more time).
 			stopAfter:		How many generations with same solution before algorithm should stop
+			catastrophyAfter: When a catastrophy should happen that mutates a lot of individuals
 			seed:			seed for python random. If this stays the same, the result will 
 							always be the same. Use None in order to get random.
 		"""
@@ -28,12 +29,13 @@ class Genetic(Algorithm):
 
 		if options is None:
 			self.options = {
-				"popsize":20,
-				"childrenGroup": 3,
+				"popsize":250,
+				"childrenGroup": 5,
 				"mutation": 20,
-				"shortening": 5,
-				"maxGenerations": 500,
-				"stopAfter": 20,
+				"shortening": 10,
+				"maxGenerations": 50000,
+				"catastrophyAfter": 400,
+				"stopAfter": 2000,
 				"seed": 42
 			}
 		else:
@@ -70,10 +72,12 @@ class Genetic(Algorithm):
 		sameCounter = 0
 		last = None
 
+		numberCities = numberCities = self.problem.getNumberStores()
+
 		for i in range(self.options['maxGenerations']):
 			self.logger.debug('Generation no: {num}\n================='.format(num = i))
 
-			#how to make children
+			# how to make children"
 			for p in range(self.options['childrenGroup']):
 				#TODO nicht nur direkte nachbar paaren lassen
 				indiv0 = self.population[2*p][0]
@@ -86,13 +90,23 @@ class Genetic(Algorithm):
 			# make mutation
 			for x in range(self.options['popsize'] - self.options['childrenGroup']+1, self.options['popsize']):
 				if self.options['mutation'] >= random.randint(0,100):
-					self.population[x][0] = self.mutuate(self.population[x][0])
+																#mutation for min every n-th gene
+					self.population[x][0] = self.mutuate(self.population[x][0],int(math.ceil(numberCities/5)))
 					self.population[x][1] = self.evaluate(self.population[x][0])
 				if self.options['shortening'] >= random.randint(0,100) and len(self.population[x][0]) > 1:
 					self.population[x][0] = self.shorten(self.population[x][0])
 					self.population[x][1] = self.evaluate(self.population[x][0])
+
+			# make catastrophy
+			if not i % self.options['catastrophyAfter']:
+				number = self.options["popsize"] - self.options["childrenGroup"]
+				number = int(number * 0.8)
+				for x in range(number):
+					self.population[x][0] = self.mutuate(self.population[x][0],int(math.ceil(numberCities/4)))
+					self.population[x][1] = self.evaluate(self.population[x][0])
+				self.logger.info("A catastrophy happened")
 			
-			#sort by cost/performance
+			# sort by cost/performance
 			self.sort()
 
 			self.logger.debug("\n"+str(self))
@@ -100,7 +114,7 @@ class Genetic(Algorithm):
 			if last == self.population[0][0]:
 				sameCounter += 1
 				if sameCounter >= self.options['stopAfter']:
-					self.logger.info("Stopped after generation number {num} because there was no change for {iter} iterations.".format(num = i, iter = sameCounter))
+					self.logger.warn("Stopped after generation number {num} because there was no change for {iter} iterations.".format(num = i, iter = sameCounter))
 					break
 			else:
 				sameCounter = 0
@@ -145,12 +159,15 @@ class Genetic(Algorithm):
 		ie: [1,2,3,4] cut 2 means between the 2 and 3"""
 		return arr1[:cut]+arr2[cut:]
 
-	def mutuate(self, solution):
+	def mutuate(self, solution, times = 1):
 		"""mutuates an individual"""
-		#TODO sicherstellen, dass nur eine aenderung vorgenommen wird
 		length = len(solution)
 		whichGene = random.randint(0,length - 1)
-		solution[whichGene] = random.randint(0,(length - 1)-whichGene)
+		randomGene = range(0, length-1)
+		random.shuffle(randomGene)
+		for x in range(times):
+			whichGene = randomGene[x]
+			solution[whichGene] = random.randint(0,(length - 1)-whichGene)
 		return solution
 
 	def shorten(self, solution):
