@@ -3,8 +3,8 @@ from PyQt4 import QtCore
 
 class Settings(QtCore.QSettings):
 
-	def value(self, *args, **kwargs):
-		return c(QtCore.QSettings.value(self, *args, **kwargs))
+	def value(self, value, default):
+		return c(QtCore.QSettings.value(self, value, default)) #*args, **kwargs))
 
 def c(value):
 	if type(value) is QtCore.QVariant:

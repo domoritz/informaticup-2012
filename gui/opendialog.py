@@ -1,4 +1,4 @@
-from PyQt4.QtCore import QString, Qt, SIGNAL, SLOT, QRectF, QPointF, QSettings
+from PyQt4.QtCore import QString, Qt, SIGNAL, SLOT, QRectF, QPointF
 from PyQt4.QtGui import *
 from gen.ui_opendialog import Ui_OpenDialog
 from helpers.qt import Settings as QSettings
