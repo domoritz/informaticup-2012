@@ -41,7 +41,7 @@ class OpenDialog(QDialog, Ui_OpenDialog):
 		settings = QSettings()
 		settings.beginGroup('openSettings')
 		settings.setValue('distancesFile', self.distancesFileEdit.text())
-		settings.setValue('pricesFileEdit', self.pricesFileEdit.text())
+		settings.setValue('pricesFile', self.pricesFileEdit.text())
 		settings.setValue('algorithm', self.getAlgorithmName())
 		settings.endGroup()
 		for algorithm in ['genetic', 'clingo']:
