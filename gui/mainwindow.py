@@ -5,7 +5,6 @@ from gui.opendialog import OpenDialog
 from gui.algorithmThread import AlgorithmThread
 from gui.positionCities import PositionCities
 from gui.graphWidget import GraphWidget, Edge, Node
-from gui.progressDialog import ProgressDialog
 
 from program.dataParser import DataParser
 
@@ -34,9 +33,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.edges = {}
 
 		self.progressGroupBox.setVisible(False)
-		self.progressDialog = ProgressDialog(self)
-		self.progressDialog.setModal(True)
-		#self.progressDialog.exec_()
 
 	def open(self):
 		if self.openDialog is None:
