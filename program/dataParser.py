@@ -18,6 +18,9 @@ class DataParser:
 		firstRow = True
 		rowCounter = 0
 
+		print distancesFile
+		print aDataInstance
+
 		for rowCounter,row in enumerate(r):
 			if not firstRow:
 				result.data.append([self.getNumeric(num) for num in row[1:]])

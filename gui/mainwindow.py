@@ -104,8 +104,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		scene = QGraphicsScene()
 		self.graphicsView.setScene(scene)
 
-		usedWay = QPen(Qt.red)
-		existingWay = QPen(Qt.black)
+		usedWay = QPen(QBrush(Qt.red),3)
+		existingWay = QPen(QBrush(Qt.black),2)
+
 		usedWays = []
 		if solution is not None:
 			old = solution[-1]
@@ -117,11 +118,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		for city1 in range(0, len(dataInstance.originalDistances)):
 			for city2 in range(0, len(dataInstance.originalDistances)):
 				if dataInstance.originalDistances.getDistance(city1, city2) != None:
-					scene.addLine(positions[city1][0]+12, positions[city1][1]+12, positions[city2][0]+12, positions[city2][1]+12,
-					usedWay if (city1,city2) in usedWays else existingWay )
+					scene.addLine(positions[city1][0]+12, positions[city1][1]+12, positions[city2][0]+12, positions[city2][1]+12, usedWay if (city1,city2) in usedWays else existingWay )
 
 		for cityIndex in range(0, len(positions)):
-			scene.addEllipse(QRectF(positions[cityIndex][0], positions[cityIndex][1], 25, 25), QPen(), QBrush(QColor(255,255,255), Qt.SolidPattern))
+			scene.addEllipse(QRectF(positions[cityIndex][0], positions[cityIndex][1], 30, 30), QPen(), QBrush(QColor(255,255,255), Qt.SolidPattern))
 			cityDescription = scene.addText(dataInstance.storeIndexToName[cityIndex])
 			cityDescription.setPos(positions[cityIndex][0], positions[cityIndex][1])
 		
