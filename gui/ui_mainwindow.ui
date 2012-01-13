@@ -127,25 +127,6 @@
                <string>Price per item</string>
               </property>
              </column>
-             <item>
-              <property name="text">
-               <string>1</string>
-              </property>
-              <item>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="text">
-                <string>Milk</string>
-               </property>
-               <property name="text">
-                <string>3</string>
-               </property>
-               <property name="text">
-                <string>5.34</string>
-               </property>
-              </item>
-             </item>
             </widget>
            </item>
           </layout>
