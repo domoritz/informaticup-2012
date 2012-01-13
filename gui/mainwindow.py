@@ -25,13 +25,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 		self.connect(self.actionOpen, SIGNAL('triggered(bool)'), self.open)
 		self.connect(self.actionRun, SIGNAL('triggered(bool)'), self.run)
+		self.connect(self.actionCancel, SIGNAL('triggered(bool)'), self.cancel)
 		self.openDialog = None
 		self.dataInstance = None
 		self.positionCities = None
 
-		self.nodes = {}
-		self.edges = []
+		self.nodes = []
+		self.edges = {}
 
+		self.progressGroupBox.setVisible(False)
 		self.progressDialog = ProgressDialog(self)
 		self.progressDialog.setModal(True)
 		#self.progressDialog.exec_()
@@ -56,17 +58,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.open()
 		algorithmName = self.openDialog.getAlgorithmName()
 		self.logger.debug('run: algorithm={0}'.format(algorithmName))
-		thread = AlgorithmThread(
+		self.thread = AlgorithmThread(
 			self.dataInstance,
 			algorithmName,
 			self.openDialog.getAlgorithmOptions(),
 			self)
-		self.statusBar().showMessage(self.tr('Calculation running'))
-		self.connect(thread, SIGNAL('nextSolution(QVariantList)'), self.nextSolution)
-		self.connect(thread, SIGNAL('lastSolution(QVariantList)'), self.lastSolution)
-		thread.start()
+		self.actionRun.setEnabled(False)
+		self.actionCancel.setEnabled(True)
+		self.statusBar.showMessage(self.tr('Calculation running'))
+		self.connect(self.thread, SIGNAL('nextSolution(QVariantList)'), self.nextSolution)
+		self.connect(self.thread, SIGNAL('lastSolution(QVariantList)'), self.lastSolution)
+		self.connect(self.thread, SIGNAL('finished()'), self.calculationFinished)
+		self.progressGroupBox.setVisible(True)
+		self.thread.start()
 
-		self.progressDialog.show()
 
 	def nextSolution(self, solution):
 		self.logger.debug('nextSolution({0})'.format(solution))
@@ -77,11 +82,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 	def lastSolution(self, solution):
 		self.logger.debug('lastSolution({0})'.format(solution))
 		self.updateCities(self.dataInstance, solution)
-		self.statusBar().showMessage(self.tr('Calculation finished'))
+		self.statusBar.showMessage(self.tr('Calculation finished'))
 		self.showShoppingList(solution)
 		self.showStats(solution)
+		self.progressGroupBox.setVisible(False)
+		self.actionRun.setEnabled(True)
+		self.actionCancel.setEnabled(False)
 
-		self.progressDialog.hide()
+	def cancel(self):
+		self.actionRun.setEnabled(True)
+		self.actionCancel.setEnabled(False)
+		self.progressGroupBox.setVisible(False)
+		self.thread.terminate()
+		self.statusBar.showMessage(self.tr('Calculation canceled'))
+
+	def calculationFinished(self):
+		if self.actionRun.isEnabled() is True: # lastSolution called
+			return
+		self.actionRun.setEnabled(True)
+		self.actionCancel.setEnabled(False)
+		self.progressGroupBox.setVisible(False)
+		self.statusBar.showMessage(self.tr('Calculation terminated unexpected'))
 
 	def showShoppingList(self, solution):
 		self.shoppingTree.clear()
@@ -103,43 +124,40 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.total.setText(str(expenses+spendings))
 
 	def updateCities(self, dataInstance, solution):
+		scene = QGraphicsScene(self.graphicsView)
+
 		usedWays = []
+		
 		if solution is not None:
+		
 			old = solution[-1]
 			for i in solution:
 				usedWays.append((old, i))
-				usedWays.append((i, old))
 				old = i
+
+		for edge in self.edges:
+			self.edges[edge].setVisible(False)
 
 		for i1,city1 in enumerate(self.nodes):
 			for i2,city2 in enumerate(self.nodes):
-				if (i1, i2) in usedWays :
-					self.edges[(i1,i2)].setActive()
+				if i1 != i2:
+					edge = self.edges[(i1,i2)]
+					edge.setVisible(False)
+					original = dataInstance.originalDistances.getDistance(i1,i2) != None
+					active = (i1, i2) in usedWays
+					if original:
+						edge.setVisible(True)
+					if active:
+						edge.setActive(True)
+					if active and not original:
+						edge.setTempActive(True)
+
+		self.graphicsView.updateScene([self.graphicsView.sceneRect()])	
 
 	def drawCities(self, positions, dataInstance, solution=None):
-		"""scene = QGraphicsScene()
-		self.graphicsView.setScene(scene)
-
+		"""
 		usedWay = QPen(QBrush(Qt.red),3)
 		existingWay = QPen(QBrush(Qt.black),2)
-
-		usedWays = []
-		if solution is not None:
-			old = solution[-1]
-			for i in solution:
-				usedWays.append((old, i))
-				usedWays.append((i, old))
-				old = i
-
-		for city1 in range(0, len(dataInstance.originalDistances)):
-			for city2 in range(0, len(dataInstance.originalDistances)):
-				if dataInstance.originalDistances.getDistance(city1, city2) != None:
-					scene.addLine(positions[city1][0]+12, positions[city1][1]+12, positions[city2][0]+12, positions[city2][1]+12, usedWay if (city1,city2) in usedWays else existingWay )
-
-		for cityIndex in range(0, len(positions)):
-			scene.addEllipse(QRectF(positions[cityIndex][0], positions[cityIndex][1], 30, 30), QPen(), QBrush(QColor(255,255,255), Qt.SolidPattern))
-			cityDescription = scene.addText(dataInstance.storeIndexToName[cityIndex], QFont())
-			cityDescription.setPos(positions[cityIndex][0], positions[cityIndex][1])
 		"""
 
 		scene = QGraphicsScene(self.graphicsView)
@@ -152,16 +170,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 		for i1,city1 in enumerate(self.nodes):
 			for i2,city2 in enumerate(self.nodes):
-				if i1 > i2 and dataInstance.originalDistances.getDistance(i1,i2) != None:
-					edge = Edge(city1,city2)
+				if i1 != i2:
+					edge = Edge(city1,city2,0)
 					self.edges[(i1,i2)] = edge
 					scene.addItem(edge)
 
 		for cityIndex in range(len(positions)):
 			self.nodes[cityIndex].setPos(positions[cityIndex][0], positions[cityIndex][1])
 
-
 		self.graphicsView.setScene(scene)
+		self.updateCities(dataInstance,solution)
 
 		self.graphicsView.fitInView(self.graphicsView.sceneRect(),1)
 		self.graphicsView.scale(0.9,0.9)

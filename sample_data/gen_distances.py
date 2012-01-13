@@ -1,15 +1,15 @@
 import random
 from pprint import pprint
 
-k=10
-maxDist = 100
+k=15
+distRange = [10,100]
 density = 0.3
 
 def value():
 	if (random.random() > density):
 		return None
 	else:
-		return random.randint(0,maxDist)
+		return random.randint(distRange[0],distRange[1])
 
 a = [[value() for x in range(k)] for z in range(k)]
 

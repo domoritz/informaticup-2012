@@ -16,7 +16,7 @@ class Clingo(Algorithm):
 
 		if options is None:
 			self.options = {
-				"clingo": "./clingo_prog/clingo",
+				"clingo": "clingo",
                 "clingoArgs": ""
 			}
 		else:

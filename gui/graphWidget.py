@@ -8,19 +8,7 @@ class GraphWidget(QGraphicsView):
 
 		self.timerId = 0
 
-		scene = QGraphicsScene(self)
-		scene.setItemIndexMethod(QGraphicsScene.NoIndex)
-		#scene.setSceneRect(-200, -200, 400, 400)
-		self.setScene(scene)
-		self.setCacheMode(QGraphicsView.CacheBackground)
-		self.setViewportUpdateMode(QGraphicsView.BoundingRectViewportUpdate)
-		self.setRenderHint(QPainter.Antialiasing)
-		self.setTransformationAnchor(QGraphicsView.AnchorUnderMouse)
-		self.setResizeAnchor(QGraphicsView.AnchorViewCenter)
-
-
 		self.scale(0.9, 0.9)
-		self.setMinimumSize(480, 480)
 
 	def itemMoved(self):
 		if not self.timerId:
@@ -106,7 +94,7 @@ class Edge(QGraphicsItem):
 
 	Type = QGraphicsItem.UserType + 2
 
-	def __init__(self, sourceNode, destNode, active=False):
+	def __init__(self, sourceNode, destNode, state=1):
 		super(Edge, self).__init__()
 
 		self.arrowSize = 10.0
@@ -120,7 +108,7 @@ class Edge(QGraphicsItem):
 		self.dest.addEdge(self)
 		self.adjust()
 
-		self.active = active
+		self.state = state
 
 	def type(self):
 		return Edge.Type
@@ -159,9 +147,23 @@ class Edge(QGraphicsItem):
 			self.sourcePoint = line.p1()
 			self.destPoint = line.p1()
 
-	def setActive(self):
-		self.active = true
-		self.paint()
+	def setVisible(self, value = True):
+		if value:
+			self.state = 1
+		else:
+			self.state = 0
+
+	def setActive(self, value = True):
+		if value:
+			self.state = 3
+		else:
+			self.state = 1
+
+	def setTempActive(self, value = True):
+		if value:
+			self.state = 2
+		else:
+			self.state = 1
 
 	def boundingRect(self):
 		if not self.source or not self.dest:
@@ -184,15 +186,26 @@ class Edge(QGraphicsItem):
 		if line.length() == 0.0:
 			return
 
-		if self.active:
-			painter.setPen(QPen(Qt.red, 1, Qt.SolidLine,
-					  Qt.RoundCap, Qt.RoundJoin))
-		else:
-			painter.setPen(QPen(Qt.black, 1, Qt.SolidLine,
-					  Qt.RoundCap, Qt.RoundJoin))
+		self.setZValue(self.state)
+
+		if self.state == 3:
+			pen = QPen(Qt.red, 2, Qt.SolidLine,
+					  Qt.RoundCap, Qt.RoundJoin)
+		if self.state == 2:
+			pen = QPen(Qt.red, 2, Qt.DashLine,
+					  Qt.RoundCap, Qt.RoundJoin)
+		elif self.state == 1:
+			pen = QPen(Qt.black, 1, Qt.SolidLine,
+					  Qt.RoundCap, Qt.RoundJoin)
+		elif self.state == 0:
+			pen = QPen()
+			pen.setBrush(QBrush(Qt.NoBrush))
+
+		painter.setPen(pen)
+
 		painter.drawLine(line)
 
-		if self.active:
+		if self.state == 2 or self.state == 3:
 
 			# Draw the arrows if there's enough room.
 			angle = math.acos(line.dx() / line.length())
@@ -297,6 +310,8 @@ class Node(QGraphicsItem):
 		return path
 
 	def paint(self, painter, option, widget):
+		self.setZValue(5)
+
 		painter.setPen(Qt.NoPen)
 		painter.setBrush(Qt.darkGray)
 

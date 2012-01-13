@@ -29,7 +29,7 @@ def executeApplication():
 				   help="print debug information to stdout")
 	parser.add_argument('-o','--output', nargs=1, type=argparse.FileType('w'),
 				   default=sys.stdout, help='write results to FILE (default is stdout)')
-	parser.add_argument('-i','--input', nargs=2, required=True, type=argparse.FileType('rb'), metavar=('prices.csv', 'distances.csv'),
+	parser.add_argument('-i','--input', nargs=2, type=argparse.FileType('rb'), metavar=('prices.csv', 'distances.csv'),
 				   help="set input files (csv) - first argument is prices, second is distances")
 	parser.add_argument('-a','--algorithm', choices=algorithms.keys(), default='none', dest='algorithm',
 				   help="select algorithm for coumputation")
@@ -105,7 +105,7 @@ def executeApplication():
 
 		app = QtGui.QApplication(sys.argv)
 		window = MainWindow()
-		window.setWindowState(QtCore.Qt.WindowMaximized)
+		#window.setWindowState(QtCore.Qt.WindowMaximized)
 		window.show()
 		return app.exec_()		
 

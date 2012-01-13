@@ -1,8 +1,11 @@
 from PyQt4.QtCore import QThread, Qt, SIGNAL, SLOT, QRectF, QPointF
 from PyQt4.QtGui import *
+import time
 
 from program.genetic import Genetic
 from program.clingo import Clingo
+
+import logging
 
 algorithms = {
 	'genetic':Genetic,
@@ -17,11 +20,23 @@ class AlgorithmThread(QThread):
 		self.algorithm = algorithm
 		self.options = options
 
+		self.logger = logging.getLogger('shoppingtour')
+
+	def __del__(self):
+
+		self.exiting = True
+		self.wait()
+
 	def run(self):
 		algo = algorithms[self.algorithm](self.dataInstance, self.options)
 
-		for i in algo.generate():
-			solution = i
-			self.emit(SIGNAL('nextSolution(QVariantList)'), i)
+		solution = None
+
+		for count,i in enumerate(algo.generate()):
+			if solution != i:
+				time.sleep(0.1)
+				self.logger.debug("improvement")
+				solution = i
+				self.emit(SIGNAL('nextSolution(QVariantList)'), i)
 
 		self.emit(SIGNAL('lastSolution(QVariantList)'), i)
