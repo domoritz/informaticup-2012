@@ -41,7 +41,7 @@ class OpenDialog(QDialog, Ui_OpenDialog):
 		settings = QSettings()
 		settings.beginGroup('openSettings')
 		settings.setValue('distancesFile', self.distancesFileEdit.text())
-		settings.setValue('pricesFileEdit', self.pricesFileEdit.text())
+		settings.setValue('pricesFile', self.pricesFileEdit.text())
 		settings.setValue('algorithm', self.getAlgorithmName())
 		settings.endGroup()
 		for algorithm in ['genetic', 'clingo']:
@@ -92,6 +92,7 @@ class OpenDialog(QDialog, Ui_OpenDialog):
 				'shortening': self.shorteningEdit.value(),
 				'maxGenerations': self.maxGenerationsEdit.value(),
 				'stopAfter': self.stopAfterEdit.value(),
+				'catastrophyAfter': self.catastrophyEdit.value(),
 				'seed': self.seedEdit.value()
 			}
 		if algorithm == 'clingo':
@@ -108,6 +109,7 @@ class OpenDialog(QDialog, Ui_OpenDialog):
 			self.shorteningEdit.setValue(int(options['shortening']))
 			self.maxGenerationsEdit.setValue(int(options['maxGenerations']))
 			self.stopAfterEdit.setValue(int(options['stopAfter']))
+			self.catastrophyEdit.setValue(int(options['catastrophyAfter']))
 			self.seedEdit.setValue(int(options['seed']))
 		if algorithm == 'clingo':
 			self.clingoExecutableEdit.setText(options['clingo'])
