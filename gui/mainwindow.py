@@ -26,6 +26,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 		self.connect(self.actionOpen, SIGNAL('triggered(bool)'), self.open)
 		self.connect(self.actionRun, SIGNAL('triggered(bool)'), self.run)
+		self.connect(self.actionCancel, SIGNAL('triggered(bool)'), self.cancel)
 		self.openDialog = None
 		self.dataInstance = None
 		self.positionCities = None
@@ -52,7 +53,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.open()
 		algorithmName = self.openDialog.getAlgorithmName()
 		self.logger.debug('run: algorithm={0}'.format(algorithmName))
-		thread = AlgorithmThread(
+		self.thread = AlgorithmThread(
 			self.dataInstance,
 			algorithmName,
 			self.openDialog.getAlgorithmOptions(),
@@ -60,11 +61,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.actionRun.setEnabled(False)
 		self.actionCancel.setEnabled(True)
 		self.statusBar().showMessage(self.tr('Calculation running'))
-		self.connect(thread, SIGNAL('nextSolution(QVariantList)'), self.nextSolution)
-		self.connect(thread, SIGNAL('lastSolution(QVariantList)'), self.lastSolution)
-		self.connect(thread, SIGNAL('finished()'), self.calculationFinished)
+		self.connect(self.thread, SIGNAL('nextSolution(QVariantList)'), self.nextSolution)
+		self.connect(self.thread, SIGNAL('lastSolution(QVariantList)'), self.lastSolution)
+		self.connect(self.thread, SIGNAL('finished()'), self.calculationFinished)
 		self.progressGroupBox.setVisible(True)
-		thread.start()
+		self.thread.start()
 
 
 	def nextSolution(self, solution):
@@ -82,6 +83,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.progressGroupBox.setVisible(False)
 		self.actionRun.setEnabled(True)
 		self.actionCancel.setEnabled(False)
+
+	def cancel(self):
+		self.actionRun.setEnabled(True)
+		self.actionCancel.setEnabled(False)
+		self.progressGroupBox.setVisible(False)
+		self.thread.terminate()
+		self.statusBar().showMessage(self.tr('Calculation canceled'))
 
 	def calculationFinished(self):
 		if self.actionRun.isEnabled() is True: # lastSolution called
