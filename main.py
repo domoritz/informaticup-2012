@@ -98,6 +98,7 @@ def executeApplication():
 		#initialize and show ui
 		app = QtGui.QApplication(sys.argv)
 		window = MainWindow()
+		window.setWindowState(QtCore.Qt.WindowMaximized)
 		window.show()
 		return app.exec_()		
 
