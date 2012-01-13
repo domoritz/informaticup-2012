@@ -1,4 +1,4 @@
-from PyQt4.QtCore import QString, Qt, SIGNAL, SLOT, QRectF, QPointF, QStringList, QRectF
+from PyQt4.QtCore import QString, Qt, SIGNAL, SLOT, QRectF, QPointF, QStringList, QRectF, QLineF, qAbs, QSizeF
 from PyQt4.QtGui import *
 import math
 
@@ -48,8 +48,12 @@ class GraphWidget(QGraphicsView):
 				else:
 					super(GraphWidget, self).keyPressEvent(event)
 
+	def itemMoved(self):
+		if not self.timerId:
+			self.timerId = self.startTimer(1000 / 25)
+
 	def timerEvent(self, event):
-		nodes = [item for item in self.scene().items() if isinstance(item, Node)]
+		"""nodes = [item for item in self.scene().items() if isinstance(item, Node)]
 
 		for node in nodes:
 			node.calculateForces()
@@ -61,14 +65,14 @@ class GraphWidget(QGraphicsView):
 
 		if not itemsMoved:
 			self.killTimer(self.timerId)
-			self.timerId = 0
+			self.timerId = 0"""
 
 	def wheelEvent(self, event):
 		self.scaleView(math.pow(2.0, -event.delta() / 240.0))
 
 	def drawBackground(self, painter, rect):
 		sceneRect = self.sceneRect()
-		
+
 		border = 20
 		sceneRect.adjust(-border,-border,border,border)
 
@@ -81,7 +85,7 @@ class GraphWidget(QGraphicsView):
 
 		# Fill.
 		gradient = QLinearGradient(sceneRect.topLeft(),
-							 sceneRect.bottomRight())
+		sceneRect.bottomRight())
 		gradient.setColorAt(0, Qt.white)
 		gradient.setColorAt(1, Qt.lightGray)
 		painter.setBrush(Qt.NoBrush)
@@ -95,3 +99,235 @@ class GraphWidget(QGraphicsView):
 			return
 
 		self.scale(scaleFactor, scaleFactor)
+
+class Edge(QGraphicsItem):
+	Pi = math.pi
+	TwoPi = 2.0 * Pi
+
+	Type = QGraphicsItem.UserType + 2
+
+	def __init__(self, sourceNode, destNode, active=False):
+		super(Edge, self).__init__()
+
+		self.arrowSize = 10.0
+		self.sourcePoint = QPointF()
+		self.destPoint = QPointF()
+
+		self.setAcceptedMouseButtons(Qt.NoButton)
+		self.source = sourceNode
+		self.dest = destNode
+		self.source.addEdge(self)
+		self.dest.addEdge(self)
+		self.adjust()
+
+		self.active = active
+
+	def type(self):
+		return Edge.Type
+
+	def sourceNode(self):
+		return self.source
+
+	def setSourceNode(self, node):
+		self.source = node
+		self.adjust()
+
+	def destNode(self):
+		return self.dest
+
+	def setDestNode(self, node):
+		self.dest = node
+		self.adjust()
+
+	def adjust(self):
+		if not self.source or not self.dest:
+			return
+
+		line = QLineF(self.mapFromItem(self.source, 0, 0),
+				self.mapFromItem(self.dest, 0, 0))
+		length = line.length()
+
+		self.prepareGeometryChange()
+
+		if length > 20.0:
+			edgeOffset = QPointF((line.dx() * 10) / length,
+						(line.dy() * 10) / length)
+
+			self.sourcePoint = line.p1() + edgeOffset
+			self.destPoint = line.p2() - edgeOffset
+		else:
+			self.sourcePoint = line.p1()
+			self.destPoint = line.p1()
+
+	def setActive(self):
+		self.active = true
+		self.paint()
+
+	def boundingRect(self):
+		if not self.source or not self.dest:
+			return QRectF()
+
+		penWidth = 1.0
+		extra = (penWidth + self.arrowSize) / 2.0
+
+		return QRectF(self.sourcePoint,
+				QSizeF(self.destPoint.x() - self.sourcePoint.x(),
+		   self.destPoint.y() - self.sourcePoint.y())).normalized().adjusted(-extra, -extra, extra, extra)
+
+	def paint(self, painter, option, widget):
+		if not self.source or not self.dest:
+			return
+
+		# Draw the line itself.
+		line = QLineF(self.sourcePoint, self.destPoint)
+
+		if line.length() == 0.0:
+			return
+
+		if self.active:
+			painter.setPen(QPen(Qt.red, 1, Qt.SolidLine,
+					  Qt.RoundCap, Qt.RoundJoin))
+		else:
+			painter.setPen(QPen(Qt.black, 1, Qt.SolidLine,
+					  Qt.RoundCap, Qt.RoundJoin))
+		painter.drawLine(line)
+
+		if self.active:
+
+			# Draw the arrows if there's enough room.
+			angle = math.acos(line.dx() / line.length())
+			if line.dy() >= 0:
+				angle = Edge.TwoPi - angle
+
+			sourceArrowP1 = self.sourcePoint + QPointF(math.sin(angle + Edge.Pi / 3) * self.arrowSize,
+												 math.cos(angle + Edge.Pi / 3) * self.arrowSize)
+			sourceArrowP2 = self.sourcePoint + QPointF(math.sin(angle + Edge.Pi - Edge.Pi / 3) * self.arrowSize,
+												 math.cos(angle + Edge.Pi - Edge.Pi / 3) * self.arrowSize);   
+			destArrowP1 = self.destPoint + QPointF(math.sin(angle - Edge.Pi / 3) * self.arrowSize,
+											 math.cos(angle - Edge.Pi / 3) * self.arrowSize)
+			destArrowP2 = self.destPoint + QPointF(math.sin(angle - Edge.Pi + Edge.Pi / 3) * self.arrowSize,
+											 math.cos(angle - Edge.Pi + Edge.Pi / 3) * self.arrowSize)
+
+			painter.setBrush(Qt.red)
+			painter.drawPolygon(QPolygonF([line.p1(), sourceArrowP1, sourceArrowP2]))
+			#painter.drawPolygon(QPolygonF([line.p2(), destArrowP1, destArrowP2]))
+
+
+class Node(QGraphicsItem):
+	Type = QGraphicsItem.UserType + 1
+
+	def __init__(self, graphWidget, text=""):
+		super(Node, self).__init__()
+
+		self.graph = graphWidget
+		self.edgeList = []
+		self.newPos = QPointF()
+
+		self.setFlag(QGraphicsItem.ItemIsMovable)
+		self.setFlag(QGraphicsItem.ItemSendsGeometryChanges)
+		self.setCacheMode(QGraphicsItem.DeviceCoordinateCache)
+		self.setZValue(1)
+
+		self.text = text
+
+	def type(self):
+		return Node.Type
+
+	def addEdge(self, edge):
+		self.edgeList.append(edge)
+		edge.adjust()
+
+	def edges(self):
+		return self.edgeList
+
+	def calculateForces(self):
+		if not self.scene() or self.scene().mouseGrabberItem() is self:
+			self.newPos = self.pos()
+			return
+
+		# Sum up all forces pushing this item away.
+		xvel = 0.0
+		yvel = 0.0
+		for item in self.scene().items():
+			if not isinstance(item, Node):
+				continue
+
+			line = QLineF(self.mapFromItem(item, 0, 0),
+				 QPointF(0, 0))
+			dx = line.dx()
+			dy = line.dy()
+			l = 2.0 * (dx * dx + dy * dy)
+			if l > 0:
+				xvel += (dx * 150.0) / l
+				yvel += (dy * 150.0) / l
+
+		# Now subtract all forces pulling items together.
+		weight = (len(self.edgeList) + 1) * 10.0
+		for edge in self.edgeList:
+			if edge.sourceNode() is self:
+				pos = self.mapFromItem(edge.destNode(), 0, 0)
+			else:
+				pos = self.mapFromItem(edge.sourceNode(), 0, 0)
+				xvel += pos.x() / weight
+				yvel += pos.y() / weight
+
+		if qAbs(xvel) < 0.1 and qAbs(yvel) < 0.1:
+			xvel = yvel = 0.0
+
+		sceneRect = self.scene().sceneRect()
+		self.newPos = self.pos() + QPointF(xvel, yvel)
+		self.newPos.setX(min(max(self.newPos.x(), sceneRect.left() + 10), sceneRect.right() - 10))
+		self.newPos.setY(min(max(self.newPos.y(), sceneRect.top() + 10), sceneRect.bottom() - 10))
+
+	def advance(self):
+		if self.newPos == self.pos():
+			return False
+
+		self.setPos(self.newPos)
+		return True
+
+	def boundingRect(self):
+		adjust = 2.0
+		return QRectF(-10 - adjust, -10 - adjust, 23 + adjust,
+				23 + adjust)
+
+	def shape(self):
+		path = QPainterPath()
+		path.addEllipse(-10, -10, 20, 20)
+		return path
+
+	def paint(self, painter, option, widget):
+		painter.setPen(Qt.NoPen)
+		painter.setBrush(Qt.darkGray)
+
+		gradient = QRadialGradient(-3, -3, 10)
+		if option.state & QStyle.State_Sunken:
+			gradient.setCenter(3, 3)
+			gradient.setFocalPoint(3, 3)
+			gradient.setColorAt(1, QColor(Qt.gray).light(120))
+			gradient.setColorAt(0, QColor(Qt.darkGray).light(120))
+		else:
+			gradient.setColorAt(0, Qt.gray)
+			gradient.setColorAt(1, Qt.darkGray)
+
+		painter.setBrush(QBrush(gradient))
+		painter.setPen(QPen(Qt.black, 0))
+		painter.drawEllipse(-10, -10, 20, 20)
+
+		QGraphicsTextItem(self.text,self)
+
+	def itemChange(self, change, value):
+		if change == QGraphicsItem.ItemPositionHasChanged:
+			for edge in self.edgeList:
+				edge.adjust()
+				self.graph.itemMoved()
+
+		return super(Node, self).itemChange(change, value)
+
+	def mousePressEvent(self, event):
+		self.update()
+		super(Node, self).mousePressEvent(event)
+
+	def mouseReleaseEvent(self, event):
+		self.update()
+		super(Node, self).mouseReleaseEvent(event)
