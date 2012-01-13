@@ -99,7 +99,7 @@ def executeApplication():
 
 		logger.debug("initializing and running gui")
 		#initialize and show ui
-		QtCore.QCoreApplication.setOrganizationName('HassoPlattnerInstitut');
+		QtCore.QCoreApplication.setOrganizationName('Hasso-Plattner-Institut');
 		QtCore.QCoreApplication.setOrganizationDomain('hpi.uni-potsdam.de');
 		QtCore.QCoreApplication.setApplicationName('shoppingtour');
 
