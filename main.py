@@ -99,6 +99,9 @@ def executeApplication():
 
 		logger.debug("initializing and running gui")
 		#initialize and show ui
+		QtCore.QCoreApplication.setOrganizationName('Hasso-Platter-Institut');
+		QtCore.QCoreApplication.setApplicationName('shoppingtour');
+
 		app = QtGui.QApplication(sys.argv)
 		window = MainWindow()
 		window.setWindowState(QtCore.Qt.WindowMaximized)
