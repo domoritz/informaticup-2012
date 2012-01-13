@@ -39,7 +39,7 @@ class Clingo(Algorithm):
 
 		while clingo.poll() is None or line != '':
 			line = clingo.stdout.readline().strip("\n")
-			#self.logger.debug("Clingo: "+ line)
+			self.logger.debug("Clingo: "+ line)
 			solution = self.parseSolution(line)
 			if solution:
 				yield solution
@@ -61,18 +61,18 @@ class Clingo(Algorithm):
 			OPTIMUM FOUND
 		"""
 
-		#print line
-
 		if re.match('^Answer: (\d)+',line):
 			return None
 
 		if re.match('^OPTIMUM FOUND$',line):
+			self.logger.info(line)
 			return None
 
 		if re.match('^Optimization: (\d)+',line):
 			return None
 
 		if re.search('UNSATISFIABLE',line):
+			self.logger.warn(line)
 			return None
 
 		if re.search('cycle',line):

@@ -64,7 +64,6 @@ class DataInstance(object):
 			#solution not valid, first node has to be home 
 			return None
 
-		print solution
 		numStores = len(solution)
 		a = [ self.distances.data[solution[x]][solution[x+1]] for x in range(numStores-1) ]
 		costsForTraveling = sum(a) + self.distances.data[solution[0]][solution[-1]]

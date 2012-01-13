@@ -66,17 +66,20 @@ def executeApplication():
 		if algorithms[args.algorithm]:
 			algo = algorithms[args.algorithm](dataInstance)
 
+			solution = None
 			for i in algo.generate():
 				solution = i
-				logger.info("Current solution: "+pformat(i))
+				logger.info("Current solution: "+pformat(i)+" "+str(dataInstance.calculateCost(solution)))
+				#print dataInstance.calculateSpendings(solution)
+				#print dataInstance.calculateExpenses(solution)
 
-			if i:
+			if solution:
 				# print best solution
-				logger.warn("\nBest solution:\n==============")
-				expenses = dataInstance.calculateExpenses(i)
-				spendings = dataInstance.calculateSpendings(i)
-				shoppingList = dataInstance.getShoppingList(i)
-				logger.info("Best Shopping Tour:\n"+pformat(i))
+				logger.info("\nBest solution:\n==============")
+				expenses = dataInstance.calculateExpenses(solution)
+				spendings = dataInstance.calculateSpendings(solution)
+				shoppingList = dataInstance.getShoppingList(solution)
+				logger.info("Best Shopping Tour:\n"+pformat(solution))
 				logger.info("Shopping List:\n"+pformat(shoppingList))
 				logger.info("Total Costs: "+str(spendings+expenses))
 				logger.info("Spendings: "+str(spendings))

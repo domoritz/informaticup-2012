@@ -1,8 +1,8 @@
 import random
 from pprint import pprint
 
-n=12
-k=20
+n=10
+k=10
 priceRange = [5,20]
 variability = 0.2
 density = 0.2

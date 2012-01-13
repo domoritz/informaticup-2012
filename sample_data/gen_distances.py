@@ -1,9 +1,9 @@
 import random
 from pprint import pprint
 
-k=20
+k=10
 maxDist = 100
-density = 0.2
+density = 0.3
 
 def value():
 	if (random.random() > density):

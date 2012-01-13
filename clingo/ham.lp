@@ -5,6 +5,9 @@ selected(0).
 1 { cycle(X,Y) : edge(X,Y) } 1 :- selected(Y).
 
 % Define
+:- cycle(X,Y), cycle(Z,Y), Z!=X.
+:- cycle(X,Y), cycle(X,Z), Y!=Z.
+
 reached(0).
 reached(Y) :- cycle(X,Y), reached(X).
 :- selected(X), not reached(X).
@@ -22,9 +25,6 @@ minimum_cost(P,CC) :- not_minimum_cost(P,C), sorted_costs(P,C,CC), not not_minim
 
 bought(P) :- cost(P,Y,C), selected(Y).
 :- not bought(P), product(P).
-
-%somehow we need this additional option
-:- cycle(X,Y), cycle(Z,Y), Z!=X.
 
 % Display
 #hide.
