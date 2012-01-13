@@ -31,13 +31,12 @@ class DataPrices(DataMatrix):
 
 	def argmin(list):
 		"""Returns the index with minimum value inside a list."""
-		#TODO rewrite!!!!
 		listmin = min(list)
 		for i in range(0, len(list)):
 			if list[i] == listmin:
 				return i
 
-	def removeQuantities(self):
+	def adjustQuantities(self):
 		"""Sets all quantities to 1 and adds that information to item prices."""
 		for i in range(0, len(self.itemQuantity)):
 			for j in range(0, len(self.data[i])):
@@ -48,7 +47,7 @@ class DataPrices(DataMatrix):
 	
 	def prepare(self):
 		"""Prepares the data structure for the next steps (algorithms, ...) and makes optimizations."""
-		self.removeQuantities()
+		self.adjustQuantities()
 		return self
 		
 	def isNumeric(self, value):

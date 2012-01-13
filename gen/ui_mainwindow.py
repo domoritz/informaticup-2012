@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '../gui/ui_mainwindow.ui'
 #
-# Created: Fri Jan 13 12:20:35 2012
+# Created: Fri Jan 13 15:04:40 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,7 +17,7 @@ except AttributeError:
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
-        MainWindow.resize(944, 652)
+        MainWindow.resize(823, 572)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -56,9 +56,8 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.verticalGroupBox_2.sizePolicy().hasHeightForWidth())
         self.verticalGroupBox_2.setSizePolicy(sizePolicy)
         self.verticalGroupBox_2.setObjectName(_fromUtf8("verticalGroupBox_2"))
-        self.verticalLayout_4 = QtGui.QVBoxLayout(self.verticalGroupBox_2)
-        self.verticalLayout_4.setMargin(5)
-        self.verticalLayout_4.setObjectName(_fromUtf8("verticalLayout_4"))
+        self.verticalLayout_2 = QtGui.QVBoxLayout(self.verticalGroupBox_2)
+        self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
         self.shoppingTree = QtGui.QTreeWidget(self.verticalGroupBox_2)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(200)
@@ -75,8 +74,9 @@ class Ui_MainWindow(object):
         item_0 = QtGui.QTreeWidgetItem(self.shoppingTree)
         item_1 = QtGui.QTreeWidgetItem(item_0)
         self.shoppingTree.header().setDefaultSectionSize(60)
-        self.verticalLayout_4.addWidget(self.shoppingTree)
-        self.formGroupBox = QtGui.QGroupBox(self.verticalGroupBox_2)
+        self.verticalLayout_2.addWidget(self.shoppingTree)
+        self.verticalLayout.addWidget(self.verticalGroupBox_2)
+        self.formGroupBox = QtGui.QGroupBox(self.verticalLayoutWidget)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -106,12 +106,11 @@ class Ui_MainWindow(object):
         self.total.setMinimumSize(QtCore.QSize(10, 0))
         self.total.setObjectName(_fromUtf8("total"))
         self.formLayout.setWidget(2, QtGui.QFormLayout.FieldRole, self.total)
-        self.verticalLayout_4.addWidget(self.formGroupBox)
-        self.verticalLayout.addWidget(self.verticalGroupBox_2)
+        self.verticalLayout.addWidget(self.formGroupBox)
         self.verticalLayout_3.addWidget(self.splitter)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 944, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 823, 22))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuTools = QtGui.QMenu(self.menubar)
         self.menuTools.setObjectName(_fromUtf8("menuTools"))

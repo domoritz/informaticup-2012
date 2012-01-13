@@ -30,11 +30,11 @@ class Clingo(Algorithm):
 		self.prepare()
 
 	def generate(self, solution = None):
-		clingo = subprocess.Popen([self.options['clingo']], shell=False, stdout=subprocess.PIPE, stdin=subprocess.PIPE)
+		clingo = subprocess.Popen([self.options['clingo']] + self.options['clingoArgs'].split(" "), shell=False, stdout=subprocess.PIPE, stdin=subprocess.PIPE)
 		clingo.stdin.write(self.costfile + self.graphfile)
 		for f in self.files:
 			clingo.stdin.write(open(f).read())
-		clingo.stdin.write(self.costfile + self.graphfile + self.options['clingoArgs'])
+		clingo.stdin.write(self.costfile + self.graphfile)
 		clingo.stdin.close()
 
 		while clingo.poll() is None or line != '':

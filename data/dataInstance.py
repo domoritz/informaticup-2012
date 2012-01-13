@@ -43,7 +43,7 @@ class DataInstance(object):
 			store = infos[0][1]
 			price = infos[0][0]
 			originalPrice = self.originalPrices.getPrice(store,item)
-			quantity = int(originalPrice/price)
+			quantity = self.originalPrices.itemQuantity[item]
 
 			shoppingList[store].append((item,quantity,originalPrice))
 		
@@ -64,6 +64,7 @@ class DataInstance(object):
 			#solution not valid, first node has to be home 
 			return None
 
+		print solution
 		numStores = len(solution)
 		a = [ self.distances.data[solution[x]][solution[x+1]] for x in range(numStores-1) ]
 		costsForTraveling = sum(a) + self.distances.data[solution[0]][solution[-1]]
@@ -83,7 +84,6 @@ class DataInstance(object):
 
 	def calculateCost(self, solution):
 		"""docstring for calculateCost"""
-		#TODO Matthias bitte validieren, dass ich richtig rechne (von dominik)
 		spendings = self.calculateSpendings(solution)
 		expenses = self.calculateExpenses(solution)
 
@@ -96,11 +96,6 @@ class DataInstance(object):
 			return None
 		
 		return expenses + spendings
-
-	def validate(self, solution):
-		"""returns a validated version of the solution (adds shops if necessary)"""
-		#TODO bitte schreiben
-		pass
 	
 	def getStoreNameByIndex(self, index):
 		"""Returns a store's name (GUI only)."""

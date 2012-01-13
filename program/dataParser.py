@@ -43,7 +43,6 @@ class DataParser:
 
 				result.data.append([self.getNumeric(num) for num in row[2:]])
 				result.itemQuantity.append(row[1])
-		result.removeQuantities()
 		return result
 
 	def readInstance(self, pricesFile, distancesFile):
@@ -56,18 +55,8 @@ class DataParser:
 		result.prices = copy.deepcopy(result.originalPrices).prepare()
 		result.originalDistances = self.readDistancesFile(distancesFile, result)
 		result.distances = copy.deepcopy(result.originalDistances).prepare()
-		
+
 		return result
-		
-	def parserTest(self):
-		"""Method for testing and debugging the parser."""
-		testInstance = self.readInstance(open('sample_data/prices1.txt', 'rb'), open('sample_data/distances1.txt', 'rb'))
-		
-		self.logger.debug("original distances:")
-		self.logger.debug(testInstance.originalDistances.data)
-		
-		self.logger.debug("prepared distances:")
-		self.logger.debug(testInstance.distances.data)
 		
 	def getNumeric(self, value):
 		"""Casts a value to a float value and returns None if impossible."""
