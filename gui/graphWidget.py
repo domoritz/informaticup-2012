@@ -187,16 +187,18 @@ class Edge(QGraphicsItem):
 		if line.length() == 0.0:
 			return
 
+		palette = QPalette()
+
 		self.setZValue(self.state)
 
 		if self.state == 3:
-			pen = QPen(Qt.red, 2, Qt.SolidLine,
+			pen = QPen(palette.highlight().color(), 2, Qt.SolidLine,
 					  Qt.RoundCap, Qt.RoundJoin)
 		if self.state == 2:
-			pen = QPen(Qt.red, 2, Qt.DashLine,
+			pen = QPen(palette.heiglight().color(), 2, Qt.DashLine,
 					  Qt.RoundCap, Qt.RoundJoin)
 		elif self.state == 1:
-			pen = QPen(Qt.black, 1, Qt.SolidLine,
+			pen = QPen(palette.windowText().color(), 1, Qt.SolidLine,
 					  Qt.RoundCap, Qt.RoundJoin)
 		elif self.state == 0:
 			pen = QPen()
@@ -222,9 +224,9 @@ class Edge(QGraphicsItem):
 			destArrowP2 = self.destPoint + QPointF(math.sin(angle - Edge.Pi + Edge.Pi / 3) * self.arrowSize,
 											 math.cos(angle - Edge.Pi + Edge.Pi / 3) * self.arrowSize)
 
-			painter.setBrush(Qt.red)
-			#painter.drawPolygon(QPolygonF([line.p1(), sourceArrowP1, sourceArrowP2]))
-			painter.drawPolygon(QPolygonF([line.p2(), destArrowP1, destArrowP2]))
+			painter.setBrush(palette.highlight())
+			painter.drawPolygon(QPolygonF([line.p1(), sourceArrowP1, sourceArrowP2]))
+			#painter.drawPolygon(QPolygonF([line.p2(), destArrowP1, destArrowP2]))
 
 			#text = QGraphicsTextItem(self.text,self)
 			#text.setPos(self.sourcePoint+QPointF(math.sin(angle + Edge.Pi / 3) * self.arrowSize*5,
@@ -316,22 +318,24 @@ class Node(QGraphicsItem):
 
 	def paint(self, painter, option, widget):
 		self.setZValue(5)
+		palette = QPalette()
 
 		painter.setPen(Qt.NoPen)
 		painter.setBrush(Qt.darkGray)
+
 
 		gradient = QRadialGradient(-3, -3, 10)
 		if option.state & QStyle.State_Sunken:
 			gradient.setCenter(3, 3)
 			gradient.setFocalPoint(3, 3)
-			gradient.setColorAt(1, QColor(Qt.gray).light(120))
-			gradient.setColorAt(0, QColor(Qt.darkGray).light(120))
+			gradient.setColorAt(1, palette.button().color())
+			gradient.setColorAt(0, palette.mid().color())
 		else:
-			gradient.setColorAt(0, Qt.gray)
-			gradient.setColorAt(1, Qt.darkGray)
+			gradient.setColorAt(0, palette.mid().color())
+			gradient.setColorAt(1, palette.dark().color())
 
 		painter.setBrush(QBrush(gradient))
-		painter.setPen(QPen(Qt.black, 0))
+		painter.setPen(QPen(palette.shadow(), 0))
 		painter.drawEllipse(-10, -10, 20, 20)
 
 		QGraphicsTextItem(self.text,self)
