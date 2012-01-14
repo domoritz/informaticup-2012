@@ -43,7 +43,7 @@
         <enum>Qt::WheelFocus</enum>
        </property>
        <property name="renderHints">
-        <set>QPainter::Antialiasing|QPainter::HighQualityAntialiasing|QPainter::SmoothPixmapTransform|QPainter::TextAntialiasing</set>
+        <set>QPainter::Antialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen|QPainter::SmoothPixmapTransform|QPainter::TextAntialiasing</set>
        </property>
        <property name="dragMode">
         <enum>QGraphicsView::ScrollHandDrag</enum>
@@ -55,7 +55,7 @@
         <enum>QGraphicsView::AnchorUnderMouse</enum>
        </property>
        <property name="viewportUpdateMode">
-        <enum>QGraphicsView::SmartViewportUpdate</enum>
+        <enum>QGraphicsView::FullViewportUpdate</enum>
        </property>
       </widget>
       <widget class="QWidget" name="verticalLayoutWidget">

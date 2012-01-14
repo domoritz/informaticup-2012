@@ -97,7 +97,7 @@ class Edge(QGraphicsItem):
 	def __init__(self, sourceNode, destNode, state=1, text=""):
 		super(Edge, self).__init__()
 
-		self.arrowSize = 10.0
+		self.arrowSize = 15.0
 		self.sourcePoint = QPointF()
 		self.destPoint = QPointF()
 
@@ -208,13 +208,14 @@ class Edge(QGraphicsItem):
 
 		painter.drawLine(line)
 
+		angle = math.acos(line.dx() / line.length())
+		if line.dy() >= 0:
+			angle = Edge.TwoPi - angle
+
+		# draw arrowheads
 		if self.state == 2 or self.state == 3:
 
 			# Draw the arrows if there's enough room.
-			angle = math.acos(line.dx() / line.length())
-			if line.dy() >= 0:
-				angle = Edge.TwoPi - angle
-
 			sourceArrowP1 = self.sourcePoint + QPointF(math.sin(angle + Edge.Pi / 3) * self.arrowSize,
 												 math.cos(angle + Edge.Pi / 3) * self.arrowSize)
 			sourceArrowP2 = self.sourcePoint + QPointF(math.sin(angle + Edge.Pi - Edge.Pi / 3) * self.arrowSize,
@@ -224,13 +225,17 @@ class Edge(QGraphicsItem):
 			destArrowP2 = self.destPoint + QPointF(math.sin(angle - Edge.Pi + Edge.Pi / 3) * self.arrowSize,
 											 math.cos(angle - Edge.Pi + Edge.Pi / 3) * self.arrowSize)
 
-			painter.setBrush(Qt.red)
+			painter.setPen(QPen(Qt.red, 2, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
+			painter.setBrush(QBrush(Qt.red,Qt.SolidPattern))
 			painter.drawPolygon(QPolygonF([line.p1(), sourceArrowP1, sourceArrowP2]))
 			#painter.drawPolygon(QPolygonF([line.p2(), destArrowP1, destArrowP2]))
 
-			#text = QGraphicsTextItem(self.text,self)
-			#text.setPos(self.sourcePoint+QPointF(math.sin(angle + Edge.Pi / 3) * self.arrowSize*5,
-			#									 math.cos(angle + Edge.Pi / 3) * self.arrowSize*5))
+		if self.state > 0 and self.source > self.dest:
+			point = QPointF((self.sourcePoint.x() + self.destPoint.x())/2,(self.sourcePoint.y() + self.destPoint.y())/2)
+			point = QPointF(point.x() + math.sin(angle)*16,point.y()+ math.cos(angle)*16)
+			painter.drawText(point, self.text)
+			#self.textItem = QGraphicsTextItem(self.text,self)
+			#self.textItem.setPos(point)
 
 
 class Node(QGraphicsItem):
@@ -249,6 +254,8 @@ class Node(QGraphicsItem):
 		self.setZValue(1)
 
 		self.text = text
+
+		self.b = 15
 
 	def type(self):
 		return Node.Type
@@ -308,12 +315,12 @@ class Node(QGraphicsItem):
 
 	def boundingRect(self):
 		adjust = 2.0
-		return QRectF(-15 - adjust, -15 - adjust, 33 + adjust,
-				33 + adjust)
+		return QRectF(-self.b - adjust, -self.b - adjust, 2*self.b+3 + adjust,
+				2*self.b+3 + adjust)
 
 	def shape(self):
 		path = QPainterPath()
-		path.addEllipse(-15, -15, 30, 30)
+		path.addEllipse(-self.b, -self.b, 2*self.b, 2*self.b)
 		return path
 
 	def paint(self, painter, option, widget):
@@ -324,7 +331,7 @@ class Node(QGraphicsItem):
 		painter.setBrush(Qt.darkGray)
 
 
-		gradient = QRadialGradient(-3, -3, 10)
+		gradient = QRadialGradient(-3, -3, 15)
 		if option.state & QStyle.State_Sunken:
 			gradient.setCenter(3, 3)
 			gradient.setFocalPoint(3, 3)
@@ -336,7 +343,7 @@ class Node(QGraphicsItem):
 
 		painter.setBrush(QBrush(gradient))
 		painter.setPen(QPen(palette.windowText().color(), 0))
-		painter.drawEllipse(-15, -15, 30, 30)
+		painter.drawEllipse(-self.b, -self.b, 2*self.b, 2*self.b)
 
 		text = QGraphicsTextItem(self.text,self)
 		text.moveBy(-15,-14)

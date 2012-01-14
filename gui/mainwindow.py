@@ -176,16 +176,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			for i2,city2 in enumerate(self.nodes):
 				if i1 != i2:
 					edge = self.edges[(i1,i2)]
-					edge.setVisible(False)
 					original = dataInstance.originalDistances.getDistance(i1,i2) != None
 					active = (i1, i2) in usedWays
-					if original:
+					if original and not active:
 						edge.setVisible(True)
-					if active:
-						edge.text = str(dataInstance.distances.getDistance(i1,i2))
+					elif active and original:
 						edge.setActive(True)
-					if active and not original:
+					elif active and not original:
 						edge.setTempActive(True)
+					else:
+						edge.setVisible(False)
 
 		self.graphicsView.updateScene([self.graphicsView.sceneRect()])	
 
@@ -207,6 +207,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			for i2,city2 in enumerate(self.nodes):
 				if i1 != i2:
 					edge = Edge(city1,city2,0)
+					edge.text = str(dataInstance.distances.getDistance(i1,i2))
 					self.edges[(i1,i2)] = edge
 					scene.addItem(edge)
 

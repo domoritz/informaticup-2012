@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '../gui/ui_mainwindow.ui'
 #
-# Created: Sat Jan 14 19:30:23 2012
+# Created: Sun Jan 15 00:03:07 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -38,11 +38,11 @@ class Ui_MainWindow(object):
         self.graphicsView.setSizePolicy(sizePolicy)
         self.graphicsView.setMinimumSize(QtCore.QSize(480, 480))
         self.graphicsView.setFocusPolicy(QtCore.Qt.WheelFocus)
-        self.graphicsView.setRenderHints(QtGui.QPainter.Antialiasing|QtGui.QPainter.HighQualityAntialiasing|QtGui.QPainter.SmoothPixmapTransform|QtGui.QPainter.TextAntialiasing)
+        self.graphicsView.setRenderHints(QtGui.QPainter.Antialiasing|QtGui.QPainter.HighQualityAntialiasing|QtGui.QPainter.NonCosmeticDefaultPen|QtGui.QPainter.SmoothPixmapTransform|QtGui.QPainter.TextAntialiasing)
         self.graphicsView.setDragMode(QtGui.QGraphicsView.ScrollHandDrag)
         self.graphicsView.setCacheMode(QtGui.QGraphicsView.CacheBackground)
         self.graphicsView.setResizeAnchor(QtGui.QGraphicsView.AnchorUnderMouse)
-        self.graphicsView.setViewportUpdateMode(QtGui.QGraphicsView.SmartViewportUpdate)
+        self.graphicsView.setViewportUpdateMode(QtGui.QGraphicsView.FullViewportUpdate)
         self.graphicsView.setObjectName(_fromUtf8("graphicsView"))
         self.verticalLayoutWidget = QtGui.QWidget(self.splitter)
         self.verticalLayoutWidget.setObjectName(_fromUtf8("verticalLayoutWidget"))
