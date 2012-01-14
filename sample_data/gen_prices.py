@@ -1,12 +1,12 @@
 import random
 from pprint import pprint
 
-n=10
-k=14
+n=8
+k=12
 priceRange = [5,20]
 variability = 0.2
-density = 0.2
-sigma = 0.4
+density = 0.15
+sigma = 0.5
 numberRange = [1,3]
 
 def price(median):

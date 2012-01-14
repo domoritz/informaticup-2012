@@ -1,7 +1,7 @@
 import random
 from pprint import pprint
 
-k=14
+k=12
 distRange = [10,100]
 density = 0.3
 

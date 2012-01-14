@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '../gui/ui_opendialog.ui'
 #
-# Created: Fri Jan 13 23:07:09 2012
+# Created: Sat Jan 14 18:20:25 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,7 +17,7 @@ except AttributeError:
 class Ui_OpenDialog(object):
     def setupUi(self, OpenDialog):
         OpenDialog.setObjectName(_fromUtf8("OpenDialog"))
-        OpenDialog.resize(613, 520)
+        OpenDialog.resize(613, 537)
         self.gridLayout = QtGui.QGridLayout(OpenDialog)
         self.gridLayout.setObjectName(_fromUtf8("gridLayout"))
         self.label = QtGui.QLabel(OpenDialog)
@@ -97,9 +97,17 @@ class Ui_OpenDialog(object):
         self.maxGenerationsEdit.setProperty("value", 50000)
         self.maxGenerationsEdit.setObjectName(_fromUtf8("maxGenerationsEdit"))
         self.formLayout_2.setWidget(4, QtGui.QFormLayout.FieldRole, self.maxGenerationsEdit)
+        self.label_4 = QtGui.QLabel(self.geneticOptions)
+        self.label_4.setObjectName(_fromUtf8("label_4"))
+        self.formLayout_2.setWidget(5, QtGui.QFormLayout.LabelRole, self.label_4)
         self.label_10 = QtGui.QLabel(self.geneticOptions)
         self.label_10.setObjectName(_fromUtf8("label_10"))
         self.formLayout_2.setWidget(7, QtGui.QFormLayout.LabelRole, self.label_10)
+        self.catastrophyEdit = QtGui.QSpinBox(self.geneticOptions)
+        self.catastrophyEdit.setMaximum(1000000)
+        self.catastrophyEdit.setProperty("value", 2000)
+        self.catastrophyEdit.setObjectName(_fromUtf8("catastrophyEdit"))
+        self.formLayout_2.setWidget(5, QtGui.QFormLayout.FieldRole, self.catastrophyEdit)
         self.seedEdit = QtGui.QSpinBox(self.geneticOptions)
         self.seedEdit.setMaximum(1000000)
         self.seedEdit.setProperty("value", 42)
@@ -107,20 +115,12 @@ class Ui_OpenDialog(object):
         self.formLayout_2.setWidget(7, QtGui.QFormLayout.FieldRole, self.seedEdit)
         self.stopAfterLabel = QtGui.QLabel(self.geneticOptions)
         self.stopAfterLabel.setObjectName(_fromUtf8("stopAfterLabel"))
-        self.formLayout_2.setWidget(5, QtGui.QFormLayout.LabelRole, self.stopAfterLabel)
+        self.formLayout_2.setWidget(6, QtGui.QFormLayout.LabelRole, self.stopAfterLabel)
         self.stopAfterEdit = QtGui.QSpinBox(self.geneticOptions)
         self.stopAfterEdit.setMaximum(1000000)
         self.stopAfterEdit.setProperty("value", 2000)
         self.stopAfterEdit.setObjectName(_fromUtf8("stopAfterEdit"))
-        self.formLayout_2.setWidget(5, QtGui.QFormLayout.FieldRole, self.stopAfterEdit)
-        self.label_4 = QtGui.QLabel(self.geneticOptions)
-        self.label_4.setObjectName(_fromUtf8("label_4"))
-        self.formLayout_2.setWidget(6, QtGui.QFormLayout.LabelRole, self.label_4)
-        self.catastrophyEdit = QtGui.QSpinBox(self.geneticOptions)
-        self.catastrophyEdit.setMaximum(1000000)
-        self.catastrophyEdit.setProperty("value", 2000)
-        self.catastrophyEdit.setObjectName(_fromUtf8("catastrophyEdit"))
-        self.formLayout_2.setWidget(6, QtGui.QFormLayout.FieldRole, self.catastrophyEdit)
+        self.formLayout_2.setWidget(6, QtGui.QFormLayout.FieldRole, self.stopAfterEdit)
         self.horizontalLayout_3.addWidget(self.geneticOptions)
         self.clingoOptions = QtGui.QGroupBox(OpenDialog)
         self.clingoOptions.setEnabled(False)
@@ -175,9 +175,9 @@ class Ui_OpenDialog(object):
         self.label_7.setText(QtGui.QApplication.translate("OpenDialog", "Mutation:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_8.setText(QtGui.QApplication.translate("OpenDialog", "Shortening:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_9.setText(QtGui.QApplication.translate("OpenDialog", "Max Generation:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_4.setText(QtGui.QApplication.translate("OpenDialog", "Catastrophy After:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_10.setText(QtGui.QApplication.translate("OpenDialog", "Seed:", None, QtGui.QApplication.UnicodeUTF8))
         self.stopAfterLabel.setText(QtGui.QApplication.translate("OpenDialog", "Stop After:", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_4.setText(QtGui.QApplication.translate("OpenDialog", "Catastrophy After:", None, QtGui.QApplication.UnicodeUTF8))
         self.clingoOptions.setTitle(QtGui.QApplication.translate("OpenDialog", "Clingo Algorithm Settings", None, QtGui.QApplication.UnicodeUTF8))
         self.clingoExecutableLabel.setText(QtGui.QApplication.translate("OpenDialog", "Executable:", None, QtGui.QApplication.UnicodeUTF8))
         self.clingoExecutableEdit.setText(QtGui.QApplication.translate("OpenDialog", "clingo", None, QtGui.QApplication.UnicodeUTF8))

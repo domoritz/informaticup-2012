@@ -30,12 +30,12 @@ class Genetic(Algorithm):
 		if options is None:
 			self.options = {
 				"popsize":250,
-				"childrenGroup": 5,
+				"childrenGroup": 50,
 				"mutation": 20,
 				"shortening": 10,
 				"maxGenerations": 50000,
-				"catastrophyAfter": 400,
-				"stopAfter": 2000,
+				"catastrophyAfter": 100,
+				"stopAfter": 800,
 				"seed": 42
 			}
 		else:
@@ -78,10 +78,16 @@ class Genetic(Algorithm):
 			self.logger.debug('Generation no: {num}\n================='.format(num = i))
 
 			# how to make children"
+			parents = self.population[0:2*self.options['childrenGroup']]
+			random.shuffle(parents)
 			for p in range(self.options['childrenGroup']):
-				indiv0 = self.population[2*p][0]
-				indiv1 = self.population[2*p+1][0]
-																						#not first and not last for cut
+				#indiv0 = self.population[2*p][0]
+				#indiv1 = self.population[2*p+1][0]
+				
+				indiv0 = parents.pop()[0]
+				indiv1 = parents.pop()[0]
+				
+				#not first and not last for cut
 				#self.population[-p-1][0] = self.crossover(indiv0, indiv1,random.randint(1,(len(indiv0)+len(indiv1))/2-1))
 				self.population[-p-1][0] = self.crossover(indiv0, indiv1,random.randint(0,(len(indiv0)+len(indiv1))/2))
 				self.population[-p-1][1] = self.evaluate(self.population[-p-1][0])
@@ -108,7 +114,7 @@ class Genetic(Algorithm):
 					self.population[x][0] = self.mutuate(self.population[x][0],int(math.ceil(numberCities/4)))
 					self.population[x][1] = self.evaluate(self.population[x][0])
 				#some longer individuals
-				for x in range(self.options['popsize'] - number/5, self.options['popsize']):
+				for x in range(self.options['popsize'] - number/4, self.options['popsize']):
 					a = self.population[x][0]
 					if self.problem.getNumberStores() > len(a):
 						self.population[x][0] = a + [0]
@@ -172,8 +178,7 @@ class Genetic(Algorithm):
 	def mutuate(self, solution, times = 1):
 		"""mutuates an individual"""
 		length = len(solution)
-		whichGene = random.randint(0,length - 1)
-		randomGene = range(0, length-1)
+		randomGene = range(0, length)
 		random.shuffle(randomGene)
 		for x in range(times):
 			whichGene = randomGene[x]
