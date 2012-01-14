@@ -1,2 +1,3 @@
 *.pyc
 clingo_prog
+.original
