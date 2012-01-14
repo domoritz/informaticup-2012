@@ -94,7 +94,7 @@ class Edge(QGraphicsItem):
 
 	Type = QGraphicsItem.UserType + 2
 
-	def __init__(self, sourceNode, destNode, state=1):
+	def __init__(self, sourceNode, destNode, state=1, text=""):
 		super(Edge, self).__init__()
 
 		self.arrowSize = 10.0
@@ -109,6 +109,7 @@ class Edge(QGraphicsItem):
 		self.adjust()
 
 		self.state = state
+		self.text = text
 
 	def type(self):
 		return Edge.Type
@@ -222,8 +223,12 @@ class Edge(QGraphicsItem):
 											 math.cos(angle - Edge.Pi + Edge.Pi / 3) * self.arrowSize)
 
 			painter.setBrush(Qt.red)
-			painter.drawPolygon(QPolygonF([line.p1(), sourceArrowP1, sourceArrowP2]))
-			#painter.drawPolygon(QPolygonF([line.p2(), destArrowP1, destArrowP2]))
+			#painter.drawPolygon(QPolygonF([line.p1(), sourceArrowP1, sourceArrowP2]))
+			painter.drawPolygon(QPolygonF([line.p2(), destArrowP1, destArrowP2]))
+
+			#text = QGraphicsTextItem(self.text,self)
+			#text.setPos(self.sourcePoint+QPointF(math.sin(angle + Edge.Pi / 3) * self.arrowSize*5,
+			#									 math.cos(angle + Edge.Pi / 3) * self.arrowSize*5))
 
 
 class Node(QGraphicsItem):

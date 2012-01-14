@@ -1,7 +1,7 @@
 import random
 from pprint import pprint
 
-k=15
+k=14
 distRange = [10,100]
 density = 0.3
 
@@ -23,7 +23,7 @@ for i in range(k):
 		if i==j:
 			a[j][i] = 0
 		a[i][j] = a[j][i]
-		if a[i][j]:
+		if a[i][j] != None:
 			print ",",a[i][j],
 		else:
 			print ",",

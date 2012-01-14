@@ -7,10 +7,16 @@ selected(0).
 % Define
 :- cycle(X,Y), cycle(Z,Y), Z!=X.
 :- cycle(X,Y), cycle(X,Z), Y!=Z.
+%1 { reached(0) } 1 :- selected(X).
 
-reached(0).
-reached(Y) :- cycle(X,Y), reached(X).
-:- selected(X), not reached(X).
+canReach(X,Y) :- cycle(X,Y).
+canReach(X,Y) :- cycle(X,Z), canReach(Z,Y).
+:- not canReach(0,0).
+:- not canReach(0,X), selected(X).
+
+%reached(0).
+%reached(Y) :- cycle(X,Y), reached(X).
+%:- selected(X), not reached(X).
 
 cost(P,C) :- cost(P,Y,C).
 selected_costs(P,C) :- selected(Y), cost(P,Y,C).

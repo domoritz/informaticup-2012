@@ -16,7 +16,7 @@ class Clingo(Algorithm):
 
 		if options is None:
 			self.options = {
-				"clingo": "clingo",
+				"clingo": "./clingo_prog/clingo",
                 "clingoArgs": ""
 			}
 		else:
@@ -113,8 +113,8 @@ class Clingo(Algorithm):
 					cost = int(cost*100)
 					self.costfile += "cost({product},{store},{cost}).\n".format(product=x+1,store=y+1,cost=cost) 
 
-		#print self.graphfile
-		#print self.costfile
+		print self.graphfile
+		print self.costfile
 
 		
 

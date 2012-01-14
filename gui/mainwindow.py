@@ -148,6 +148,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 					if original:
 						edge.setVisible(True)
 					if active:
+						edge.text = str(dataInstance.distances.getDistance(i1,i2))
 						edge.setActive(True)
 					if active and not original:
 						edge.setTempActive(True)

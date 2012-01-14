@@ -2,7 +2,7 @@ import random
 from pprint import pprint
 
 n=10
-k=16
+k=14
 priceRange = [5,20]
 variability = 0.2
 density = 0.2

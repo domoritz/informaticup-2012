@@ -48,7 +48,7 @@ class Genetic(Algorithm):
 		self.population = []
 		random.seed(self.options["seed"])
 		self.length = 0
-	
+
 	def __str__(self):
 		str = ""
 		for index,individual in enumerate(self.population):
@@ -79,7 +79,6 @@ class Genetic(Algorithm):
 
 			# how to make children"
 			for p in range(self.options['childrenGroup']):
-				#TODO nicht nur direkte nachbar paaren lassen
 				indiv0 = self.population[2*p][0]
 				indiv1 = self.population[2*p+1][0]
 																						#not first and not last for cut
@@ -97,28 +96,39 @@ class Genetic(Algorithm):
 					self.population[x][0] = self.shorten(self.population[x][0])
 					self.population[x][1] = self.evaluate(self.population[x][0])
 
-			# make catastrophy
-			if not i % self.options['catastrophyAfter']:
-				number = self.options["popsize"] - self.options["childrenGroup"]
-				number = int(number * 0.8)
-				for x in range(number):
-					self.population[x][0] = self.mutuate(self.population[x][0],int(math.ceil(numberCities/4)))
-					self.population[x][1] = self.evaluate(self.population[x][0])
-				self.logger.info("A catastrophy happened")
-			
 			# sort by cost/performance
 			self.sort()
 
+			# make catastrophy
+			if not i % self.options['catastrophyAfter']:
+				number = self.options["popsize"] - self.options["childrenGroup"]
+				number = int(number * 0.7)
+				#lots of mutation
+				for x in range(self.options['popsize'] - number, self.options['popsize']):
+					self.population[x][0] = self.mutuate(self.population[x][0],int(math.ceil(numberCities/4)))
+					self.population[x][1] = self.evaluate(self.population[x][0])
+				#some longer individuals
+				for x in range(self.options['popsize'] - number/5, self.options['popsize']):
+					a = self.population[x][0]
+					if self.problem.getNumberStores() > len(a):
+						self.population[x][0] = a + [0]
+						self.population[x][1] = self.evaluate(a)
+				self.logger.info("A catastrophy happened")
+			
+				# sort by cost/performance
+				self.sort()
+
 			self.logger.debug("\n"+str(self))
 
-			if last == self.population[0][0]:
+			if last == self.population[0][1]:
 				sameCounter += 1
 				if sameCounter >= self.options['stopAfter']:
 					self.logger.warn("Stopped after generation number {num} because there was no change for {iter} iterations.".format(num = i, iter = sameCounter))
 					break
 			else:
 				sameCounter = 0
-			last = self.population[0][0]
+
+			last = self.population[0][1]
 			
 			# yield the best solution so far
 			yield self.helperTransform(self.population[0][0])
