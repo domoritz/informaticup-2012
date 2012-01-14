@@ -129,7 +129,7 @@ class Genetic(Algorithm):
 			if last == self.population[0][1]:
 				sameCounter += 1
 				if sameCounter >= self.options['stopAfter']:
-					self.logger.warn("Stopped after generation number {num} because there was no change for {iter} iterations.".format(num = i, iter = sameCounter))
+					self.logger.info("Stopped after generation number {num} because there was no change for {iter} iterations.".format(num = i, iter = sameCounter))
 					break
 			else:
 				sameCounter = 0
