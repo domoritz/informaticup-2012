@@ -262,12 +262,6 @@
      <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuTools">
-    <property name="title">
-     <string>Tools</string>
-    </property>
-    <addaction name="actionPreferences"/>
-   </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
@@ -279,6 +273,13 @@
     <property name="title">
      <string>Help</string>
     </property>
+    <addaction name="actionHelp"/>
+   </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="actionRun"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuTools"/>
@@ -299,11 +300,6 @@
    <addaction name="actionCancel"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <action name="actionPreferences">
-   <property name="text">
-    <string>Preferences</string>
-   </property>
-  </action>
   <action name="actionOpen">
    <property name="text">
     <string>Open...</string>
@@ -340,6 +336,14 @@
    </property>
    <property name="text">
     <string>Cancel</string>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="text">
+    <string>Help</string>
+   </property>
+   <property name="toolTip">
+    <string>Get help</string>
    </property>
   </action>
  </widget>

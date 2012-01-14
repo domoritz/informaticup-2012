@@ -192,10 +192,10 @@ class Edge(QGraphicsItem):
 		self.setZValue(self.state)
 
 		if self.state == 3:
-			pen = QPen(palette.highlight().color(), 2, Qt.SolidLine,
+			pen = QPen(Qt.red, 2, Qt.SolidLine,
 					  Qt.RoundCap, Qt.RoundJoin)
 		if self.state == 2:
-			pen = QPen(palette.heiglight().color(), 2, Qt.DashLine,
+			pen = QPen(Qt.red, 2, Qt.DashLine,
 					  Qt.RoundCap, Qt.RoundJoin)
 		elif self.state == 1:
 			pen = QPen(palette.windowText().color(), 1, Qt.SolidLine,
@@ -224,7 +224,7 @@ class Edge(QGraphicsItem):
 			destArrowP2 = self.destPoint + QPointF(math.sin(angle - Edge.Pi + Edge.Pi / 3) * self.arrowSize,
 											 math.cos(angle - Edge.Pi + Edge.Pi / 3) * self.arrowSize)
 
-			painter.setBrush(palette.highlight())
+			painter.setBrush(Qt.red)
 			painter.drawPolygon(QPolygonF([line.p1(), sourceArrowP1, sourceArrowP2]))
 			#painter.drawPolygon(QPolygonF([line.p2(), destArrowP1, destArrowP2]))
 
@@ -308,12 +308,12 @@ class Node(QGraphicsItem):
 
 	def boundingRect(self):
 		adjust = 2.0
-		return QRectF(-10 - adjust, -10 - adjust, 23 + adjust,
-				23 + adjust)
+		return QRectF(-15 - adjust, -15 - adjust, 33 + adjust,
+				33 + adjust)
 
 	def shape(self):
 		path = QPainterPath()
-		path.addEllipse(-10, -10, 20, 20)
+		path.addEllipse(-15, -15, 30, 30)
 		return path
 
 	def paint(self, painter, option, widget):
@@ -335,10 +335,11 @@ class Node(QGraphicsItem):
 			gradient.setColorAt(1, palette.dark().color())
 
 		painter.setBrush(QBrush(gradient))
-		painter.setPen(QPen(palette.shadow(), 0))
-		painter.drawEllipse(-10, -10, 20, 20)
+		painter.setPen(QPen(palette.windowText().color(), 0))
+		painter.drawEllipse(-15, -15, 30, 30)
 
-		QGraphicsTextItem(self.text,self)
+		text = QGraphicsTextItem(self.text,self)
+		text.moveBy(-15,-14)
 
 	def itemChange(self, change, value):
 		if change == QGraphicsItem.ItemPositionHasChanged:

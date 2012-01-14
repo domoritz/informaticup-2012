@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '../gui/ui_mainwindow.ui'
 #
-# Created: Fri Jan 13 23:21:34 2012
+# Created: Sat Jan 14 19:30:23 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -131,12 +131,12 @@ class Ui_MainWindow(object):
         self.menubar = QtGui.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 823, 22))
         self.menubar.setObjectName(_fromUtf8("menubar"))
-        self.menuTools = QtGui.QMenu(self.menubar)
-        self.menuTools.setObjectName(_fromUtf8("menuTools"))
         self.menuFile = QtGui.QMenu(self.menubar)
         self.menuFile.setObjectName(_fromUtf8("menuFile"))
         self.menuHelp = QtGui.QMenu(self.menubar)
         self.menuHelp.setObjectName(_fromUtf8("menuHelp"))
+        self.menuTools = QtGui.QMenu(self.menubar)
+        self.menuTools.setObjectName(_fromUtf8("menuTools"))
         MainWindow.setMenuBar(self.menubar)
         self.toolBar = QtGui.QToolBar(MainWindow)
         self.toolBar.setObjectName(_fromUtf8("toolBar"))
@@ -144,8 +144,6 @@ class Ui_MainWindow(object):
         self.statusBar = QtGui.QStatusBar(MainWindow)
         self.statusBar.setObjectName(_fromUtf8("statusBar"))
         MainWindow.setStatusBar(self.statusBar)
-        self.actionPreferences = QtGui.QAction(MainWindow)
-        self.actionPreferences.setObjectName(_fromUtf8("actionPreferences"))
         self.actionOpen = QtGui.QAction(MainWindow)
         self.actionOpen.setObjectName(_fromUtf8("actionOpen"))
         self.actionRun = QtGui.QAction(MainWindow)
@@ -155,9 +153,12 @@ class Ui_MainWindow(object):
         self.actionCancel = QtGui.QAction(MainWindow)
         self.actionCancel.setEnabled(False)
         self.actionCancel.setObjectName(_fromUtf8("actionCancel"))
-        self.menuTools.addAction(self.actionPreferences)
+        self.actionHelp = QtGui.QAction(MainWindow)
+        self.actionHelp.setObjectName(_fromUtf8("actionHelp"))
         self.menuFile.addAction(self.actionOpen)
         self.menuFile.addAction(self.actionQuit)
+        self.menuHelp.addAction(self.actionHelp)
+        self.menuTools.addAction(self.actionRun)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuTools.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
@@ -187,11 +188,10 @@ class Ui_MainWindow(object):
         self.spendings.setText(QtGui.QApplication.translate("MainWindow", "-", None, QtGui.QApplication.UnicodeUTF8))
         self.total.setText(QtGui.QApplication.translate("MainWindow", "-", None, QtGui.QApplication.UnicodeUTF8))
         self.progressGroupBox.setTitle(QtGui.QApplication.translate("MainWindow", "Progress", None, QtGui.QApplication.UnicodeUTF8))
-        self.menuTools.setTitle(QtGui.QApplication.translate("MainWindow", "Tools", None, QtGui.QApplication.UnicodeUTF8))
         self.menuFile.setTitle(QtGui.QApplication.translate("MainWindow", "File", None, QtGui.QApplication.UnicodeUTF8))
         self.menuHelp.setTitle(QtGui.QApplication.translate("MainWindow", "Help", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuTools.setTitle(QtGui.QApplication.translate("MainWindow", "Tools", None, QtGui.QApplication.UnicodeUTF8))
         self.toolBar.setWindowTitle(QtGui.QApplication.translate("MainWindow", "toolBar", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionPreferences.setText(QtGui.QApplication.translate("MainWindow", "Preferences", None, QtGui.QApplication.UnicodeUTF8))
         self.actionOpen.setText(QtGui.QApplication.translate("MainWindow", "Open...", None, QtGui.QApplication.UnicodeUTF8))
         self.actionOpen.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+O", None, QtGui.QApplication.UnicodeUTF8))
         self.actionRun.setText(QtGui.QApplication.translate("MainWindow", "Run", None, QtGui.QApplication.UnicodeUTF8))
@@ -201,5 +201,7 @@ class Ui_MainWindow(object):
         self.actionQuit.setToolTip(QtGui.QApplication.translate("MainWindow", "Quit application", None, QtGui.QApplication.UnicodeUTF8))
         self.actionQuit.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+Q", None, QtGui.QApplication.UnicodeUTF8))
         self.actionCancel.setText(QtGui.QApplication.translate("MainWindow", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionHelp.setText(QtGui.QApplication.translate("MainWindow", "Help", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionHelp.setToolTip(QtGui.QApplication.translate("MainWindow", "Get help", None, QtGui.QApplication.UnicodeUTF8))
 
 from gui.graphWidget import GraphWidget
