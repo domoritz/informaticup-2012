@@ -36,15 +36,15 @@ class OpenDialog(QDialog, Ui_OpenDialog):
 
 
 	def selectDistances(self):
-		self.runOpenFileDialog(self.distancesFileEdit)
+		self.runOpenFileDialog(self.distancesFileEdit, self.tr("Open Distances File"))
 
 	def selectPrices(self):
-		self.runOpenFileDialog(self.pricesFileEdit)
+		self.runOpenFileDialog(self.pricesFileEdit, self.tr("Open Prices File"))
 
-	def runOpenFileDialog(self, edit):
+	def runOpenFileDialog(self, edit, text = 'Select file'):
 		last = edit.text()
 		edit.setText(QFileDialog.getOpenFileName (self, 
-			self.tr('Select file'), # caption
+			text, # caption
 			os.path.abspath(str(last)), #caption
 			))
 
