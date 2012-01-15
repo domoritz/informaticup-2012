@@ -12,7 +12,7 @@ class DataDistances(DataMatrix):
 		return self.generateFullGraph()
 	
 	def generateFullGraph(self):
-		"""Floyd-Worshall alorithm used for finding the shortest paths"""
+		"""Floyd-Warshall alorithm used for finding the shortest paths"""
 		self.shortestDistances = []
 		self.shortestPaths = []
 		addNumbersNone = lambda x, y: x + y if x != None and y != None else None
