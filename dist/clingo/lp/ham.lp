@@ -1,22 +1,17 @@
 % Generate
 selected(0).
 { selected(X) } :- node(X).
-1 { cycle(X,Y) : edge(X,Y) } 1 :- selected(X).
-1 { cycle(X,Y) : edge(X,Y) } 1 :- selected(Y).
+1 { cycle(X,Y) : edge(X,Y) } 1 :- selected(X). % outgoing
+1 { cycle(X,Y) : edge(X,Y) } 1 :- selected(Y). % incoming
 
 % Define
-:- cycle(X,Y), cycle(Z,Y), Z!=X.
-:- cycle(X,Y), cycle(X,Z), Y!=Z.
-%1 { reached(0) } 1 :- selected(X).
+:- cycle(X,Y), cycle(Z,Y), Z!=X. % just a single outgoing
+:- cycle(X,Y), cycle(X,Z), Y!=Z. % just a single incoming
 
 canReach(X,Y) :- cycle(X,Y).
 canReach(X,Y) :- cycle(X,Z), canReach(Z,Y).
-:- not canReach(0,0).
-:- not canReach(0,X), selected(X).
-
-%reached(0).
-%reached(Y) :- cycle(X,Y), reached(X).
-%:- selected(X), not reached(X).
+:- not canReach(0,0). % there has to be a cycle from 0 to 0
+:- not canReach(0,X), selected(X). % every selected node has to be reachable
 
 cost(P,C) :- cost(P,Y,C).
 selected_costs(P,C) :- selected(Y), cost(P,Y,C).
