@@ -1,0 +1,30 @@
+\section{Installation}
+Windows-Nutzer können weitgehende Installationsschritte durch die Verwendung unserer \emph{Windows One-Click Distribution} in der beigelegten Datei \texttt{shoppingtour-w32.zip} vermeiden. Hierzu wird diese Datei in einen beliebigen Ordner entpackt und die enthaltene \texttt{shoppingtour.exe}-Datei ausgeführt.
+
+Da dieses Projekt ausschließlich in der plattformunabhängigen Skriptsprache \emph{Python} geschrieben wurde, ist eine Distribution auf fast alle Betriebssysteme möglich. Notwendige Voraussetzung hierfür ist jedoch, dass die im Projekt verwendeten notwendigen Bibliotheken für das Zielsystem verfügbar sind. Da dies meist nur für verbreitete Betriebssysteme der Fall ist, können wir eine Lauffähigkeit zum aktuellen Zeitpunkt nur für \emph{Microsoft Windows} (2000, XP, Vista, 7, 8 Developer Preview), \emph{Apple Mac OS X} (>= 10.4) und \emph{Linux} (Kernel 2.6/3.0, insbesondere Distributionen ''Debian'', ''Ubuntu'' und ''Gentoo'') garantieren.
+
+Im Folgenden werden die notwendigen Softwarepakete aufgeführt, die für die Verwendung von \emph{ShoppingTour} erforderlich sind.
+
+\subsection{ShoppingTour}
+\url{http://www.myhpi.de/~kai.fabian/shoppingtour/}
+
+ShoppingTour benötigt keine Installation und kann nach dem Entpacken in ein beliebiges Verzeichnis, welches das Ausführen von Anwendungen erlaubt, verwendet werden.
+
+\subsection{Python 2.7}
+\url{http://www.python.org/}
+
+Als Interpreter für die verwendete Programmiersprache empfehlen wir die Referenzimplementierung \emph{CPython} in der \emph{Version 2.7}, wobei auch andere kompatible Python-Implementierungen verwendbar sein sollten, solange die weiteren Abhängigkeiten Kompatibilität zu diesen aufweisen.
+
+Bezüglich der Python-Prozessorarchitekturen konnten die Intel 32-bit-Architektur (x86) sowie die AMD 64-bit-Architektur (x64) erfolgreich erprobt werden.
+
+\subsection{PyQt 4.9}
+\url{http://www.riverbankcomputing.co.uk/software/pyqt/download}
+
+Das Benutzer-Interface verwendet Nokias Qt-Bibliothek. Die hierfür notwendigen Python-Bindungen werden durch Riverbank Computing Limited bereitgestellt. Für Windows existieren vorkompilierte Pakete, während Linux- und Mac-Nutzer die Bibliothek selbst kompilieren müssen, sofern nicht bereits vorgefertigte Pakete für das Betriebssystem existieren (bspw. das Paket \texttt{py27-pyqt4} für Mac OS X unter Verwendung von MacPorts).
+
+Anzumerken ist hierbei, dass zur Verwendung (und eventuellen manuellen Übersetzung) der PyQt-Bibliothek Nokias Qt-Bibliothek neben weiteren Abhängigkeiten (hierzu sei an die Seiten des PyQt-Distributors verwiesen) auf dem System vorhanden sein müssen.
+
+\subsection{Clingo (part of Potassco)}
+\url{http://potassco.sourceforge.net/}
+
+Das von der Universität Potsdam gepflegte Potassco-Projekt stellt Softwarewerkzeuge für ASP-Programmierung (Answer Set Programmung) bereit. \emph{ShoppingTour} verwendet \emph{Clingo}, welches die Verbindung von clasp, einem Lösungsproblem für logische PRobleme, und Gringo, einem Konvertierer zur Erzeugung von variablen-freien logischen Problembeschreibungen, darstellt. Vorkompilierte Binärdateien für Windows, Mac OS/Darwin und Linux sind von der Anbieterseite ebenso zu erhalten wie der Software-Quellcode.
