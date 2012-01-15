@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>823</width>
-    <height>572</height>
+    <height>608</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -259,7 +259,7 @@
      <x>0</x>
      <y>0</y>
      <width>823</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -291,6 +291,9 @@
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextUnderIcon</enum>
+   </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
    </attribute>
@@ -303,19 +306,30 @@
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionOpen">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/open.png</normaloff>:/icons/open.png</iconset>
+   </property>
    <property name="text">
     <string>Open...</string>
+   </property>
+   <property name="toolTip">
+    <string>Open problem description</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
    </property>
   </action>
   <action name="actionRun">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/run.png</normaloff>:/icons/run.png</iconset>
+   </property>
    <property name="text">
     <string>Run</string>
    </property>
    <property name="toolTip">
-    <string>run the calculation</string>
+    <string>Run the calculation</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
@@ -336,8 +350,15 @@
    <property name="enabled">
     <bool>false</bool>
    </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/cancel.png</normaloff>:/icons/cancel.png</iconset>
+   </property>
    <property name="text">
     <string>Cancel</string>
+   </property>
+   <property name="toolTip">
+    <string>Cancel calculation</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+C</string>
@@ -376,7 +397,9 @@
    <header>gui.graphWidget</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>actionQuit</sender>

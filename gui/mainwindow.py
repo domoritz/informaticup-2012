@@ -68,7 +68,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.drawCities(self.positionCities.positions, self.dataInstance)
 
 	def closeEvent(self, event):
-		self.logger.info("Closing App")
+		self.logger.debug("Closing App")
 		if self.helpDialog:
 			self.helpDialog.close()
 		if self.openDialog:
