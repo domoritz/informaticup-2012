@@ -167,12 +167,13 @@ class Genetic(Algorithm):
 	def mutuate(self, solution, times = 1):
 		"""mutuates an individual"""
 		length = len(solution)
-		randomGene = range(0, length)
-		random.shuffle(randomGene)
-		for x in range(times):
-			whichGene = randomGene[x]
-			solution[whichGene] = random.randint(0,(length - 1)-whichGene)
-		return solution
+		if times < length:
+			randomGene = range(0, length)
+			random.shuffle(randomGene)
+			for x in range(times):
+				whichGene = randomGene[x]
+				solution[whichGene] = random.randint(0,(length - 1)-whichGene)
+			return solution
 
 	def shorten(self, solution):
 		"""

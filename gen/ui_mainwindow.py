@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '../gui/ui_mainwindow.ui'
 #
-# Created: Sun Jan 15 18:42:57 2012
+# Created: Sun Jan 15 20:22:19 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -149,11 +149,13 @@ class Ui_MainWindow(object):
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/icons/open.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionOpen.setIcon(icon)
+        self.actionOpen.setIconVisibleInMenu(False)
         self.actionOpen.setObjectName(_fromUtf8("actionOpen"))
         self.actionRun = QtGui.QAction(MainWindow)
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/icons/run.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionRun.setIcon(icon1)
+        self.actionRun.setIconVisibleInMenu(False)
         self.actionRun.setObjectName(_fromUtf8("actionRun"))
         self.actionQuit = QtGui.QAction(MainWindow)
         self.actionQuit.setObjectName(_fromUtf8("actionQuit"))
@@ -162,6 +164,7 @@ class Ui_MainWindow(object):
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap(_fromUtf8(":/icons/cancel.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionCancel.setIcon(icon2)
+        self.actionCancel.setIconVisibleInMenu(False)
         self.actionCancel.setObjectName(_fromUtf8("actionCancel"))
         self.actionHelp = QtGui.QAction(MainWindow)
         self.actionHelp.setObjectName(_fromUtf8("actionHelp"))
@@ -182,7 +185,7 @@ class Ui_MainWindow(object):
         self.toolBar.addAction(self.actionCancel)
 
         self.retranslateUi(MainWindow)
-        QtCore.QObject.connect(self.actionQuit, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), MainWindow.close)
+        QtCore.QObject.connect(self.actionQuit, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.close)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

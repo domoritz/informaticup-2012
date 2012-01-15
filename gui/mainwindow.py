@@ -23,8 +23,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 		self.loadSettings()
 
-		#self.graphicsView = QGraphicsView(self.splitter)
-
 		self.openDialog = None
 		self.helpDialog = None
 		self.dataInstance = None
