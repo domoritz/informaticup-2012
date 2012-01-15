@@ -28,7 +28,7 @@ if sys.platform == "win32":
 	setup(
 		windows=[{
 			"script": "__main__.py",
-			"icon_resources": [(1, "icon-draft.ico")],
+			"icon_resources": [(0, "icon-draft.ico"), (1, "icon-draft.ico"), (48, "icon-draft.ico")],
 		}],
 		data_files = 
 			all_files("dist") +
