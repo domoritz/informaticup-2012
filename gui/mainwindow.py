@@ -42,10 +42,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.progressGroupBox.setVisible(False)
 
 		self.args = args
-		if args.input:
-			ret = self.open()
-			if ret == QDialog.Accepted:
-				self.run()
+		if args.input and args.algorithm:
+			self.run()
 
 	def open(self):
 		if self.openDialog is None:

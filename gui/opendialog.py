@@ -24,7 +24,7 @@ class OpenDialog(QDialog, Ui_OpenDialog):
 		if args:
 			self.readArgs(args)
 			if args.input:
-				self.accept()
+				self.done(QDialog.Accepted)
 
 	def readArgs(self, args):
 		if args.input and args.input:
