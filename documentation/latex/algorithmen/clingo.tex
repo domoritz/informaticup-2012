@@ -2,6 +2,13 @@
 
 Clingo ist Programm, das ähnlich wie Prolog Logische Probleme löst. Zum Verständnis dieses Abschnitts sind Grundlagen aus der Logikprogrammierung und KI erforderlich. Unabhängig vom Verständnis des Programms ist festzustellen, dass mit dieser Lösung Optimalität garantiert werden kann und gleichzeitig relativ kurz gerechnet wird. 
 
+Das Eingabeformat von Clingo (bzw in diesem Fall Gringo) ähnelt dem von Prolog, wobei die Syntax erweitert wurde und auch Minimierungskriterien ermöglicht. Da die Programmbeschreibung von Clingo keine induktive wie Python, C++ oder Java ist, müssen auch andere Paradigmen angewendet werden. 
+
 Clingo steht für \emph{clasp on Gringo} und kombiniert dadurch die beiden Systeme zu einem einfach zu verwendenden Programm. \emph{clasp} ist ein Problemlöser für erweiterte Logikprobleme. Es kombiniert abstrakte Modellierungsmöglichkeiten des \emph{answer set programming (ASP)} mit aktuellen lösungsalgorithmen aus dem Bereich des boolschen Constraint-Lösens. Dabei werden besonders die sehr effizienten konfliktgetriebenen Nachbarschaftssuchen verwendet. Dies ist eine Technik die sich in der Vergangenheit als sehr effizient herausgestellt hat. Clasp hängt dabei nicht von bestehenden Programmen ab sondern wurde von Grund auf neu entwickelt. Da clasp variablenfrei arbeitet, wird ein grounder benötigt, der eine bestehende Problemrepräsentation in eine gegroundete Version umwandelt. Ein solcher grounder ist Gringo. 
 
-Für uns von Interesse sind allerdings weniger die technischen Details, als die tatsächliche Nutzbarkeit von Clingo auf unser Problem. 
+Für uns von Interesse sind allerdings weniger die technischen Details, als die tatsächliche Nutzbarkeit von Clingo für unser Problem. Da Clingo einen besonderen Teil unseres Programms darstellt, haben wir die leicht verständliche Dokumentation mit angefügt (\texttt{clingo_guide.pdf}).
+
+Unsere Problembeschreibung besteht aus vier Teilen. Der erste Teil ist die Definition des Graphs, wobei diese in Abhängigkeit vom Problem automatisch generiert wird. Ein beispiel kann so aussehen.
+
+\lstinputlisting{graph.lp}
+
