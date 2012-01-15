@@ -35,6 +35,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.connect(self.actionRun, SIGNAL('triggered(bool)'), self.run)
 		self.connect(self.actionCancel, SIGNAL('triggered(bool)'), self.cancel)
 		self.connect(self.actionHelp, SIGNAL('triggered(bool)'), self.help)
+		self.connect(self.actionElasticEdges, SIGNAL('toggled(bool)'), self.makeElastic)
 
 		self.nodes = []
 		self.edges = {}
@@ -203,6 +204,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.nodes.append(node)
 			scene.addItem(node)
 
+		for cityIndex in range(len(positions)):
+			self.nodes[cityIndex].setPos(positions[cityIndex][0], positions[cityIndex][1])
+
 		for i1,city1 in enumerate(self.nodes):
 			for i2,city2 in enumerate(self.nodes):
 				if i1 != i2:
@@ -211,11 +215,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 					self.edges[(i1,i2)] = edge
 					scene.addItem(edge)
 
-		for cityIndex in range(len(positions)):
-			self.nodes[cityIndex].setPos(positions[cityIndex][0], positions[cityIndex][1])
-
 		self.graphicsView.setScene(scene)
 		self.updateCities(dataInstance,solution)
 
 		self.graphicsView.fitInView(self.graphicsView.sceneRect(),1)
 		self.graphicsView.scale(0.9,0.9)
+
+	def makeElastic(self, value = True):
+		self.graphicsView.makeElastic(value)

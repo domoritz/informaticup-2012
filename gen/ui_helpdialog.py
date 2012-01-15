@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '../gui/ui_helpdialog.ui'
 #
-# Created: Sat Jan 14 19:30:23 2012
+# Created: Sun Jan 15 01:36:01 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,11 +17,11 @@ except AttributeError:
 class Ui_HelpDialog(object):
     def setupUi(self, HelpDialog):
         HelpDialog.setObjectName(_fromUtf8("HelpDialog"))
-        HelpDialog.resize(502, 408)
+        HelpDialog.resize(620, 519)
         self.verticalLayout = QtGui.QVBoxLayout(HelpDialog)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
         self.textBrowser = QtGui.QTextBrowser(HelpDialog)
-        self.textBrowser.setMinimumSize(QtCore.QSize(478, 344))
+        self.textBrowser.setMinimumSize(QtCore.QSize(596, 344))
         self.textBrowser.setObjectName(_fromUtf8("textBrowser"))
         self.verticalLayout.addWidget(self.textBrowser)
         self.buttonBox = QtGui.QDialogButtonBox(HelpDialog)
@@ -62,9 +62,12 @@ class Ui_HelpDialog(object):
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; font-weight:600;\">mutation</span><span style=\" font-size:12pt;\">:        Probability of mutuation (higher means faster but less accurate).</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; font-weight:600;\">shortening</span><span style=\" font-size:12pt;\">:        Probability of shortening solution. </span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; font-weight:600;\">maxGenerations</span><span style=\" font-size:12pt;\">:     Maximum number of generations to be crated by python </span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">        generator (higher is better but needs more time and is sometimes unnecessary).</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; font-weight:600;\">stopAfter</span><span style=\" font-size:12pt;\">:        How many generations with same solution before algorithm should stop</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; font-weight:600;\">catastrophyAfter</span><span style=\" font-size:12pt;\">:     When a catastrophy should happen that mutates a lot of individuals</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">        generator (higher is better but needs more time and is </span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">        sometimes unnecessary).</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; font-weight:600;\">stopAfter</span><span style=\" font-size:12pt;\">:        How many generations with same solution before algorithm </span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">        should stop</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; font-weight:600;\">catastrophyAfter</span><span style=\" font-size:12pt;\">:     When a catastrophy should happen that mutates </span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">        a lot of individuals</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; font-weight:600;\">seed</span><span style=\" font-size:12pt;\">:        Seed for python random. If this stays the same, the result will </span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">        always be the same. Use None in order to get random.</span></p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt;\"></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))

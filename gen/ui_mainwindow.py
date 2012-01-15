@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '../gui/ui_mainwindow.ui'
 #
-# Created: Sun Jan 15 00:03:07 2012
+# Created: Sun Jan 15 01:31:43 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -42,7 +42,7 @@ class Ui_MainWindow(object):
         self.graphicsView.setDragMode(QtGui.QGraphicsView.ScrollHandDrag)
         self.graphicsView.setCacheMode(QtGui.QGraphicsView.CacheBackground)
         self.graphicsView.setResizeAnchor(QtGui.QGraphicsView.AnchorUnderMouse)
-        self.graphicsView.setViewportUpdateMode(QtGui.QGraphicsView.FullViewportUpdate)
+        self.graphicsView.setViewportUpdateMode(QtGui.QGraphicsView.SmartViewportUpdate)
         self.graphicsView.setObjectName(_fromUtf8("graphicsView"))
         self.verticalLayoutWidget = QtGui.QWidget(self.splitter)
         self.verticalLayoutWidget.setObjectName(_fromUtf8("verticalLayoutWidget"))
@@ -155,10 +155,14 @@ class Ui_MainWindow(object):
         self.actionCancel.setObjectName(_fromUtf8("actionCancel"))
         self.actionHelp = QtGui.QAction(MainWindow)
         self.actionHelp.setObjectName(_fromUtf8("actionHelp"))
+        self.actionElasticEdges = QtGui.QAction(MainWindow)
+        self.actionElasticEdges.setCheckable(True)
+        self.actionElasticEdges.setObjectName(_fromUtf8("actionElasticEdges"))
         self.menuFile.addAction(self.actionOpen)
         self.menuFile.addAction(self.actionQuit)
         self.menuHelp.addAction(self.actionHelp)
         self.menuTools.addAction(self.actionRun)
+        self.menuTools.addAction(self.actionElasticEdges)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuTools.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
@@ -203,5 +207,8 @@ class Ui_MainWindow(object):
         self.actionCancel.setText(QtGui.QApplication.translate("MainWindow", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
         self.actionHelp.setText(QtGui.QApplication.translate("MainWindow", "Help", None, QtGui.QApplication.UnicodeUTF8))
         self.actionHelp.setToolTip(QtGui.QApplication.translate("MainWindow", "Get help", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionElasticEdges.setText(QtGui.QApplication.translate("MainWindow", "Elastic Edges", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionElasticEdges.setToolTip(QtGui.QApplication.translate("MainWindow", "Make the edges in the graphics view elastic", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionElasticEdges.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+E", None, QtGui.QApplication.UnicodeUTF8))
 
 from gui.graphWidget import GraphWidget

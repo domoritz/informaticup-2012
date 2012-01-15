@@ -1,6 +1,51 @@
-from PyQt4.QtCore import QString, Qt, SIGNAL, SLOT, QRectF, QPointF, QStringList, QRectF, QLineF, qAbs, QSizeF
+from PyQt4.QtCore import QString, Qt, SIGNAL, SLOT, QRectF, QPointF, QStringList, QRectF, QLineF, qAbs, QSizeF, qrand
 from PyQt4.QtGui import *
 import math
+
+#############################################################################
+##
+## INSPIRED BY: elastic.py from the example of PyQt
+##
+#############################################################################
+##
+## Copyright (C) 2010 Riverbank Computing Limited.
+## Copyright (C) 2010 Nokia Corporation and/or its subsidiary(-ies).
+## All rights reserved.
+##
+## This file is part of the examples of PyQt.
+##
+## $QT_BEGIN_LICENSE:BSD$
+## You may use this file under the terms of the BSD license as follows:
+##
+## "Redistribution and use in source and binary forms, with or without
+## modification, are permitted provided that the following conditions are
+## met:
+##   * Redistributions of source code must retain the above copyright
+##     notice, this list of conditions and the following disclaimer.
+##   * Redistributions in binary form must reproduce the above copyright
+##     notice, this list of conditions and the following disclaimer in
+##     the documentation and/or other materials provided with the
+##     distribution.
+##   * Neither the name of Nokia Corporation and its Subsidiary(-ies) nor
+##     the names of its contributors may be used to endorse or promote
+##     products derived from this software without specific prior written
+##     permission.
+##
+## THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+## "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+## LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+## A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+## OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+## SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+## LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+## DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+## THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+## (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+## OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+## $QT_END_LICENSE$
+##
+#############################################################################
+
 
 class GraphWidget(QGraphicsView):
 	def __init__(self, parent):
@@ -9,6 +54,8 @@ class GraphWidget(QGraphicsView):
 		self.timerId = 0
 
 		self.scale(0.9, 0.9)
+
+		self.elastic = False
 
 	def itemMoved(self):
 		if not self.timerId:
@@ -40,20 +87,24 @@ class GraphWidget(QGraphicsView):
 		if not self.timerId:
 			self.timerId = self.startTimer(1000 / 25)
 
+	def makeElastic(self, value = True):
+		self.elastic = value
+
 	def timerEvent(self, event):
-		"""nodes = [item for item in self.scene().items() if isinstance(item, Node)]
+		if self.elastic:
+			nodes = [item for item in self.scene().items() if isinstance(item, Node)]
 
-		for node in nodes:
-			node.calculateForces()
+			for node in nodes:
+				node.calculateForces()
 
-		itemsMoved = False
-		for node in nodes:
-			if node.advance():
-				itemsMoved = True
+			itemsMoved = False
+			for node in nodes:
+				if node.advance():
+					itemsMoved = True
 
-		if not itemsMoved:
-			self.killTimer(self.timerId)
-			self.timerId = 0"""
+			if not itemsMoved:
+				self.killTimer(self.timerId)
+				self.timerId = 0
 
 	def wheelEvent(self, event):
 		self.scaleView(math.pow(2.0, -event.delta() / 240.0))
@@ -110,6 +161,13 @@ class Edge(QGraphicsItem):
 
 		self.state = state
 		self.text = text
+
+		line = QLineF(sourceNode.pos(), destNode.pos())
+		self.weight = line.length()
+
+	def __len__(self):
+		line = QLineF(self.sourceNode().pos(), self.destNode().pos())
+		return line.length() 
 
 	def type(self):
 		return Edge.Type
@@ -280,7 +338,7 @@ class Node(QGraphicsItem):
 				continue
 
 			line = QLineF(self.mapFromItem(item, 0, 0),
-				 QPointF(0, 0))
+						QPointF(0, 0))
 			dx = line.dx()
 			dy = line.dy()
 			l = 2.0 * (dx * dx + dy * dy)
@@ -289,11 +347,12 @@ class Node(QGraphicsItem):
 				yvel += (dy * 150.0) / l
 
 		# Now subtract all forces pulling items together.
-		weight = (len(self.edgeList) + 1) * 10.0
+		#weight = (len(self.edgeList) + 1) * 100.0
 		for edge in self.edgeList:
 			if edge.sourceNode() is self:
 				pos = self.mapFromItem(edge.destNode(), 0, 0)
 			else:
+				weight = edge.weight*6
 				pos = self.mapFromItem(edge.sourceNode(), 0, 0)
 				xvel += pos.x() / weight
 				yvel += pos.y() / weight
