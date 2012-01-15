@@ -1,4 +1,4 @@
-from PyQt4.QtCore import QThread, Qt, SIGNAL, SLOT, QRectF, QPointF
+from PyQt4.QtCore import QThread, Qt, SIGNAL, SLOT, QRectF, QPointF, QCoreApplication, QEventLoop
 from PyQt4.QtGui import *
 import time
 
@@ -19,6 +19,7 @@ class AlgorithmThread(QThread):
 		self.dataInstance  = dataInstance
 		self.algorithm = algorithm
 		self.options = options
+		self.parent = parent
 
 		self.logger = logging.getLogger('shoppingtour')
 
@@ -33,10 +34,14 @@ class AlgorithmThread(QThread):
 		solution = None
 
 		for count,i in enumerate(algo.generate()):
+			if not count%100:
+				QCoreApplication.processEvents(QEventLoop.AllEvents,100)
+				time.sleep(0.05)
 			if solution != i:
-				time.sleep(0.1)
 				self.logger.debug("improvement")
 				solution = i
 				self.emit(SIGNAL('nextSolution(QVariantList)'), i)
+				time.sleep(0.1)
+				QCoreApplication.processEvents(QEventLoop.AllEvents,100)
 
 		self.emit(SIGNAL('lastSolution(QVariantList)'), i)

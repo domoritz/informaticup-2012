@@ -1,4 +1,4 @@
-from PyQt4.QtCore import QString, Qt, SIGNAL, SLOT, QRectF, QPointF
+from PyQt4.QtCore import QString, Qt, SIGNAL, SLOT, QRectF, QPointF, QTimer
 from PyQt4.QtGui import *
 from gen.ui_opendialog import Ui_OpenDialog
 from helpers.qt import Settings as QSettings
@@ -24,7 +24,7 @@ class OpenDialog(QDialog, Ui_OpenDialog):
 		if args:
 			self.readArgs(args)
 			if args.input:
-				self.accept()
+				QTimer.singleShot(0, self.accept)
 
 	def readArgs(self, args):
 		if args.input and args.input:
