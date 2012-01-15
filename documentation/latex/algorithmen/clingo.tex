@@ -14,7 +14,7 @@ Unsere Problembeschreibung besteht aus vier Teilen. Der erste Teil ist die Defin
 
 \lstinputlisting{algorithmen/graph.lp}
 
-Der zweite Teil ist die Definition der Kosten ,die ebenfalls automatisch generiert wird. Dabei werden die Pfadkosten E für die Reise von X nach Y als \texttt{expenses(X,Y,E)} und die Produktkosten C des Produkts P im Shop X als \texttt{cost(P,X,C)} dargestellt. \texttt{expenses(X,Y,E) :− expenses(Y,X,E).} definiert die Rückrichtung der Kanten. Kosten werden allgemein in Teilen von 100 Repräsentiert um Fließkommaoperationen zu verhindern. 
+Der zweite Teil ist die Definition der Kosten ,die ebenfalls automatisch generiert wird. Dabei werden die Pfadkosten E für die Reise von X nach Y als \texttt{expenses(X,Y,E)} und die Produktkosten C des Produkts P im Shop X als \texttt{cost(P,X,C)} dargestellt. \texttt{expenses(X,Y,E) :- expenses(Y,X,E).} definiert die Rückrichtung der Kanten. Kosten werden allgemein in Teilen von 100 Repräsentiert um Fließkommaoperationen zu verhindern. 
 
 \lstinputlisting{algorithmen/cost.lp}
 
