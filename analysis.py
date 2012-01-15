@@ -22,7 +22,11 @@ logger.addHandler(stderrHandler)
 oprint = print
 
 n=8
+if len(sys.argv) > 1:
+	n = int(sys.argv[1])
 k=10
+if len(sys.argv) > 2:
+	k = int(sys.argv[2])
 distRange = [10,100]
 ddensity = 0.3
 
