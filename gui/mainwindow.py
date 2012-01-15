@@ -142,7 +142,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 	def showShoppingList(self, solution):
 		self.shoppingTree.clear()
 		shoppingList = self.dataInstance.getShoppingList(solution)
-		for store in shoppingList:
+		for store in solution:
+			if store not in shoppingList:
+				continue
 			storeName = self.dataInstance.storeIndexToName[store]
 			rootItem = QTreeWidgetItem(self.shoppingTree,QStringList([storeName,"","",""]))
 			for item,quantity,originalPrice in shoppingList[store]:
@@ -167,7 +169,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		
 			old = solution[-1]
 			for i in solution:
-				usedWays.append((old, i))
+				usedWays.append((i, old))
 				old = i
 
 		for edge in self.edges:
