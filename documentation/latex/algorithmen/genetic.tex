@@ -1,4 +1,4 @@
-\subsection{Genetischer Algorithmus}
+﻿\subsection{Genetischer Algorithmus}
 
 Beim vorliegenden Problem handelt es sich um eine leicht modifizierte Variante des TSP. Genetische Algorithmen lassen sich leicht auf das TSP-Problem anwenden. Genetische Algorithmen sind recht bekannt, deshalb wollen wir an dieser Stelle nur auf die Besonderheiten unserer Implementierung eingehen.
 
@@ -11,4 +11,6 @@ Mutation tritt auf einem bestimmten Individuum mit einer bestimmten Wahrscheinli
 Eine Besonderheit in unserem genetischen Algorithmus ist das Auftreten von \emph{Katastrophen}. Bei einer Katastrophe wird eine große Anzahl an Individuen durch Mutation verändert, während die \emph{normale} Mutation nur sehr wenige Individuen betrifft. Das führt zwar dazu, dass unmittelbar nach der Mutation die Individuen insgesamt schlechter werden. Allerdings konnten wir feststellen, dass die endgültige Lösung dadurch etwas besser wird. 
 
 Die Abbruchbedingung unseres genetischen Algorithmus ist das Durchlaufen einer großen Anzahl von Iterationen (Generationen), ohne dass ein besseres Individuum gefunden wurde. Der Vorteil gegenüber einer festen Anzahl an Iterationen liegt darin, dass der Algorithmus auch bei größeren Probleminstanzen gut funktioniert.
+
+Der Code zum genetischen Algorithmus befindet sich in der Klasse \texttt{Genetic} in der Datei \texttt{program\_genetic.py}.
 

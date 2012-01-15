@@ -1,4 +1,4 @@
-% Nodes
+﻿% Nodes
 node(0..3).
 
 % (Directed) Edges

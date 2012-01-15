@@ -2,6 +2,7 @@ from data.dataInstance import DataInstance
 from program.algorithm import Algorithm
 from program.settings import settings
 import random, math
+import sys
 
 class Genetic(Algorithm):
 	""" 
@@ -37,6 +38,13 @@ class Genetic(Algorithm):
 		self.population = []
 		random.seed(self.options["seed"])
 		self.length = 0
+		self.preprocess()
+
+	def preprocess(self):
+		for data in self.problem.distances.data:
+			for j, data2 in enumerate(data):
+				if data2 is None:
+					data[j] = sys.maxint
 
 	def __str__(self):
 		str = ""
