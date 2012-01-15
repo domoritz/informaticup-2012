@@ -33,6 +33,6 @@ if sys.platform == "win32":
 		data_files = 
 			all_files("dist") +
 			all_files("assets") + 
-			all_files("documentation") +
+			# all_files("documentation") +
 			all_files("sample_data")
 	)
