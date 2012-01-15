@@ -14,7 +14,7 @@ algorithms = {
 
 class AlgorithmThread(QThread):
 
-	def __init__(self, dataInstance, algorithm, options):
+	def __init__(self, dataInstance, algorithm, options, parent):
 		QThread.__init__(self, parent)
 		self.dataInstance  = dataInstance
 		self.algorithm = algorithm
@@ -34,16 +34,12 @@ class AlgorithmThread(QThread):
 		solution = None
 
 		for count,i in enumerate(algo.generate()):
-			if not count%100:
-				#QCoreApplication.processEvents(QEventLoop.AllEvents,100)
-				parent.repaint()
-				#time.sleep(0.05)
+			if not count%200:
+				time.sleep(0.05)
 			if solution != i:
 				self.logger.debug("improvement")
 				solution = i
 				self.emit(SIGNAL('nextSolution(QVariantList)'), i)
-				#time.sleep(0.05)
-				parent.repaint()
-				#QCoreApplication.processEvents(QEventLoop.AllEvents,100)
+				time.sleep(0.05)
 
 		self.emit(SIGNAL('lastSolution(QVariantList)'), i)
