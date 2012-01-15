@@ -6,5 +6,7 @@ Nachdem wir verschiedene Metaheurstiken wie \emph{Simulierte Abkühlung}, \emph{
 
 Da Meteheuristiken zwar oft sehr gute und manchmal auch optimale Lösungen finden können, aber diese nicht garantieren oder auch nur nachweisen können, haben wir einen weiteren Algorithmus implementiert. Das Problem der Optimalität liegt darin, dass Metaheuristiken mit Zufall arbeiten und den Suchraum nicht vollständig absuchen. Da das Problem aus der Aufgabenstellung NP-Schwer ist und selbst der Nachweis der Optimalität nicht trivial ist, kann es passieren, dass eine Metaheuristik nur eine unzureichend gute Lösung findet. Die Nutzung von Clingo ermöglicht es uns, in relativ kurzer Zeit sehr gute Lösungen zu finden und bei der letzten Lösung auch Optimalität zu garantieren! Damit ist unser Programm in diesem Punkt allen Implementierungen die nur auf Metaheuristiken aufbauen (wie auch unser genetischer Algorithmus), überlegen.
 
+Bei der Implementierung haben wir darauf geachtet, dass die Algorithmen als Generatoren/ Iteratoren implementiert sind. Das heißt, es kann ganz einfach von einer Lösung zu einer weiteren gewechselt werden. Des Weiteren kann die Fortsetzung leicht verzögert oder sogar abgebrochen werden.
+
 \input{algorithmen/clingo}
 \input{algorithmen/genetic}

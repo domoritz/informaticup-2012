@@ -1,14 +1,29 @@
 \subsection{ASP solver clingo}
 
-Clingo ist Programm, das ähnlich wie Prolog Logische Probleme löst. Zum Verständnis dieses Abschnitts sind Grundlagen aus der Logikprogrammierung und KI erforderlich. Unabhängig vom Verständnis des Programms ist festzustellen, dass mit dieser Lösung Optimalität garantiert werden kann und gleichzeitig relativ kurz gerechnet wird. 
+Clingo ist Programm, das ähnlich wie Prolog Logische Probleme löst. Zum vollständigen Verständnis dieses Abschnitts sind Grundlagen aus der Logikprogrammierung und KI erforderlich. Unabhängig vom Verständnis des Programms ist festzustellen, dass mit dieser Lösung Optimalität garantiert werden kann und gleichzeitig relativ kurz gerechnet wird. 
+
+Die Stelle im Programm, an der die Implementierung zu finden ist, lautet \texttt{program/clingo.py}.
 
 Das Eingabeformat von Clingo (bzw in diesem Fall Gringo) ähnelt dem von Prolog, wobei die Syntax erweitert wurde und auch Minimierungskriterien ermöglicht. Da die Programmbeschreibung von Clingo keine induktive wie Python, C++ oder Java ist, müssen auch andere Paradigmen angewendet werden. 
 
 Clingo steht für \emph{clasp on Gringo} und kombiniert dadurch die beiden Systeme zu einem einfach zu verwendenden Programm. \emph{clasp} ist ein Problemlöser für erweiterte Logikprobleme. Es kombiniert abstrakte Modellierungsmöglichkeiten des \emph{answer set programming (ASP)} mit aktuellen lösungsalgorithmen aus dem Bereich des boolschen Constraint-Lösens. Dabei werden besonders die sehr effizienten konfliktgetriebenen Nachbarschaftssuchen verwendet. Dies ist eine Technik die sich in der Vergangenheit als sehr effizient herausgestellt hat. Clasp hängt dabei nicht von bestehenden Programmen ab sondern wurde von Grund auf neu entwickelt. Da clasp variablenfrei arbeitet, wird ein grounder benötigt, der eine bestehende Problemrepräsentation in eine gegroundete Version umwandelt. Ein solcher grounder ist Gringo. 
 
-Für uns von Interesse sind allerdings weniger die technischen Details, als die tatsächliche Nutzbarkeit von Clingo für unser Problem. Da Clingo einen besonderen Teil unseres Programms darstellt, haben wir die leicht verständliche Dokumentation mit angefügt (\texttt{clingo_guide.pdf}).
+Für uns von Interesse sind allerdings weniger die technischen Details, als die tatsächliche Nutzbarkeit von Clingo für unser Problem. Da Clingo einen besonderen Teil unseres Programms darstellt, haben wir die leicht verständliche Dokumentation mit angefügt (\texttt{clingo\_guide.pdf}).
 
-Unsere Problembeschreibung besteht aus vier Teilen. Der erste Teil ist die Definition des Graphs, wobei diese in Abhängigkeit vom Problem automatisch generiert wird. Ein beispiel kann so aussehen.
+Unsere Problembeschreibung besteht aus vier Teilen. Der erste Teil ist die Definition des Graphs, wobei diese in Abhängigkeit vom Problem automatisch generiert wird. Ein Beispiel kann so aussehen.
 
-\lstinputlisting{graph.lp}
+\lstinputlisting{algorithmen/graph.lp}
 
+Der zweite Teil ist die Definition der Kosten ,die ebenfalls automatisch generiert wird. Dabei werden die Pfadkosten E für die Reise von X nach Y als \texttt{expenses(X,Y,E)} und die Produktkosten C des Produkts P im Shop X als \texttt{cost(P,X,C)} dargestellt. \texttt{expenses(X,Y,E) :− expenses(Y,X,E).} definiert die Rückrichtung der Kanten. Kosten werden allgemein in Teilen von 100 Repräsentiert um Fließkommaoperationen zu verhindern. 
+
+\lstinputlisting{algorithmen/cost.lp}
+
+Der Dritte Teil ist die Definition der Lösung. \texttt{selected(X).} beschreibt, welche Nodes betrachtet werden, also in der Lösung auftauchen sollen. \texttt{cycle(X,Y)} beschreibt, dass es eine Verbindung von X nach Y gibt. \texttt{canReach(X,Y)} definiert Erreichbarkeit im Graphen. \texttt{minimum\_cost(P,CC)} definiert die geringsten Kosten CC für das Produkt P. Hier tritt die Optimierung zum Vorschein, dass wie nicht betrachten, wo ein Produkt gekauft wird, sondern nur, zu welchem Preis (Erklärung im Abschnitt Preprocessing). \texttt{first\_sorted\_cost}, \texttt{sorted\_costs} und \texttt{not\_minimum\_cost} sind Optimierungen für die Ermittlung der minimalen Kosten. Dabei wird vor dem eigentlichen Grounden der Lösung eine Sortierung der Preise erstellt, sodass die Suche anschließend um ein Vielfaches schneller wird. An sich hätte auch ..
+
+\lstinputlisting{algorithmen/ham.lp}
+
+Als letztes wird noch definiert, was minimiert werden soll.
+
+\lstinputlisting{algorithmen/min.lp}
+
+Anschließend muss Clingo nur noch mit den Beschreibungen als Eingabe ausgeführt werden und die Ausgabe entsprechend geparsed und Nachbearbeitet (Postprocessing) werden.

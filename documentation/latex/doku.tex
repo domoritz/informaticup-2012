@@ -1,4 +1,4 @@
-\documentclass[oneside,12pt,a4paper]{scrartcl}
+\documentclass[oneside,10pt,a4paper]{scrartcl}
 \usepackage{pdfpages}
 \usepackage{ngerman}
 \usepackage{algorithmic}
@@ -7,6 +7,10 @@
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
 \usepackage{url}
+\usepackage{listings}
+
+\lstset{numbers=left,numberblanklines=false,basicstyle=\ttfamily,xleftmargin=0pt}
+\addtolength{\oddsidemargin}{-0.25\marginparwidth}
 
 \renewcommand{\sectionmark}[1]{\markboth{\thesection\ #1}{}}
 \lhead[ \leftmark   ]{\textbf{Einkaufsoptimierung}}
