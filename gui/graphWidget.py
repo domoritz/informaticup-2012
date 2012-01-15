@@ -53,8 +53,6 @@ class GraphWidget(QGraphicsView):
 
 		self.timerId = 0
 
-		self.scale(0.9, 0.9)
-
 		self.elastic = False
 
 	def itemMoved(self):
@@ -134,7 +132,7 @@ class GraphWidget(QGraphicsView):
 	def scaleView(self, scaleFactor):
 		factor = self.matrix().scale(scaleFactor, scaleFactor).mapRect(QRectF(0, 0, 1, 1)).width()
 
-		if factor < 0.07 or factor > 100:
+		if factor < 0.07 or factor > 150:
 			return
 
 		self.scale(scaleFactor, scaleFactor)
@@ -229,7 +227,7 @@ class Edge(QGraphicsItem):
 			return QRectF()
 
 		penWidth = 1.0
-		extra = (penWidth + self.arrowSize) / 2.0
+		extra = (penWidth + self.arrowSize) / 2.0 + 100
 
 		return QRectF(self.sourcePoint,
 				QSizeF(self.destPoint.x() - self.sourcePoint.x(),
