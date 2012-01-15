@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '../gui/ui_mainwindow.ui'
 #
-# Created: Sun Jan 15 13:30:05 2012
+# Created: Sun Jan 15 15:59:51 2012
 #      by: PyQt4 UI code generator 4.9
 #
 # WARNING! All changes made in this file will be lost!
@@ -129,7 +129,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.addWidget(self.splitter)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 823, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 823, 20))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuFile = QtGui.QMenu(self.menubar)
         self.menuFile.setObjectName(_fromUtf8("menuFile"))
@@ -162,6 +162,7 @@ class Ui_MainWindow(object):
         self.menuFile.addAction(self.actionQuit)
         self.menuHelp.addAction(self.actionHelp)
         self.menuTools.addAction(self.actionRun)
+        self.menuTools.addAction(self.actionCancel)
         self.menuTools.addAction(self.actionElasticEdges)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuTools.menuAction())
@@ -171,7 +172,7 @@ class Ui_MainWindow(object):
         self.toolBar.addAction(self.actionCancel)
 
         self.retranslateUi(MainWindow)
-        QtCore.QObject.connect(self.actionQuit, QtCore.SIGNAL(_fromUtf8("activated()")), MainWindow.close)
+        QtCore.QObject.connect(self.actionQuit, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), MainWindow.close)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -205,8 +206,10 @@ class Ui_MainWindow(object):
         self.actionQuit.setToolTip(QtGui.QApplication.translate("MainWindow", "Quit application", None, QtGui.QApplication.UnicodeUTF8))
         self.actionQuit.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+Q", None, QtGui.QApplication.UnicodeUTF8))
         self.actionCancel.setText(QtGui.QApplication.translate("MainWindow", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionCancel.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+C", None, QtGui.QApplication.UnicodeUTF8))
         self.actionHelp.setText(QtGui.QApplication.translate("MainWindow", "Help", None, QtGui.QApplication.UnicodeUTF8))
         self.actionHelp.setToolTip(QtGui.QApplication.translate("MainWindow", "Get help", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionHelp.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+H", None, QtGui.QApplication.UnicodeUTF8))
         self.actionElasticEdges.setText(QtGui.QApplication.translate("MainWindow", "Elastic Edges", None, QtGui.QApplication.UnicodeUTF8))
         self.actionElasticEdges.setToolTip(QtGui.QApplication.translate("MainWindow", "Make the edges in the graphics view elastic", None, QtGui.QApplication.UnicodeUTF8))
         self.actionElasticEdges.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+E", None, QtGui.QApplication.UnicodeUTF8))
