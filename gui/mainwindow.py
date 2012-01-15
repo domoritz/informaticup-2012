@@ -122,7 +122,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 	def lastSolution(self, solution):
 		self.logger.debug('lastSolution({0})'.format(solution))
-		self.updateCities(self.dataInstance, solution)
+		self.updateCities(self.dataInstance, self.dataInstance.distances.getRealPath(solution))
 		self.statusBar.showMessage(self.tr('Calculation finished'))
 		self.showShoppingList(solution)
 		self.showStats(solution)

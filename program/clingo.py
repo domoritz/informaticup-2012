@@ -1,3 +1,4 @@
+import sys, os
 from data.dataInstance import DataInstance
 from program.algorithm import Algorithm
 import subprocess
@@ -9,19 +10,19 @@ class Clingo(Algorithm):
 	Clingo is an asp solver by the university of potsdam. Website: http://potassco.sourceforge.net/
 	"""
 
-	files = ["clingo/ham.lp", "clingo/min.lp", "clingo/cost.lp", "clingo/graph.lp"]
+	files = ["ham.lp", "min.lp", "cost.lp", "graph.lp"]
 
 	def __init__(self, problem, options = None):
 		super(Clingo, self).__init__(problem)
 
 		if options is None:
 			self.options = {
-				"clingo": "./clingo_prog/clingo",
-                "clingoArgs": ""
+				"clingo": self.default_dist(),
+				"clingoArgs": ""
 			}
 		else:
 			self.options = options
-
+		
 		self.logger.pprint(problem.prices.data)
 		self.logger.pprint(problem.distances.data)
 
@@ -32,8 +33,11 @@ class Clingo(Algorithm):
 	def generate(self, solution = None):
 		clingo = subprocess.Popen([self.options['clingo']] + self.options['clingoArgs'].split(" "), shell=False, stdout=subprocess.PIPE, stdin=subprocess.PIPE)
 		clingo.stdin.write(self.costfile + self.graphfile)
-		for f in self.files:
-			clingo.stdin.write(open(f).read())
+		for file_name in self.files:
+			file_path = self.dist_file("lp", file_name)
+			file_ptr = open(file_path)
+			clingo.stdin.write(file_ptr.read())
+			file_ptr.close()
 		clingo.stdin.write(self.costfile + self.graphfile)
 		clingo.stdin.close()
 
@@ -115,6 +119,39 @@ class Clingo(Algorithm):
 
 		#print self.graphfile
 		#print self.costfile
+	
+	def ic_dist(self):
+		return os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
+	def dist_file(self, *arguments):
+		absolute = False # default value
+		if arguments[-1] in [True,False]:
+			absolute = arguments[-1]
+			arguments = arguments[:-1]
 		
+		filename = os.path.join(*arguments)
+		
+		ic_dist = self.ic_dist()
+		
+		path = os.path.join(ic_dist, 'dist', 'clingo', filename)
+		if absolute:
+			return os.path.abspath(path)
+		else:
+			return os.path.relpath(path)
+
+	def default_dist(self, platform = None):
+		platform_dists = {
+			'linux2': 'linclingo',
+			'darwin': 'osxclingo',
+			'win32': 'w32clingo.exe',
+			'cygwin': 'w32clingo.exe',
+		}
+		
+		if platform is None or not platform in platform_dists:
+			platform = sys.platform
+		
+		if not platform in platform_dists:
+			return "<no valid executable found for platform " + platform + ">"
+		
+		return self.dist_file(platform_dists[platform])
 
