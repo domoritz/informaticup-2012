@@ -34,7 +34,7 @@ def executeApplication():
 				   help="set input files (csv) - first argument is prices, second is distances")
 	parser.add_argument('-a','--algorithm', choices=algorithms.keys(), default=None, dest='algorithm',
 				   help="select algorithm for coumputation")
-	parser.add_argument('-v','--option', action='append', dest='options',
+	parser.add_argument('-v','--option', action='append', dest='options', default=[],
 				   help='set program/algorithm option (option=value), see --list-options for availible options')
 	parser.add_argument('-l','--list-options', action='store_true',
 				   help='list all known options')
