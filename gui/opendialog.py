@@ -8,7 +8,7 @@ import os
 
 class OpenDialog(QDialog, Ui_OpenDialog):
 
-	def __init__(self, parent = None):
+	def __init__(self, parent = None, args = []):
 		QDialog.__init__(self, parent)
 
 		self.setupUi(self)
@@ -20,6 +20,19 @@ class OpenDialog(QDialog, Ui_OpenDialog):
 		self.clingoButton.setChecked(True)
 		self.readSettings()
 		self.connect(self, SIGNAL('accepted()'), self.saveSettings)
+
+		if args:
+			self.readArgs(args)
+			if args.input:
+				self.accept()
+
+	def readArgs(self, args):
+		self.distancesFileEdit.setText(os.path.abspath(args.input[0].name))
+		self.pricesFileEdit.setText(os.path.abspath(args.input[1].name))
+
+		if args.algorithm:
+			self.setAlgorithmName(args.algorithm)
+
 
 	def selectDistances(self):
 		self.runOpenFileDialog(self.distancesFileEdit)

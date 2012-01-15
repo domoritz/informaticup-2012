@@ -13,10 +13,9 @@ from program.dataParser import DataParser
 import logging
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-	def __init__(self, parent = None):
+	def __init__(self, parent = None, args = []):
 		QMainWindow.__init__(self, parent)
 		self.logger = logging.getLogger('shoppingtour')
-
 
 		self.setUnifiedTitleAndToolBarOnMac(True)
 
@@ -42,9 +41,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 		self.progressGroupBox.setVisible(False)
 
+		self.args = args
+		if args.input:
+			self.open()
+			#self.run()
+
 	def open(self):
 		if self.openDialog is None:
-			self.openDialog = OpenDialog(self)
+			self.openDialog = OpenDialog(self, self.args)
 			self.openDialog.setModal(True)
 			self.openDialog.setWindowModality(Qt.WindowModal)
 		ret = self.openDialog.exec_()
@@ -190,7 +194,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 					else:
 						edge.setVisible(False)
 
-		self.graphicsView.updateScene([self.graphicsView.sceneRect()])	
+		if solution:
+			for cityIndex in range(len(self.nodes)):
+				if cityIndex in solution:
+					self.nodes[cityIndex].setActive(True)
+				else:
+					self.nodes[cityIndex].setActive(False)
+
+		self.graphicsView.updateScene([self.graphicsView.sceneRect()])
+		#self.graphicsView.invalidateScene(self.graphicsView.visibleRegion().rects())
 
 	def drawCities(self, positions, dataInstance, solution=None):
 		"""

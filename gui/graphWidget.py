@@ -256,7 +256,7 @@ class Edge(QGraphicsItem):
 			pen = QPen(Qt.red, 2, Qt.DashLine,
 					  Qt.RoundCap, Qt.RoundJoin)
 		elif self.state == 1:
-			pen = QPen(palette.windowText().color(), 1, Qt.SolidLine,
+			pen = QPen(palette.color(QPalette.Disabled,QPalette.WindowText), 0, Qt.SolidLine,
 					  Qt.RoundCap, Qt.RoundJoin)
 		elif self.state == 0:
 			pen = QPen()
@@ -312,6 +312,7 @@ class Node(QGraphicsItem):
 		self.setZValue(1)
 
 		self.text = text
+		self.active = False
 
 		self.b = 15
 
@@ -321,6 +322,10 @@ class Node(QGraphicsItem):
 	def addEdge(self, edge):
 		self.edgeList.append(edge)
 		edge.adjust()
+
+	def setActive(self, value = True):
+		self.active =value
+
 
 	def edges(self):
 		return self.edgeList
@@ -391,21 +396,22 @@ class Node(QGraphicsItem):
 
 
 		gradient = QRadialGradient(-3, -3, 15)
-		if option.state & QStyle.State_Sunken:
+		if option.state & QStyle.State_Sunken or self.active:
 			gradient.setCenter(3, 3)
 			gradient.setFocalPoint(3, 3)
-			gradient.setColorAt(1, palette.button().color())
-			gradient.setColorAt(0, palette.mid().color())
+			gradient.setColorAt(1, palette.color(QPalette.Active,QPalette.Button))
+			gradient.setColorAt(0, palette.color(QPalette.Active,QPalette.Button))
+			pen = QPen(palette.color(QPalette.Active,QPalette.ButtonText), 2)
 		else:
-			gradient.setColorAt(0, palette.mid().color())
-			gradient.setColorAt(1, palette.dark().color())
+			gradient.setColorAt(1, palette.color(QPalette.Disabled,QPalette.Button))
+			gradient.setColorAt(0, palette.color(QPalette.Disabled,QPalette.Button))
+			pen = QPen(palette.color(QPalette.Disabled,QPalette.ButtonText), 0)
 
 		painter.setBrush(QBrush(gradient))
-		painter.setPen(QPen(palette.windowText().color(), 0))
+		painter.setPen(pen)
 		painter.drawEllipse(-self.b, -self.b, 2*self.b, 2*self.b)
 
-		text = QGraphicsTextItem(self.text,self)
-		text.moveBy(-15,-14)
+		painter.drawText(self.boundingRect(), Qt.AlignCenter, self.text)
 
 	def itemChange(self, change, value):
 		if change == QGraphicsItem.ItemPositionHasChanged:

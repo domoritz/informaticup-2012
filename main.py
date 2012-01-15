@@ -31,7 +31,7 @@ def executeApplication():
 				   default=sys.stdout, help='write results to FILE (default is stdout)')
 	parser.add_argument('-i','--input', nargs=2, type=argparse.FileType('rb'), metavar=('prices.csv', 'distances.csv'),
 				   help="set input files (csv) - first argument is prices, second is distances")
-	parser.add_argument('-a','--algorithm', choices=algorithms.keys(), default='none', dest='algorithm',
+	parser.add_argument('-a','--algorithm', choices=algorithms.keys(), default='clingo', dest='algorithm',
 				   help="select algorithm for coumputation")
 	parser.add_argument('--version', action='version', version='%(prog)s 1.0')
 
@@ -59,7 +59,7 @@ def executeApplication():
 		for k in vars(args):
 			logger.debug('{0}: {1}'.format(k,vars(args)[k]))
 
-	if args.input:
+	if args.input and args.nogui:
 		parser = DataParser()
 		dataInstance = parser.readInstance(args.input[0],args.input[1])
 		
@@ -92,19 +92,20 @@ def executeApplication():
 		from gui.mainwindow import MainWindow 
 		from gui.positionCities import PositionCities
 		
-		logger.debug("positioning cities for gui")
-		positionCities = PositionCities(dataInstance.distances)
-		positionCities.optimize()
-		if debug: positionCities.debugPrint()
+		#if args.input: 
+		#	logger.debug("positioning cities for gui")
+		#	positionCities = PositionCities(dataInstance.distances)
+		#	positionCities.optimize()
 
 		logger.debug("initializing and running gui")
+
 		#initialize and show ui
 		QtCore.QCoreApplication.setOrganizationName('Hasso-Plattner-Institut');
 		QtCore.QCoreApplication.setOrganizationDomain('hpi.uni-potsdam.de');
 		QtCore.QCoreApplication.setApplicationName('shoppingtour');
 
 		app = QtGui.QApplication(sys.argv)
-		window = MainWindow()
+		window = MainWindow(args = args)
 		#window.setWindowState(QtCore.Qt.WindowMaximized)
 		window.show()
 		return app.exec_()		
