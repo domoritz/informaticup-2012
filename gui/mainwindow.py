@@ -7,6 +7,7 @@ from gui.positionCities import PositionCities
 from gui.graphWidget import GraphWidget, Edge, Node
 from gen.ui_helpdialog import Ui_HelpDialog
 from helpers.qt import Settings as QSettings
+import time
 
 from program.dataParser import DataParser
 
@@ -119,6 +120,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.showShoppingList(solution)
 		self.showStats(solution)
 
+		self.graphicsView.scale(1.00001,1.00001)
+
 	def lastSolution(self, solution):
 		self.logger.debug('lastSolution({0})'.format(solution))
 		self.updateCities(self.dataInstance, self.dataInstance.distances.getRealPath(solution))
@@ -128,6 +131,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.progressGroupBox.setVisible(False)
 		self.actionRun.setEnabled(True)
 		self.actionCancel.setEnabled(False)
+	
+		self.graphicsView.scale(1.00001,1.00001)
 
 	def cancel(self):
 		self.actionRun.setEnabled(True)
@@ -234,7 +239,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.updateCities(dataInstance,solution)
 
 		self.graphicsView.fitInView(self.graphicsView.sceneRect(),1)
-		self.graphicsView.scale(0.9,0.9)
+		self.graphicsView.scale(1.1,1.1)
 
 	def makeElastic(self, value = True):
 		self.graphicsView.makeElastic(value)
