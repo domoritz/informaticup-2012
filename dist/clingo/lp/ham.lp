@@ -24,6 +24,7 @@ not_minimum_cost(P,C) :- not_minimum_cost(P,C2), sorted_costs(P,C2,C), not selec
 minimum_cost(P,C) :- first_sorted_cost(P,C), not not_minimum_cost(P,C).
 minimum_cost(P,CC) :- not_minimum_cost(P,C), sorted_costs(P,C,CC), not not_minimum_cost(P,CC).
 
+% buy every product
 bought(P) :- cost(P,Y,C), selected(Y).
 :- not bought(P), product(P).
 

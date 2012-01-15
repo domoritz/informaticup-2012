@@ -11,7 +11,8 @@ selected(0).
 canReach(X,Y) :- cycle(X,Y).
 canReach(X,Y) :- cycle(X,Z), canReach(Z,Y).
 :- not canReach(0,0). % there has to be a cycle from 0 to 0
-:- not canReach(0,X), selected(X). % every selected node has to be reachable
+% every selected node has to be reachable
+:- not canReach(0,X), selected(X). 
 
 cost(P,C) :- cost(P,Y,C). %simplification
 selected_costs(P,C) :- selected(Y), cost(P,Y,C).
@@ -30,5 +31,6 @@ minimum_cost(P,C) :- first_sorted_cost(P,C),
 minimum_cost(P,CC) :- not_minimum_cost(P,C),
         sorted_costs(P,C,CC), not not_minimum_cost(P,CC).
 
+% buy every product
 bought(P) :- cost(P,Y,C), selected(Y).
 :- not bought(P), product(P).
