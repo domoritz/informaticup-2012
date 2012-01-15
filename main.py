@@ -48,7 +48,7 @@ def executeApplication():
 	else:
 		logger.setLevel(logging.INFO)
 
-	formatter = logging.Formatter("%(relativeCreated)s ms - %(name)s - %(levelname)s: %(message)s")
+	formatter = logging.Formatter("%(relativeCreated)s %(name)s %(levelname)s: %(message)s")
 	stderrHandler = logging.StreamHandler(sys.stderr)
 	stderrHandler.setFormatter(formatter)
 	logger.addHandler(stderrHandler)

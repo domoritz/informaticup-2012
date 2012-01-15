@@ -121,7 +121,11 @@ class Clingo(Algorithm):
 		#print self.costfile
 	
 	def ic_dist(self):
-		return os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+		candidate = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+		if os.path.isfile(candidate):
+			return os.path.dirname(candidate)
+		else:
+			return candidate
 
 	def dist_file(self, *arguments):
 		absolute = False # default value

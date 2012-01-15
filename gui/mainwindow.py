@@ -1,4 +1,4 @@
-from PyQt4.QtCore import QString, Qt, SIGNAL, SLOT, QRectF, QPointF, QStringList, QRectF
+from PyQt4.QtCore import QString, Qt, SIGNAL, SLOT, QRectF, QPointF, QStringList, QRectF, QTimer
 from PyQt4.QtGui import *
 from gen.ui_mainwindow import Ui_MainWindow
 from gui.opendialog import OpenDialog
@@ -43,7 +43,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 		self.args = args
 		if args.input and args.algorithm:
-			self.run()
+			QTimer.singleShot(0, self.run)
 
 	def open(self):
 		if self.openDialog is None:

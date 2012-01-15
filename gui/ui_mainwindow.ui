@@ -259,7 +259,7 @@
      <x>0</x>
      <y>0</y>
      <width>823</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -280,6 +280,7 @@
      <string>Tools</string>
     </property>
     <addaction name="actionRun"/>
+    <addaction name="actionCancel"/>
     <addaction name="actionElasticEdges"/>
    </widget>
    <addaction name="menuFile"/>
@@ -338,6 +339,9 @@
    <property name="text">
     <string>Cancel</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
   </action>
   <action name="actionHelp">
    <property name="text">
@@ -345,6 +349,9 @@
    </property>
    <property name="toolTip">
     <string>Get help</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+H</string>
    </property>
   </action>
   <action name="actionElasticEdges">
@@ -373,7 +380,7 @@
  <connections>
   <connection>
    <sender>actionQuit</sender>
-   <signal>activated()</signal>
+   <signal>toggled(bool)</signal>
    <receiver>MainWindow</receiver>
    <slot>close()</slot>
    <hints>
