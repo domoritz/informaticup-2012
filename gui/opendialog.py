@@ -27,8 +27,9 @@ class OpenDialog(QDialog, Ui_OpenDialog):
 				self.accept()
 
 	def readArgs(self, args):
-		self.distancesFileEdit.setText(os.path.abspath(args.input[0].name))
-		self.pricesFileEdit.setText(os.path.abspath(args.input[1].name))
+		if args.input and args.input:
+			self.distancesFileEdit.setText(os.path.abspath(args.input[1].name))
+			self.pricesFileEdit.setText(os.path.abspath(args.input[0].name))
 
 		if args.algorithm:
 			self.setAlgorithmName(args.algorithm)

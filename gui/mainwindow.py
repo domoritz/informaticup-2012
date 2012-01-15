@@ -43,8 +43,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 		self.args = args
 		if args.input:
-			self.open()
-			#self.run()
+			ret = self.open()
+			if ret == QDialog.Accepted:
+				self.run()
 
 	def open(self):
 		if self.openDialog is None:
@@ -59,6 +60,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.logger.debug('algorithm: {0}'.format(self.openDialog.getAlgorithmName()))
 			self.logger.debug('	options: {0}'.format(self.openDialog.getAlgorithmOptions()))
 			parser = DataParser()
+			self.logger.debug("files: \n"+ str(distancesFile) +"\n"+ str(pricesFile))
 			self.dataInstance = parser.readInstance(open(pricesFile), open(distancesFile))
 			self.positionCities = PositionCities(self.dataInstance.distances)
 			self.positionCities.optimize()
