@@ -1,3 +1,9 @@
 \subsection{Genetischer Algorithmus}
 
-Genetsiche Algorithmen lassen sich leicht auch das TSP-Problem anwenden und es wurde schon oft erläutert. Aus diesem Grund werden wir an dieser Stelle nicht weiter darauf eingehen, und verweisen für weitere Informationen auf \url{http://www.lalena.com/AI/Tsp/} verweisen. 
+Genetische Algorithmen lassen sich leicht auch das TSP-Problem anwenden und es wurde schon oft erläutert. Aus diesem Grund werden wir an dieser Stelle nicht weiter darauf eingehen, und verweisen für weitere Informationen auf \url{http://www.lalena.com/AI/Tsp/} verweisen. In diesem Abschnitt werden wir auf Besonderheiten unserer Implementierung eingehen. 
+
+Eine dieser Besonderheiten ist die Darstellung der Individuen. Dabei wird nicht einfach eine Liste von besuchten Shops benutzt, da diese Repräsentation nach einem Crossover nicht notwendigerweise eine gültige Lösung generiert. So würde bei den naiven Liste \texttt{[0,1,3,2]} und \texttt{[0,3,1,2]} mit einem Crossover in der Mitte ein ungültiges Individuum \texttt{[[0,1,1,2]]} entstehen. Es ist ungültig, da die 1 zweimal besucht würde. 
+
+Aus diesem Grund repräsentieren wir die Individuen als Liste, in der die einzelnen Werte für Indizes stehen. Beim Auflösen werden diese nacheinander an auf eine sortierte Liste angewendet und das jeweilige Element entfernt. Nehmen wir beispielsweise die interne Darstellung \texttt{[2,0,0]}. Nun soll diese in die die normale Repräsentation überführt werden. Dazu nehmen wir die sortierte Liste \texttt{[1,2,3]} und entfernen zuerst das dritte (Beginn bei 0, also Index 2). Nun haben wir eine Liste mit einem Element \texttt{[3]} und den Rest der sortierten Liste \texttt{[2,3]}. So verfahren wir weiter und erhalten die Liste \texttt{[3,1,2]}. Vorteil dieser Darstellung ist, dass sie beim Crossover immer eine gültige Lösung generiert und der Algorithmus wesentlich effizienter arbeiten kann.
+
+
