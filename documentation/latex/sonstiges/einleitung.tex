@@ -1,0 +1,7 @@
+\section{Einleitung}
+
+ShoppingTour ist ein in Python geschriebenes Programm zum Optimieren von Einkaufsfahrten, welches im Rahmen des InformatiCup 2012 erstellt wurde. Das Programm kann sowohl mit der in Qt geschrieben Oberfläche, als auch vollständig über die Kommandozeile benutzt werden. Bei Der Programmierung haben wir auch Wiederverwendbarkeit von Programmteilen geachtet und eine Architektur entwickelt, die Erweiterungen sehr einfach macht. Diese können zum Beispiel die Grafische Darstellung der Qualität des Suchergebnisses oder einfache Navigation durch die gefundenen Lösungen sein. Es werden zwei ausgereifte Verfahren zur Optimierung verwendet, wobei eines sogar Optimalität garantieren kann! 
+
+Die Architektur unseres Programms ist so aufgebaut, dass Programmlogik, Daten und die Gui getrennt wurden. Die Datenstrukturen liegen im Verzeichnis \texttt{data}. Die Programmlogik findet sich im Verzeichnis \texttt{program}. Die gesamte UI-Implementierung findet sich im Verzeichnis \texttt{gui}. Da die Ui teilweise generiert wird, finden sich im Ordner \texttt{gen} die generierten Ui-Dateien. Das verwendete Programm clingo findet sich in einem eigenen Verzeichnis \texttt{dist/clingo}, da es in C++ geschrieben ist und somit verschiedene Binaries für verschiedene Betriebssysteme ausgeliefert werden müssen. 
+
+Wir wünschen dem Leser an dieser Stelle viel Freude beim Studium dieser Dokumentation und des Quellcodes sowie der Benutzung des Programms.
