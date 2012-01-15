@@ -44,6 +44,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		self.args = args
 		if args.input and args.algorithm:
 			QTimer.singleShot(0, self.run)
+		elif args.input:
+			QTimer.singleShot(0, self.open)
 
 	def open(self):
 		if self.openDialog is None:
