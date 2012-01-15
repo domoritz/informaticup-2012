@@ -78,9 +78,12 @@ def generatePrices(io):
 	for i in range(n):
 		line = "a"+str(i)
 		line += ", "+str(random.randint(numberRange[0],numberRange[1]))
+		if not filter(lambda s: s is not None, pricesArray[i]): # no price
+			pricesArray[i][random.randint(0, len(pricesArray[i])-1 )] = abs(round(random.gauss(medianPrices[i], sigma), 2))
+		oprint(pricesArray[i])
 		for j in range(1,k):
 			if pricesArray[i][j]:
-				line +=  "," + str(pricesArray[i][j])
+				line +=  "," + str(round(pricesArray[i][j], 2))
 			else:
 				line += ","
 		print(line)
@@ -101,17 +104,16 @@ dataInstance = parser.readInstance(pricesIO, distancesIO)
 pprint(dataInstance.prices.data)
 pprint(dataInstance.distances.data)
 
-import datetime
+import time
+now = time.time
 
 clingo = Clingo(dataInstance)
 clingoSolutions = []
 print("starting clingo")
-clingoStart = datetime.datetime.now()
+clingoStart = now()
 
 for solution in clingo.generate():
-	clingoSolutions.append((datetime.datetime.now(), solution))
-
-print(clingoSolutions) 
+	clingoSolutions.append((now(), solution))
 
 if len(clingoSolutions) == 0:
 	exit(1)
@@ -119,9 +121,32 @@ if len(clingoSolutions) == 0:
 genetic = Genetic(dataInstance)
 geneticSolutions = []
 print("starting genetic")
-geneticStart = datetime.datetime.now()
+geneticStart = now()
+oldSolution = None
 
 for solution in genetic.generate():
-	geneticSolutions.append((datetime.datetime.now(), solution))
+	if oldSolution != solution:
+		geneticSolutions.append((now(), solution))
+		oldSolution = solution
 
-print(geneticSolutions)
+print("analysis")
+
+minCosts = None
+for i in xrange(len(clingoSolutions)):
+	solution = clingoSolutions[i][1]
+	costs = dataInstance.calculateExpenses(solution) + dataInstance.calculateSpendings(solution)
+	if minCosts is None or costs < minCosts:
+		minCosts = costs
+	clingoSolutions[i] = (clingoSolutions[i][0] - clingoStart, costs)
+
+for i in xrange(len(geneticSolutions)):
+	solution = geneticSolutions[i][1]
+	costs = dataInstance.calculateExpenses(solution) + dataInstance.calculateSpendings(solution)
+	geneticSolutions[i] = (geneticSolutions[i][0] - geneticStart, costs)
+
+print('clingo')
+for solution in clingoSolutions:
+	print(round(solution[0], 4), round(solution[1]/minCosts,4), sep=': ')
+print('genetic')
+for solution in geneticSolutions:
+	print(round(solution[0], 4), round(solution[1]/minCosts,4), sep=': ')
