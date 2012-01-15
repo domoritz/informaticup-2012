@@ -10,7 +10,7 @@ class Clingo(Algorithm):
 	Clingo is an asp solver by the university of potsdam. Website: http://potassco.sourceforge.net/
 	"""
 
-	files = ["clingo/ham.lp", "clingo/min.lp", "clingo/cost.lp", "clingo/graph.lp"]
+	files = ["ham.lp", "min.lp", "cost.lp", "graph.lp"]
 
 	def __init__(self, problem, options = None):
 		super(Clingo, self).__init__(problem)
@@ -22,7 +22,7 @@ class Clingo(Algorithm):
 			}
 		else:
 			self.options = options
-
+		
 		self.logger.pprint(problem.prices.data)
 		self.logger.pprint(problem.distances.data)
 
@@ -33,8 +33,11 @@ class Clingo(Algorithm):
 	def generate(self, solution = None):
 		clingo = subprocess.Popen([self.options['clingo']] + self.options['clingoArgs'].split(" "), shell=False, stdout=subprocess.PIPE, stdin=subprocess.PIPE)
 		clingo.stdin.write(self.costfile + self.graphfile)
-		for f in self.files:
-			clingo.stdin.write(open(f).read())
+		for file_name in self.files:
+			file_path = self.dist_file(file_name)
+			file_ptr = open(file_path)
+			clingo.stdin.write(file_ptr.read())
+			file_ptr.close()
 		clingo.stdin.write(self.costfile + self.graphfile)
 		clingo.stdin.close()
 
@@ -116,6 +119,18 @@ class Clingo(Algorithm):
 
 		#print self.graphfile
 		#print self.costfile
+	
+	def ic_dist(self):
+		return os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+	def dist_file(self, filename, absolute = False):
+		ic_dist = self.ic_dist()
+		
+		path = os.path.join(ic_dist, 'dist', 'clingo', filename)
+		if absolute:
+			return os.path.abspath(path)
+		else:
+			return os.path.relpath(path)
 
 	def default_dist(self, platform = None):
 		platform_dists = {
@@ -131,6 +146,5 @@ class Clingo(Algorithm):
 		if not platform in platform_dists:
 			return "<no valid executable found for platform " + platform + ">"
 		
-		path = os.path.join(os.getcwd(), 'dist', 'clingo', platform_dists[platform])
-		return os.path.relpath(path)
+		return self.dist_file(platform_dists[platform])
 
