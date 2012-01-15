@@ -1,3 +1,5 @@
 *.pyc
 clingo_prog
 *.orig
+distribution
+build

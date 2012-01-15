@@ -1,4 +1,4 @@
-from PyQt4.QtCore import QString, Qt, SIGNAL, SLOT, QRectF, QPointF, QStringList, QRectF
+from PyQt4.QtCore import QString, Qt, SIGNAL, SLOT, QRectF, QPointF, QStringList, QRectF, QTimer
 from PyQt4.QtGui import *
 from gen.ui_mainwindow import Ui_MainWindow
 from gui.opendialog import OpenDialog
@@ -13,10 +13,9 @@ from program.dataParser import DataParser
 import logging
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-	def __init__(self, parent = None):
+	def __init__(self, parent = None, args = []):
 		QMainWindow.__init__(self, parent)
 		self.logger = logging.getLogger('shoppingtour')
-
 
 		self.setUnifiedTitleAndToolBarOnMac(True)
 
@@ -42,11 +41,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 		self.progressGroupBox.setVisible(False)
 
+		self.args = args
+		if args.input and args.algorithm:
+			QTimer.singleShot(0, self.run)
+		elif args.input:
+			QTimer.singleShot(0, self.open)
+
 	def open(self):
 		if self.openDialog is None:
-			self.openDialog = OpenDialog(self)
+			self.openDialog = OpenDialog(self, self.args)
 			self.openDialog.setModal(True)
 			self.openDialog.setWindowModality(Qt.WindowModal)
+			self.connect(self.openDialog.dialogButton, SIGNAL('helpRequested()'), self.help)
 		ret = self.openDialog.exec_()
 		
 		if ret == QDialog.Accepted:
@@ -55,6 +61,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.logger.debug('algorithm: {0}'.format(self.openDialog.getAlgorithmName()))
 			self.logger.debug('	options: {0}'.format(self.openDialog.getAlgorithmOptions()))
 			parser = DataParser()
+			self.logger.debug("files: \n"+ str(distancesFile) +"\n"+ str(pricesFile))
 			self.dataInstance = parser.readInstance(open(pricesFile), open(distancesFile))
 			self.positionCities = PositionCities(self.dataInstance.distances)
 			self.positionCities.optimize()
@@ -190,7 +197,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 					else:
 						edge.setVisible(False)
 
-		self.graphicsView.updateScene([self.graphicsView.sceneRect()])	
+		if solution:
+			for cityIndex in range(len(self.nodes)):
+				if cityIndex in solution:
+					self.nodes[cityIndex].setActive(True)
+				else:
+					self.nodes[cityIndex].setActive(False)
+
+		self.graphicsView.updateScene([self.graphicsView.sceneRect()])
+		#self.graphicsView.invalidateScene(self.graphicsView.visibleRegion().rects())
 
 	def drawCities(self, positions, dataInstance, solution=None):
 		"""

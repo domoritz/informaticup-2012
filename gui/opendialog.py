@@ -1,4 +1,4 @@
-from PyQt4.QtCore import QString, Qt, SIGNAL, SLOT, QRectF, QPointF
+from PyQt4.QtCore import QString, Qt, SIGNAL, SLOT, QRectF, QPointF, QTimer
 from PyQt4.QtGui import *
 from gen.ui_opendialog import Ui_OpenDialog
 from helpers.qt import Settings as QSettings
@@ -8,7 +8,7 @@ import os
 
 class OpenDialog(QDialog, Ui_OpenDialog):
 
-	def __init__(self, parent = None):
+	def __init__(self, parent = None, args = []):
 		QDialog.__init__(self, parent)
 
 		self.setupUi(self)
@@ -20,6 +20,20 @@ class OpenDialog(QDialog, Ui_OpenDialog):
 		self.clingoButton.setChecked(True)
 		self.readSettings()
 		self.connect(self, SIGNAL('accepted()'), self.saveSettings)
+
+		if args:
+			self.readArgs(args)
+			if args.input:
+				QTimer.singleShot(0, self.accept)
+
+	def readArgs(self, args):
+		if args.input and args.input:
+			self.distancesFileEdit.setText(os.path.abspath(args.input[1].name))
+			self.pricesFileEdit.setText(os.path.abspath(args.input[0].name))
+
+		if args.algorithm:
+			self.setAlgorithmName(args.algorithm)
+
 
 	def selectDistances(self):
 		self.runOpenFileDialog(self.distancesFileEdit)

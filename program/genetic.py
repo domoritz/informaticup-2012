@@ -1,5 +1,6 @@
 from data.dataInstance import DataInstance
 from program.algorithm import Algorithm
+from program.settings import settings
 import random, math
 
 class Genetic(Algorithm):
@@ -10,7 +11,7 @@ class Genetic(Algorithm):
 	#TODO messen wie schnell es geht
 	#TODO parameter besser anpassen
 
-	def __init__(self, problem, options = None):
+	def __init__(self, problem, options = settings['genetic']):
 		"""
 		options:
 			popsize:		size of the population (higher is better but slower)
@@ -27,19 +28,7 @@ class Genetic(Algorithm):
 		"""
 		super(Genetic, self).__init__(problem)
 
-		if options is None:
-			self.options = {
-				"popsize":250,
-				"childrenGroup": 50,
-				"mutation": 20,
-				"shortening": 10,
-				"maxGenerations": 50000,
-				"catastrophyAfter": 100,
-				"stopAfter": 800,
-				"seed": 42
-			}
-		else:
-			self.options = options
+		self.options = options
 
 		self.logger.pprint(problem.prices.data)
 		self.logger.pprint(problem.distances.data)
