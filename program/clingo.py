@@ -34,7 +34,7 @@ class Clingo(Algorithm):
 		clingo = subprocess.Popen([self.options['clingo']] + self.options['clingoArgs'].split(" "), shell=False, stdout=subprocess.PIPE, stdin=subprocess.PIPE)
 		clingo.stdin.write(self.costfile + self.graphfile)
 		for file_name in self.files:
-			file_path = self.dist_file(file_name)
+			file_path = self.dist_file("lp", file_name)
 			file_ptr = open(file_path)
 			clingo.stdin.write(file_ptr.read())
 			file_ptr.close()
@@ -123,7 +123,14 @@ class Clingo(Algorithm):
 	def ic_dist(self):
 		return os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
-	def dist_file(self, filename, absolute = False):
+	def dist_file(self, *arguments):
+		absolute = False # default value
+		if arguments[-1] in [True,False]:
+			absolute = arguments[-1]
+			arguments = arguments[:-1]
+		
+		filename = os.path.join(*arguments)
+		
 		ic_dist = self.ic_dist()
 		
 		path = os.path.join(ic_dist, 'dist', 'clingo', filename)
