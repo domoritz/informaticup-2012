@@ -113,6 +113,7 @@ def executeApplication():
 				spendings = dataInstance.calculateSpendings(solution)
 				shoppingList = dataInstance.getShoppingList(solution)
 				logger.info("Best Shopping Tour:\n"+pformat(solution))
+				logger.info("Best Shopping Tour with known edges:\n"+pformat(dataInstance.distances.getRealPath(solution)))
 				logger.info("Shopping List:\n"+pformat(shoppingList))
 				logger.info("Total Costs: "+str(spendings+expenses))
 				logger.info("Spendings: "+str(spendings))
