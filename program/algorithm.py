@@ -8,6 +8,7 @@ class Algorithm(DataInstance):
 		finalSolution = None
 		for element in self.generate(solution):
 			finalSolution = element
+
 		return finalSolution
 
 	def generate(self, solution = None):
