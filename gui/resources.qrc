@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="icons">
+    <file>icon.png</file>
     <file>open.png</file>
     <file>run.png</file>
     <file>cancel.png</file>
