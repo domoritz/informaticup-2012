@@ -1,6 +1,7 @@
 import sys, os
 from data.dataInstance import DataInstance
 from program.algorithm import Algorithm
+from program.settings import settings
 import subprocess
 import re
 
@@ -12,16 +13,12 @@ class Clingo(Algorithm):
 
 	files = ["ham.lp", "min.lp", "cost.lp", "graph.lp"]
 
-	def __init__(self, problem, options = None):
+	def __init__(self, problem, options = settings['clingo']):
 		super(Clingo, self).__init__(problem)
 
-		if options is None:
-			self.options = {
-				"clingo": self.default_dist(),
-				"clingoArgs": ""
-			}
-		else:
-			self.options = options
+		self.options = options
+		if self.options['clingo'] == 'auto':
+			self.options['clingo'] = self.default_dist()
 		
 		self.logger.pprint(problem.prices.data)
 		self.logger.pprint(problem.distances.data)

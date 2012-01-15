@@ -10,6 +10,7 @@ from program.dataParser import DataParser
 from program.algorithm import Algorithm
 from program.genetic import Genetic
 from program.clingo import Clingo
+from program.settings import settings
 from pprint import pformat
 
 debug = False
@@ -33,6 +34,10 @@ def executeApplication():
 				   help="set input files (csv) - first argument is prices, second is distances")
 	parser.add_argument('-a','--algorithm', choices=algorithms.keys(), default=None, dest='algorithm',
 				   help="select algorithm for coumputation")
+	parser.add_argument('-v','--option', action='append', dest='options',
+				   help='set program/algorithm option (option=value), see --list-options for availible options')
+	parser.add_argument('-l','--list-options', action='store_true',
+				   help='list all known options')
 	parser.add_argument('--version', action='version', version='%(prog)s 1.0')
 
 	#parse arguments
@@ -52,6 +57,34 @@ def executeApplication():
 	stderrHandler = logging.StreamHandler(sys.stderr)
 	stderrHandler.setFormatter(formatter)
 	logger.addHandler(stderrHandler)
+
+	if args.list_options:
+		def printOptions(options, prefix=''):
+			for key in options:
+				if type(options[key]) is dict:
+					printOptions(options[key], prefix+key+'.')
+				else:
+					print('{0:30} {1}'.format(prefix+key, options[key]))
+		print('{0:30} {1}'.format('Option', 'Default value'))
+		print('-'*30+' '+'-'*20)
+		printOptions(settings)
+		return
+
+	for optionString in args.options:
+		option, sep, value = optionString.partition('=')
+		if sep == '' or value == '':
+			parser.error('option value "{0}" is not valid (format option=value)'.format(optionString))
+		optionLevels = option.split('.')
+		currentSettings = settings
+		while len(optionLevels) > 1:
+			currentOption = optionLevels.pop(0)
+			if currentOption not in currentSettings:
+				logger.warn('set unknown option {0}'.format(option))
+				currentSettings[currentOption] = {}
+			currentSettings = currentSettings[currentOption]
+		if value.isdigit():
+			value = int(value)
+		currentSettings[optionLevels.pop(0)] = value
 
 	if args.debug:
 		logger.debug("=== DEBUG MODE ===")
