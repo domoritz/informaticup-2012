@@ -1,12 +1,12 @@
-\documentclass[oneside,12pt,a4paper]{scrartcl}
+﻿\documentclass[oneside,12pt,a4paper]{scrartcl}
 \usepackage{pdfpages}
 \usepackage{ngerman}
 \usepackage{algorithmic}
 \usepackage{fancyhdr}
-\usepackage[utf8]{inputenc} 
+\usepackage{listings}
+\RequirePackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
-\usepackage{url}
 
 \renewcommand{\sectionmark}[1]{\markboth{\thesection\ #1}{}}
 \lhead[ \leftmark   ]{\textbf{Einkaufsoptimierung}}
@@ -28,12 +28,9 @@
 \end{titlepage}
 \pagestyle{fancy}
 \tableofcontents
-\newpage
 
 \input{sonstiges/installation}
 \input{sonstiges/schwierigkeit}
 \input{sonstiges/prepostprocessing}
-
-\input{algorithmen/algorithmen}
 
 \end{document}
