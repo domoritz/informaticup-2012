@@ -104,7 +104,7 @@ class Clingo(Algorithm):
 		#add expenses
 		for x,row in enumerate(self.problem.distances.data):
 			for y,cost in enumerate(row):
-				if x < y:
+				if x < y and cost:
 					cost = int(cost*100)
 					self.costfile += "expenses({x},{y},{cost}).\n".format(x=x,y=y,cost=cost)
 
