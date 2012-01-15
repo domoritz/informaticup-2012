@@ -52,6 +52,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 			self.openDialog = OpenDialog(self, self.args)
 			self.openDialog.setModal(True)
 			self.openDialog.setWindowModality(Qt.WindowModal)
+			self.connect(self.openDialog.dialogButton, SIGNAL('helpRequested()'), self.help)
 		ret = self.openDialog.exec_()
 		
 		if ret == QDialog.Accepted:
