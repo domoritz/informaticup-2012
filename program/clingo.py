@@ -1,3 +1,4 @@
+import sys, os
 from data.dataInstance import DataInstance
 from program.algorithm import Algorithm
 import subprocess
@@ -16,8 +17,8 @@ class Clingo(Algorithm):
 
 		if options is None:
 			self.options = {
-				"clingo": "./clingo_prog/clingo",
-                "clingoArgs": ""
+				"clingo": self.default_dist(),
+				"clingoArgs": ""
 			}
 		else:
 			self.options = options
@@ -116,5 +117,20 @@ class Clingo(Algorithm):
 		#print self.graphfile
 		#print self.costfile
 
+	def default_dist(self, platform = None):
+		platform_dists = {
+			'linux2': 'linclingo',
+			'darwin': 'osxclingo',
+			'win32': 'w32clingo.exe',
+			'cygwin': 'w32clingo.exe',
+		}
 		
+		if platform is None or not platform in platform_dists:
+			platform = sys.platform
+		
+		if not platform in platform_dists:
+			return "<no valid executable found for platform " + platform + ">"
+		
+		path = os.path.join(os.getcwd(), 'dist', 'clingo', platform_dists[platform])
+		return os.path.relpath(path)
 
