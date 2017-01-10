@@ -8,10 +8,6 @@ class Genetic(Algorithm):
 	""" 
 	Genetic algorithm 
 	"""
-	#TODO schneller machen
-	#TODO messen wie schnell es geht
-	#TODO parameter besser anpassen
-
 	def __init__(self, problem, options = settings['genetic']):
 		"""
 		options:
@@ -69,7 +65,7 @@ class Genetic(Algorithm):
 		sameCounter = 0
 		last = None
 
-		numberCities = numberCities = self.problem.getNumberStores()
+		numberCities = self.problem.getNumberStores()
 
 		for i in range(self.options['maxGenerations']):
 			self.logger.debug('Generation no: {num}\n================='.format(num = i))
